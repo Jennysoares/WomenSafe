@@ -1,0 +1,2 @@
+rootProject.name='WomenSafe'
+include ':app'

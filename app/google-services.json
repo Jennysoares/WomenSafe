@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "647469771369",
+    "firebase_url": "https://womensafe-10512.firebaseio.com",
+    "project_id": "womensafe-10512",
+    "storage_bucket": "womensafe-10512.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647469771369:android:282f90baedf93e6d17d0f8",
+        "android_client_info": {
+          "package_name": "br.com.victoriasantos.womensafe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647469771369-d7p97e01b75ip7eseta0m8foau4ggge1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-I2t_Nk_Ya8qynOL8m9rkXg2R-HyOmMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647469771369-d7p97e01b75ip7eseta0m8foau4ggge1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
