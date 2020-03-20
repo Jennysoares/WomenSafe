@@ -21,20 +21,21 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="24dp" />
 
-
     <TextView
-        android:id="@+id/LogoCadastrar"
+        android:id="@+id/cadastrarbt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/login_detalhes_formulario"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/emailet"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_cadastro_direito"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="@+id/guideline_cadastro_esquerdo"
+        android:layout_marginTop="5dp"
+        android:text="Faça seu cadastro!"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.626"
-        tools:text="Faça seu cadastro!" />
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/emailet"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textSize="30sp"/>
+
+
+
 
     <EditText
         android:id="@+id/emailet"
