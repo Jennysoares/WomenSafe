@@ -4,41 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBFBFB"
+    android:background="@drawable/pagina_login"
     tools:context=".CadastroActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_cadastro_esquerdo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_cadastro_direito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+
+    <TextView
+        android:id="@+id/LogoCadastrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/emailet"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_cadastro_direito"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/guideline_cadastro_esquerdo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.626"
+        tools:text="Faça seu cadastro!" />
 
     <EditText
         android:id="@+id/emailet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="460dp"
-        android:ems="10"
-        android:hint="E-mail"
+        android:layout_marginTop="250dp"
+        android:autofillHints=""
+        android:background="@drawable/campo_texto"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:padding="16dp"
+        android:textColorHint="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toStartOf="@id/guideline_cadastro_direito"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_cadastro_esquerdo"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/senhaet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:ems="10"
-        android:hint="Senha"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/campo_texto"
+        android:drawableEnd="@drawable/olho_icon"
+        android:hint="@string/senha"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailet" />
+        android:padding="16dp"
+        android:textColorHint="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toStartOf="@id/guideline_cadastro_direito"
+        app:layout_constraintStart_toStartOf="@id/guideline_cadastro_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/emailet"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/cadastrobt"
-        android:layout_width="wrap_content"
+        android:layout_width="367dp"
         android:layout_height="wrap_content"
-        android:text="CADASTRAR"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/senhaet" />
+        android:layout_marginTop="25dp"
+        android:background="@drawable/design_botao"
+        android:text="@string/cadastrar"
+        android:textAllCaps="false"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@id/guideline_cadastro_direito"
+        app:layout_constraintStart_toStartOf="@id/guideline_cadastro_esquerdo"
+        app:layout_constraintTop_toBottomOf="@id/senhaet" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

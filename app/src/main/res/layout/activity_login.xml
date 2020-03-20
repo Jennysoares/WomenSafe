@@ -26,39 +26,43 @@
         android:layout_width="259dp"
         android:layout_height="168dp"
         android:layout_marginTop="80dp"
+        android:contentDescription="@string/logo_womensafe"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText android:id="@+id/emailet"
+    <EditText
+        android:id="@+id/emailet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:background="@drawable/campo_texto"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
+        android:padding="16dp"
+        android:textColorHint="@color/login_detalhes_formulario"
         app:layout_constraintEnd_toStartOf="@id/guideline_direito"
         app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
         app:layout_constraintTop_toBottomOf="@+id/logo"
-        android:background="@drawable/campo_texto"
-        android:hint="E-mail"
-        android:textColorHint="@color/login_detalhes_formulario"
-        android:padding="16dp"/>
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/senhaet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:drawableRight="@drawable/olho_icon"
+        android:background="@drawable/campo_texto"
+        android:drawableEnd="@drawable/olho_icon"
+        android:hint="@string/senha"
         android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColorHint="@color/login_detalhes_formulario"
         app:layout_constraintEnd_toStartOf="@id/guideline_direito"
         app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
         app:layout_constraintTop_toBottomOf="@+id/emailet"
-        android:background="@drawable/campo_texto"
-        android:hint="Senha"
-        android:textColorHint="@color/login_detalhes_formulario"
-        android:padding="16dp"/>
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/entrarbt"
@@ -66,10 +70,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:background="@drawable/design_botao"
-        android:text="Entrar"
+        android:text="@string/entrar"
         android:textAllCaps="false"
         android:textColor="@color/login_detalhes_formulario_medio"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
         app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
         app:layout_constraintTop_toBottomOf="@id/senhaet" />
@@ -78,13 +82,13 @@
         android:id="@+id/resetbt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Esqueci a senha"
+        android:text="@string/esqueci_a_senha"
         android:textColor="@color/login_detalhes_formulario"
         app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
         app:layout_constraintEnd_toStartOf="@id/guideline_direito"
         app:layout_constraintBottom_toTopOf="@id/linha_branca1"
         android:layout_marginBottom="16dp"
-        android:textSize="16dp"/>
+        android:textSize="16sp"/>
 
         <View
             android:id="@+id/linha_branca1"
@@ -108,13 +112,13 @@
             android:id="@+id/cadastrarbt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cadastre-se"
+            android:text="@string/cadastre_se"
             app:layout_constraintTop_toBottomOf="@id/linha_branca1"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textColor="@color/login_detalhes_formulario"
-            android:textSize="16dp"/>
+            android:textSize="16sp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

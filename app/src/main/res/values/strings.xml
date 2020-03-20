@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">WomenSafe</string>
+    <string name="email">E-mail</string>
+    <string name="senha">Senha</string>
+    <string name="cadastre_se">Cadastre-se</string>
+    <string name="esqueci_a_senha">Esqueci a senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="logo_womensafe">Logo WomenSafe</string>
+    <string name="cadastrar">Cadastrar</string>
+
 </resources>
