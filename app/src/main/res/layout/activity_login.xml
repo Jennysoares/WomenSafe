@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B0A0A"
+    android:background="#FBF6F6"
     tools:context=".LoginActivity">
 
     <EditText
@@ -13,7 +13,8 @@
         android:layout_height="46dp"
         android:layout_marginBottom="488dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -24,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="38dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:hint="Senha"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailet" />
