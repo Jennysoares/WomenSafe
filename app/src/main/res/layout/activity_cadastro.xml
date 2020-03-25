@@ -34,9 +34,6 @@
         android:textColor="@color/login_detalhes_formulario"
         android:textSize="30sp"/>
 
-
-
-
     <EditText
         android:id="@+id/emailet"
         android:layout_width="0dp"
@@ -47,6 +44,7 @@
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:padding="16dp"
+        android:drawableEnd="@drawable/user_cadastro_icon"
         android:textColorHint="@color/login_detalhes_formulario"
         app:layout_constraintEnd_toStartOf="@id/guideline_cadastro_direito"
         app:layout_constraintHorizontal_bias="1.0"
@@ -59,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:background="@drawable/campo_texto"
-        android:drawableEnd="@drawable/olho_icon"
+        android:drawableEnd="@drawable/cadeado_icon"
         android:hint="@string/senha"
         android:inputType="textPassword"
         android:padding="16dp"
