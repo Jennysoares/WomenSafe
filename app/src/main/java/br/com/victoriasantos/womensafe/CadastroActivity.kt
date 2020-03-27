@@ -1,5 +1,6 @@
 package br.com.victoriasantos.womensafe
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -42,7 +43,8 @@ class CadastroActivity : AppCompatActivity() {
         operation.addOnCompleteListener { task ->
             if(task.isSuccessful){
                 Toast.makeText(this, "Usuário cadastrado com sucesso", Toast.LENGTH_LONG).show()
-                finish()
+                val IntentToProfile = Intent(this, ProfileActivity::class.java)
+                startActivity(IntentToProfile)
             }
             else{
                 val error = task.exception?.localizedMessage
@@ -50,6 +52,8 @@ class CadastroActivity : AppCompatActivity() {
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show()
             }
         }
+
+
     }
 
 
