@@ -5,7 +5,137 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pagina_login"
+    android:orientation="vertical"
     tools:context=".ProfileActivity">
 
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_esquerdo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_direito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/icon_perfil"
+        app:layout_constraintEnd_toStartOf="@+id/perfil_texto"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/perfil_texto"
+        android:layout_width="103dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="90dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:gravity="start"
+        android:text="PERFIL"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/nome_usuario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:background="@drawable/campo_texto"
+        android:layout_marginTop="100dp"
+        android:hint="Usuário"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textColorHint="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintTop_toTopOf="@id/perfil_texto" />
+
+    <EditText
+        android:id="@+id/nomeCompleto_usuario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:background="@drawable/campo_texto"
+        android:layout_marginTop="18dp"
+        android:hint="Nome completo"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textColorHint="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@id/nome_usuario" />
+
+    <com.vicmikhailau.maskededittext.MaskedEditText
+        android:id="@+id/telefone_usuario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:autofillHints=""
+        android:background="@drawable/campo_texto"
+        android:hint="Telefone"
+        android:inputType="phone"
+        android:padding="16dp"
+        app:mask="(##) #####-####"
+        android:textColorHint="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@id/nomeCompleto_usuario" />
+
+
+    <EditText
+        android:id="@+id/email_usuario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/campo_texto"
+        android:padding="16dp"
+        android:hint="E-mail"
+        android:textColorHint="@color/login_detalhes_formulario"
+        app:layout_constraintTop_toBottomOf="@id/telefone_usuario"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"/>
+
+    <Button
+        android:id="@+id/bt_confirmar"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintTop_toBottomOf="@id/email_usuario"
+        android:text="Confirmar"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        android:background="@drawable/design_botao"/>
+
+    <Button
+        android:id="@+id/bt_cancelar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/bt_confirmar"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        android:background="@drawable/design_botao"
+        android:text="Cancelar"
+        android:textColor="@color/login_detalhes_formulario_medio"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

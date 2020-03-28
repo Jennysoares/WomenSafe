@@ -60,21 +60,11 @@ class LoginActivity : AppCompatActivity() {
 
         if(emailet.text.toString() != ""){
 
-            val operation = mAuth.sendPasswordResetEmail(emailet.text.toString())
-            operation.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "E-mail para recuperar senha enviado", Toast.LENGTH_LONG)
-                        .show()
-
-                } else {
-                    val error = task.exception?.localizedMessage
-                        ?: "Não foi possível enviar o email"
-                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-                }
-            }
+            mAuth.sendPasswordResetEmail(emailet.text.toString())
+            Toast.makeText(this, "E-mail para recuperar senha enviado", Toast.LENGTH_LONG)
         }
         else{
-            Toast.makeText(this, "E-mail vazio", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Digite o E-mail", Toast.LENGTH_LONG).show()
         }
     }
 
