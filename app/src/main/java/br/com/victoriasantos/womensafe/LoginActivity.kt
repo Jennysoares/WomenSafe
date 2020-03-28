@@ -58,22 +58,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun ResetarSenha(){
 
-        if(emailet.text.toString() != ""){
+        val IntentToResetActivity = Intent(this, ResetPasswordActivity::class.java)
+        startActivity(IntentToResetActivity)
 
-            mAuth.sendPasswordResetEmail(emailet.text.toString())
-            Toast.makeText(this, "E-mail para recuperar senha enviado", Toast.LENGTH_LONG)
-        }
-        else{
-            Toast.makeText(this, "Digite o E-mail", Toast.LENGTH_LONG).show()
-        }
+
     }
 
-    private fun cadastro(){
+
+    private fun cadastro() {
 
         val intentCadastro = Intent(this, CadastroActivity::class.java)
         startActivity(intentCadastro)
 
     }
-
-
 }
