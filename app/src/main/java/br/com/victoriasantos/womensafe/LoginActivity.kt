@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
-    val mAuth = FirebaseAuth.getInstance()
+    private val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
 
         entrarbt.setOnClickListener { login() }
         cadastrarbt.setOnClickListener { cadastro() }
-        resetbt.setOnClickListener { ResetarSenha() }
+        resetbt.setOnClickListener { resetarSenha() }
 
     }
 
@@ -57,10 +57,10 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun ResetarSenha(){
+    private fun resetarSenha(){
 
-        val IntentToResetActivity = Intent(this, ResetPasswordActivity::class.java)
-        startActivity(IntentToResetActivity)
+        val intentToResetActivity = Intent(this, ResetPasswordActivity::class.java)
+        startActivity(intentToResetActivity)
 
     }
 

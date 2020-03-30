@@ -9,17 +9,17 @@ import kotlinx.android.synthetic.main.activity_cadastro.*
 
 class CadastroActivity : AppCompatActivity() {
 
-    val mAuth = FirebaseAuth.getInstance()
+    private val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cadastro)
 
-        cadastrobt.setOnClickListener { Cadastrar() }
+        cadastrobt.setOnClickListener { cadastrar() }
 
     }
 
-    private fun Cadastrar(){
+    private fun cadastrar(){
         val email = emailet.text.toString()
         val senha = senhaet.text.toString()
 
@@ -43,8 +43,8 @@ class CadastroActivity : AppCompatActivity() {
         operation.addOnCompleteListener { task ->
             if(task.isSuccessful){
                 Toast.makeText(this, "Email autenticado, para concluir seu cadastro preencha o perfil", Toast.LENGTH_LONG).show()
-                val IntentToProfile = Intent(this, ProfileActivity::class.java)
-                startActivity(IntentToProfile)
+                val intentToProfile = Intent(this, ProfileActivity::class.java)
+                startActivity(intentToProfile)
                 finish()
             }
             else{

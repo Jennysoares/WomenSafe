@@ -109,7 +109,7 @@ class ProfileActivity : AppCompatActivity() {
             }
             else{
                 Toast.makeText(this, "Todos os campos devem ser preenchidos!", Toast.LENGTH_LONG).show()
-                return;
+                return
             }
 
         }
@@ -121,7 +121,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun cancelar(){
-        var intentCancelar = Intent(this, LoginActivity::class.java)
+        val intentCancelar = Intent(this, LoginActivity::class.java)
         startActivity(intentCancelar)
         finish()
 
@@ -129,15 +129,15 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun excluirConta(){
 
-        var flagUsuario = true
-        var flagDados = true
-
         //exclui a conta na autenticação
         val usuario = mAuth.currentUser
 
         usuario?.delete()?.addOnCompleteListener { task ->
             if(!task.isSuccessful){
-                flagUsuario = false
+                val error = task.exception?.localizedMessage
+                    ?:"Não foi possível excluir este usuário!"
+                Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                finish()
             }
         }
 
@@ -147,25 +147,18 @@ class ProfileActivity : AppCompatActivity() {
 
         dados.removeValue().addOnCompleteListener { task ->
             if(!task.isSuccessful) {
-                flagDados = false
+                val error = task.exception?.localizedMessage
+                    ?:"Não foi possível excluir os dados!"
+                Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                finish()
             }
         }
 
-        // Verifica se a exclusão deu certo ou não
-        if (flagDados == true && flagUsuario == true){
+        // Se não entrar em nenhum erro de exclusão, significa que deu tudo certo
             Toast.makeText(this, "Usuário excluido com sucesso!", Toast.LENGTH_LONG).show()
             val intentLogin = Intent(this, LoginActivity::class.java)
             startActivity(intentLogin)
             finish()
-        }
-        else{
-            if(flagUsuario == false){
-                Toast.makeText(this, "Não foi possível excluir este usuário!", Toast.LENGTH_LONG).show()
-            }
-            if(flagDados == false){
-                Toast.makeText(this, "Não foi possível excluir os dados!", Toast.LENGTH_LONG).show()
-            }
-        }
     }
 
 
