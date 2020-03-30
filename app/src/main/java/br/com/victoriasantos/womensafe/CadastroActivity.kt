@@ -42,9 +42,10 @@ class CadastroActivity : AppCompatActivity() {
         val operation = mAuth.createUserWithEmailAndPassword(email, senha)
         operation.addOnCompleteListener { task ->
             if(task.isSuccessful){
-                Toast.makeText(this, "Usuário cadastrado com sucesso", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Email autenticado, para concluir seu cadastro preencha o perfil", Toast.LENGTH_LONG).show()
                 val IntentToProfile = Intent(this, ProfileActivity::class.java)
                 startActivity(IntentToProfile)
+                finish()
             }
             else{
                 val error = task.exception?.localizedMessage
@@ -55,8 +56,5 @@ class CadastroActivity : AppCompatActivity() {
 
 
     }
-
-
-
 
 }

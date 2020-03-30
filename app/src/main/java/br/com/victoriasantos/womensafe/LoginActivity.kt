@@ -18,6 +18,7 @@ class LoginActivity : AppCompatActivity() {
         entrarbt.setOnClickListener { login() }
         cadastrarbt.setOnClickListener { cadastro() }
         resetbt.setOnClickListener { ResetarSenha() }
+
     }
 
     private fun login(){
@@ -43,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         val operation = mAuth.signInWithEmailAndPassword(email, senha)
         operation.addOnCompleteListener { task ->
             if(task.isSuccessful){
-                val intentMain = Intent(this, MainActivity::class.java)
+                val intentMain = Intent(this, ProfileActivity::class.java)
                 startActivity(intentMain)
 
             }
@@ -60,7 +61,6 @@ class LoginActivity : AppCompatActivity() {
 
         val IntentToResetActivity = Intent(this, ResetPasswordActivity::class.java)
         startActivity(IntentToResetActivity)
-
 
     }
 
