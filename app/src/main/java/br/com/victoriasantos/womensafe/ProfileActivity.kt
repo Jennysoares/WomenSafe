@@ -78,14 +78,20 @@ class ProfileActivity : AppCompatActivity() {
 
         val uid = mAuth.currentUser?.uid
 
-        if(uid != null)
-        {
+        if(uid != null){
+
             val userprofile = database.getReference("profile/$uid")
 
-            userprofile.setValue(profile)
+            if(nomeCompleto_usuario.text.toString().isNotEmpty() && telefone_usuario.text.toString().isNotEmpty() && nome_usuario.text.toString().isNotEmpty() ){
+                userprofile.setValue(profile)
+                val intentToMainActivity = Intent(this,MainActivity::class.java)
+                startActivity(intentToMainActivity)
+            }
+            else{
+                Toast.makeText(this, "Todos os campos devem ser preenchidos!", Toast.LENGTH_LONG).show()
+                return;
+            }
 
-            val intentToMainActivity = Intent(this,MainActivity::class.java)
-            startActivity(intentToMainActivity)
         }
         else
         {
