@@ -1,9 +1,10 @@
-package br.com.victoriasantos.womensafe
+package br.com.victoriasantos.womensafe.view.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import br.com.victoriasantos.womensafe.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_cadastro.*
 

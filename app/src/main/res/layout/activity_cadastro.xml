@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/pagina_login"
     android:orientation="vertical"
-    tools:context=".CadastroActivity">
+    tools:context=".view.activity.CadastroActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_cadastro_esquerdo"

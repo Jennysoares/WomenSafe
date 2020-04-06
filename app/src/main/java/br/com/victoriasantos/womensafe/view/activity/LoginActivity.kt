@@ -1,15 +1,24 @@
-package br.com.victoriasantos.womensafe
+package br.com.victoriasantos.womensafe.view.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import br.com.victoriasantos.womensafe.R
+import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_profile.*
 
 class LoginActivity : AppCompatActivity() {
 
     private val mAuth = FirebaseAuth.getInstance()
+    private val database = FirebaseDatabase.getInstance()
+    private var profile: Profile? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +53,28 @@ class LoginActivity : AppCompatActivity() {
         val operation = mAuth.signInWithEmailAndPassword(email, senha)
         operation.addOnCompleteListener { task ->
             if(task.isSuccessful){
-                val intentMain = Intent(this, ProfileActivity::class.java)
-                startActivity(intentMain)
+                    val profiles = database.getReference("Usuários")
 
+                    val query = profiles.orderByChild("email").equalTo(email)
+                    query.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(p0: DatabaseError){
+                            Toast.makeText(this@LoginActivity, "Consulta Cancelada",Toast.LENGTH_LONG).show()
+                        }
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if(snapshot != null && snapshot.hasChildren() == true) {// Verifica se possui dados{
+                                profile = snapshot.children.first().getValue(Profile::class.java)
+                                if (profile?.nomecompleto.toString().isNotEmpty() && profile?.telefone.toString().isNotEmpty() && profile?.username.toString().isNotEmpty()) {
+                                    val intentMain = Intent(this@LoginActivity, ProfileActivity::class.java)
+                                    startActivity(intentMain)
+                                }
+                                else {
+                                    val intentToProfile = Intent(this@LoginActivity, ProfileActivity::class.java)
+                                    startActivity(intentToProfile)
+                                }
+
+                            }
+                        }
+                    })
             }
             else {
                 val error = task.exception?.localizedMessage

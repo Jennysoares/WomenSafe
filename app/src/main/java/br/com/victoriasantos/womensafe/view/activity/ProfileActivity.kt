@@ -1,9 +1,11 @@
-package br.com.victoriasantos.womensafe
+package br.com.victoriasantos.womensafe.view.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import br.com.victoriasantos.womensafe.R
+import br.com.victoriasantos.womensafe.domain.Profile
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -103,7 +105,7 @@ class ProfileActivity : AppCompatActivity() {
 
             if(nomeCompleto_usuario.text.toString().isNotEmpty() && telefone_usuario.text.toString().isNotEmpty() && nome_usuario.text.toString().isNotEmpty() ){ //Verificação para que nenhum campo esteja em branco
                 userprofile.setValue(profile) //Atualiza/cria os dados
-                val intentToMainActivity = Intent(this,MainActivity::class.java)
+                val intentToMainActivity = Intent(this, MainActivity::class.java)
                 startActivity(intentToMainActivity)
                 finish()
             }

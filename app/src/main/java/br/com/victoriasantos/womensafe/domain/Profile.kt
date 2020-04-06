@@ -1,4 +1,4 @@
-package br.com.victoriasantos.womensafe
+package br.com.victoriasantos.womensafe.domain
 
 data class Profile (
     var email: String? = null,

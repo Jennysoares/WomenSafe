@@ -9,17 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".ResetPasswordActivity"></activity>
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".view.activity.ResetPasswordActivity"></activity>
+        <activity android:name=".view.activity.ProfileActivity" />
+        <activity android:name=".view.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CadastroActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".view.activity.CadastroActivity" />
+        <activity android:name=".view.activity.MainActivity" />
     </application>
 
 </manifest>
