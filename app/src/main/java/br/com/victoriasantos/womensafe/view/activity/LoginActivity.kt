@@ -68,10 +68,16 @@ class LoginActivity : AppCompatActivity() {
                                     startActivity(intentMain)
                                 }
                                 else {
+                                    Toast.makeText(this@LoginActivity, "Preenchimento do perfil obrigatório!",Toast.LENGTH_LONG).show()
                                     val intentToProfile = Intent(this@LoginActivity, ProfileActivity::class.java)
                                     startActivity(intentToProfile)
                                 }
 
+                            }
+                            else {
+                                Toast.makeText(this@LoginActivity, "Preenchimento do perfil obrigatório!",Toast.LENGTH_LONG).show()
+                                val intentToProfile = Intent(this@LoginActivity, ProfileActivity::class.java)
+                                startActivity(intentToProfile)
                             }
                         }
                     })
