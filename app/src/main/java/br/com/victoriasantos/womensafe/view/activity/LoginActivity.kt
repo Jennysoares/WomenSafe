@@ -36,6 +36,8 @@ class LoginActivity : AppCompatActivity() {
         val email = emailet.text.toString()
         val senha = senhaet.text.toString()
 
+
+
         viewModel.login(email, senha) { result, id ->
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
             if(id == 1) {

@@ -13,16 +13,9 @@ class FirebaseInterector(private val context: Context) {
 
     fun cadastro(email: String, senha: String, callback: (result: String) -> Unit) {
 
-        if (email == null) {
-            callback("EN")
-            return
-        }
+
         if (email.isEmpty()) {
             callback("EV")
-            return
-        }
-        if (senha == null) {
-            callback("SN")
             return
         }
         if (senha.isEmpty()) {
@@ -38,9 +31,24 @@ class FirebaseInterector(private val context: Context) {
     }
 
     fun login(email: String, senha: String, callback: (result: String) -> Unit) {
+
+
+        if (email.isEmpty()) {
+            callback("EV")
+            return
+        }
+        if (senha.isEmpty()) {
+            callback("SV")
+            return
+        } else {
+            if (senha.length < 6) {
+                callback("SC")
+                return
+            }
+        }
         repository.login(email, senha) { result ->
             if (result == "S") {
-                repository.consulta(email) { snapshot ->
+                repository.consulta{ snapshot ->
                     if (snapshot != null && snapshot.hasChildren() == true) {// Verifica se possui dados{
                         profile = snapshot.children.first().getValue(Profile::class.java)
                         if (profile?.nomecompleto.toString().isNotEmpty() && profile?.telefone.toString().isNotEmpty() && profile?.username.toString().isNotEmpty()) {
@@ -56,10 +64,19 @@ class FirebaseInterector(private val context: Context) {
                 callback(result)
             }
         }
+
+
     }
 
-    fun perfil(callback: (perfil: Profile?) -> Unit) {
-        repository.perfil { snapshot ->
+    fun getEmail(callback: (email: String) -> Unit){
+        repository.getEmail {email ->
+            if(email != null){
+                callback(email)
+            }
+        }
+    }
+    fun consulta(callback: (perfil: Profile?) -> Unit) {
+        repository.consulta { snapshot ->
             if (snapshot != null && snapshot.hasChildren() == true) {
                 profile = snapshot.children.first().getValue(Profile::class.java)
                 if (profile != null) {

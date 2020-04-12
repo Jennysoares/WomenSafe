@@ -34,9 +34,13 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun consulta() {
-        viewModel.perfil { perfil ->
+
+        viewModel.getEmail { email ->
+            email_usuario.setText(email)
+        }
+
+        viewModel.consulta { perfil ->
             // Mostra os valores que estão no banco de dados
-                email_usuario.setText(perfil?.email)
                 nome_usuario.setText(perfil?.username)
                 nomeCompleto_usuario.setText(perfil?.nomecompleto)
                 telefone_usuario.setText(perfil?.telefone)

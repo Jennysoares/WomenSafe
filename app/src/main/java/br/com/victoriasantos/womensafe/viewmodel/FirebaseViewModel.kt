@@ -10,16 +10,11 @@ class FirebaseViewModel (val app: Application) : AndroidViewModel(app) {
 
     fun cadastro(email: String, senha: String, callback: (result: String, id: Int) -> Unit){
         interactor.cadastro(email, senha){ result ->
+
             if(result == "EV"){
-                callback("Espaços em branco não são permitidos", 0)
-            }
-            else if(result == "EN"){
                 callback("Email obrigatório", 0)
             }
-            else if(result == "SV") {
-               callback("Espaços em branco não são permitidos", 0)
-            }
-            else if(result == "SN"){
+            else if(result == "SV"){
                callback("Senha obrigatória", 0)
             }
             else if(result == "SC"){
@@ -35,9 +30,22 @@ class FirebaseViewModel (val app: Application) : AndroidViewModel(app) {
     }
 
     fun login(email: String, senha: String, callback: (result: String, id: Int) -> Unit) {
+
         interactor.login(email, senha){ result ->
 
-            if (result == "PP"){
+           if(result == "EV"){
+                callback("Email obrigatório", 0)
+            }
+            else if(result == "SV"){
+                callback("Senha obrigatória", 0)
+            }
+            else if(result == "SC"){
+                callback("Senha precisa ter ao menos 6 caracteres", 0)
+            }
+            else if(result == "S"){
+                callback("Email autenticado, para concluir o cadastro preencha o perfil!", 1)
+            }
+            else if (result == "PP"){
                 callback("Bem vindo/a!", 1)
 
             }
@@ -54,8 +62,12 @@ class FirebaseViewModel (val app: Application) : AndroidViewModel(app) {
 
     }
 
-    fun perfil(callback: (perfil: Profile?) -> Unit){
-        interactor.perfil(callback)
+    fun getEmail(callback: (email: String) -> Unit){
+        interactor.getEmail(callback)
+    }
+
+    fun consulta(callback: (perfil: Profile?) -> Unit){
+        interactor.consulta(callback)
     }
 
 

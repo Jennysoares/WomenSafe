@@ -37,12 +37,10 @@ class FirebaseRepository (context: Context) {
         }
     }
 
-    fun perfil(callback: (snapshot: DataSnapshot?) -> Unit){
-        val email = mAuth.currentUser?.email
-        this.consulta(email, callback)
-    }
 
-    fun consulta(email:String?, callback: (snapshot: DataSnapshot?) -> Unit){
+
+    fun consulta(callback: (snapshot: DataSnapshot?) -> Unit){
+        val email = mAuth.currentUser?.email
         val profiles = database.getReference("Usuários")
         val query = profiles.orderByChild("email").equalTo(email)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -69,9 +67,9 @@ class FirebaseRepository (context: Context) {
         }
     }
 
-    fun getEmail(callback: (email: String) -> Unit){
+    fun getEmail(callback: (email: String?) -> Unit){
         var emailFinal = mAuth.currentUser?.email
-
+        callback(emailFinal)
     }
 
     fun UpdateEmail(email: String, callback: (result: String) -> Unit ){
