@@ -1,15 +1,21 @@
 package br.com.victoriasantos.womensafe.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
+import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_reset_password.*
 
 class ResetPasswordActivity : AppCompatActivity() {
 
-    private val mAuth = FirebaseAuth.getInstance()
+    private val viewModel: FirebaseViewModel by lazy {
+        ViewModelProvider(this). get(FirebaseViewModel::class.java)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,15 +25,15 @@ class ResetPasswordActivity : AppCompatActivity() {
     }
 
     private fun alterarSenha(){
-        if(emailet.text.toString() != ""){
-            mAuth.sendPasswordResetEmail(emailet.text.toString())
-            Toast.makeText(this, "E-mail para recuperar senha enviado", Toast.LENGTH_LONG).show()
-            finish()
-        }
-        else{
-            Toast.makeText(this, "Digite o E-mail", Toast.LENGTH_LONG).show()
-            return
-        }
-    }
+        val email = emailet.text.toString()
+        viewModel.changePassword(email) { result, id ->
 
+            Toast.makeText(this, result, Toast.LENGTH_LONG).show()
+            if(id == 1){
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+        }
+
+    }
 }

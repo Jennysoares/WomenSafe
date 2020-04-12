@@ -2,11 +2,14 @@ package br.com.victoriasantos.womensafe.interactor
 
 import android.content.Context
 import android.widget.Toast
+import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.repository.FirebaseRepository
+import kotlinx.android.synthetic.main.activity_reset_password.*
 
 class FirebaseInterector(private val context: Context) {
 
-     private val repository = FirebaseRepository(context)
+    private val repository = FirebaseRepository(context)
+    private var profile: Profile? = null
 
     fun cadastro(email: String, senha: String, callback: (result: String) -> Unit) {
 
@@ -26,14 +29,98 @@ class FirebaseInterector(private val context: Context) {
             callback("SV")
             return
         } else {
-                if (senha.length < 6) {
-                        callback("SC")
-                    return
+            if (senha.length < 6) {
+                callback("SC")
+                return
+            }
+        }
+        repository.cadastro(email, senha, callback)
+    }
+
+    fun login(email: String, senha: String, callback: (result: String) -> Unit) {
+        repository.login(email, senha) { result ->
+            if (result == "S") {
+                repository.consulta(email) { snapshot ->
+                    if (snapshot != null && snapshot.hasChildren() == true) {// Verifica se possui dados{
+                        profile = snapshot.children.first().getValue(Profile::class.java)
+                        if (profile?.nomecompleto.toString().isNotEmpty() && profile?.telefone.toString().isNotEmpty() && profile?.username.toString().isNotEmpty()) {
+                            callback("PP")
+                        } else {
+                            callback("PV")
+                        }
+                    } else {
+                        callback("PV")
+                    }
+                }
+            } else {
+                callback(result)
+            }
+        }
+    }
+
+    fun perfil(callback: (perfil: Profile?) -> Unit) {
+        repository.perfil { snapshot ->
+            if (snapshot != null && snapshot.hasChildren() == true) {
+                profile = snapshot.children.first().getValue(Profile::class.java)
+                if (profile != null) {
+                    callback(profile)
+                } else {
+                    callback(null)
+                }
+            } else {
+                callback(null)
+            }
+        }
+    }
+
+    fun saveData(emailCampo: String, nomecompleto: String, telefone: String, username: String, callback: (result: String) -> Unit) {
+
+            repository.getEmail { emailFinal ->
+                if (!emailFinal.equals(emailCampo)) { // Pergunta se o email do usuario antigo(emailFinal) é diferente(por ter uma ! no início) ao email que está no campo da página(emailCampo)
+                    val email = emailCampo
+                    repository.UpdateEmail(email) { result ->
+                        if (result == "S") {
+                            if (nomecompleto.isNotEmpty() && telefone.isNotEmpty() && username.isNotEmpty()) {
+                                repository.saveData(email, nomecompleto, telefone, username, callback)
+                            } else {
+                                callback("EMPTY DATA")
+                                // Todos os campos devem ser preenchidos!"
+                            }
+
+                        }
+                        else{
+                            callback(result)
+                        }
+
+                    }
+                }
+                else{
+                    val email = emailCampo
+                    if (nomecompleto.isNotEmpty() && telefone.isNotEmpty() && username.isNotEmpty()) {
+                        repository.saveData(email, nomecompleto, telefone, username, callback)
+                    } else {
+                        callback("EMPTY DATA")
+                        // Todos os campos devem ser preenchidos!"
+                    }
+
                 }
             }
-
-        repository.cadastro(email, senha, callback)
-
-        }
-
     }
+
+    fun deleteUser(callback: (result: String) -> Unit){
+        repository.deleteUser(callback)
+    }
+
+    fun changePassword(email: String, callback: (result: String) -> Unit){
+        if(email != ""){
+            repository.changePassword(email)
+            callback("EMAIL SENT")
+        }
+        else{
+            callback("EMPTY EMAIL")
+        }
+    }
+}
+
+
+

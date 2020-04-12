@@ -27,16 +27,13 @@ class CadastroActivity : AppCompatActivity() {
         val email = emailet.text.toString()
         val senha = senhaet.text.toString()
 
-        viewModel.cadastro(email, senha) { result ->
+        viewModel.cadastro(email, senha) { result, id ->
 
-            if(result == "S") {
-                val intentToProfile = Intent(this, ProfileActivity::class.java)
-                startActivity(intentToProfile)
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show()
-            }
-            else{
-                Toast.makeText(this, result, Toast.LENGTH_LONG).show()
-            }
+                if(id == 1) {
+                    startActivity(Intent(this@CadastroActivity, ProfileActivity::class.java))
+                    finish()
+                }
         }
 
     }
