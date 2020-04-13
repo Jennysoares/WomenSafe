@@ -1,10 +1,10 @@
 package br.com.victoriasantos.womensafe.interactor
 
 import android.content.Context
-import android.widget.Toast
+
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.repository.FirebaseRepository
-import kotlinx.android.synthetic.main.activity_reset_password.*
+
 
 class FirebaseInterector(private val context: Context) {
 

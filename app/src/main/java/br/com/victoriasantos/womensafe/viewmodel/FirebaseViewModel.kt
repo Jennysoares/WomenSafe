@@ -2,6 +2,7 @@ package br.com.victoriasantos.womensafe.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.interactor.FirebaseInterector
 
@@ -12,12 +13,13 @@ class FirebaseViewModel (val app: Application) : AndroidViewModel(app) {
         interactor.cadastro(email, senha){ result ->
 
             if(result == "EV"){
-                callback("Email obrigatório", 0)
+                callback(app.applicationContext.getString(R.string.email_required), 0)
             }
             else if(result == "SV"){
-               callback("Senha obrigatória", 0)
+               callback(app.applicationContext.getString(R.string.password_required), 0)
             }
             else if(result == "SC"){
+                // TODO: MUDAR AS STRINGS PARA O PADRAO ACIMA
                 callback("Senha precisa ter ao menos 6 caracteres", 0)
             }
             else if(result == "S"){

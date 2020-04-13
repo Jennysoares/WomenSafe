@@ -6,15 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
-import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_profile.*
+
 
 class LoginActivity : AppCompatActivity() {
 

@@ -1,19 +1,14 @@
 package br.com.victoriasantos.womensafe.repository
 
-import android.content.ComponentCallbacks
+
 import android.content.Context
-import android.content.Intent
-import android.widget.Toast
 import br.com.victoriasantos.womensafe.domain.Profile
-import br.com.victoriasantos.womensafe.view.activity.MainActivity
-import br.com.victoriasantos.womensafe.view.activity.ProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.activity_reset_password.*
+
 
 
 class FirebaseRepository (context: Context) {

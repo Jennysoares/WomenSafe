@@ -7,5 +7,7 @@
     <string name="entrar">Entrar</string>
     <string name="logo_womensafe">Logo WomenSafe</string>
     <string name="cadastrar">Cadastrar</string>
+    <string name="email_required">Email obrigatório</string>
+    <string name="password_required">Senha obrigatória</string>
 
 </resources>
