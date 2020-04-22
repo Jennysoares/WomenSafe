@@ -38,18 +38,19 @@
         android:id="@+id/emailet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="48dp"
+        android:autofillHints=""
         android:background="@drawable/campo_texto"
+        android:drawableEnd="@drawable/user_icon"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:padding="16dp"
-        android:drawableEnd="@drawable/user_icon"
-        android:textColorHint="@color/login_detalhes_formulario"
         android:textColor="@color/login_detalhes_formulario"
+        android:textColorHint="@color/login_detalhes_formulario"
         app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <EditText
         android:id="@+id/senhaet"
