@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.victoriasantos.womensafe">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.ResetPasswordActivity"></activity>
+        <activity android:name=".view.activity.AssaltInfoActivity"></activity>
+        <activity android:name=".view.activity.AbuseInfoActivity" />
+        <activity android:name=".view.activity.ResetPasswordActivity" />
+        <activity android:name=".view.activity.MapActivity" />
+        <activity android:name=".view.activity.ContributionsActivity" />
+        <activity android:name=".view.activity.GuardiansActivity" />
+        <activity android:name=".view.activity.InfoActivity" />
+        <activity android:name=".view.activity.SafeRidesActivity" />
         <activity android:name=".view.activity.ProfileActivity" />
         <activity android:name=".view.activity.LoginActivity">
             <intent-filter>
@@ -20,6 +29,10 @@
         </activity>
         <activity android:name=".view.activity.CadastroActivity" />
         <activity android:name=".view.activity.MainActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

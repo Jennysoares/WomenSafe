@@ -14,11 +14,11 @@ class FirebaseInterector(private val context: Context) {
     fun cadastro(email: String, senha: String, callback: (result: String) -> Unit) {
 
 
-        if (email.isEmpty()) {
+        if (email.isNullOrBlank()) {
             callback("EV")
             return
         }
-        if (senha.isEmpty()) {
+        if (senha.isNullOrBlank()) {
             callback("SV")
             return
         } else {
@@ -33,11 +33,11 @@ class FirebaseInterector(private val context: Context) {
     fun login(email: String, senha: String, callback: (result: String) -> Unit) {
 
 
-        if (email.isEmpty()) {
+        if (email.isNullOrBlank()) {
             callback("EV")
             return
         }
-        if (senha.isEmpty()) {
+        if (senha.isNullOrBlank()) {
             callback("SV")
             return
         } else {
@@ -75,6 +75,7 @@ class FirebaseInterector(private val context: Context) {
             }
         }
     }
+
     fun consulta(callback: (perfil: Profile?) -> Unit) {
         repository.consulta { snapshot ->
             if (snapshot != null && snapshot.hasChildren() == true) {
@@ -113,7 +114,7 @@ class FirebaseInterector(private val context: Context) {
                 }
                 else{
                     val email = emailCampo
-                    if (nomecompleto.isNotEmpty() && telefone.isNotEmpty() && username.isNotEmpty()) {
+                    if (nomecompleto.isNotEmpty() && telefone.isNotEmpty() && username.isNotEmpty() && email.isNotEmpty()) {
                         repository.saveData(email, nomecompleto, telefone, username, callback)
                     } else {
                         callback("EMPTY DATA")
