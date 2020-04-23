@@ -7,39 +7,30 @@
     android:background="@drawable/pagina_login"
     tools:context=".view.activity.InfoActivity">
 
+
     <TextView
         android:id="@+id/header_info_app"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/viga"
         android:gravity="center"
-        android:text="COMO USAR O APLICATIVO:"
+        android:text="WOMENSAFE - FUNCIONALIDADES:"
         android:textColor="@color/login_detalhes_formulario"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/info_app"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="fill_horizontal|top"
-        android:textAlignment="inherit"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_info_app" />
 
     <Button
         android:id="@+id/info_victim_bt"
         android:layout_width="367dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/design_botao"
         android:text="FUI VÍTIMA DE ASSÉDIO/VIOLÊNCIA"
         android:textAllCaps="false"
@@ -47,24 +38,48 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/info_victim_bt2"
-        android:layout_width="367dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/design_botao"
-        android:text="FUI VÍTIMA DE ASSALTO"
-        android:textAllCaps="false"
-        android:textColor="@color/login_detalhes_formulario_medio"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/info_victim_bt" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <ImageView
+        android:id="@+id/info_locais"
+        android:layout_width="302dp"
+        android:layout_height="134dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_info_app"
+        app:srcCompat="@drawable/informativo_locais" />
+
+    <ImageView
+        android:id="@+id/info_corridas"
+        android:layout_width="302dp"
+        android:layout_height="134dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_locais"
+        app:srcCompat="@drawable/informativo_corridas" />
+
+    <ImageView
+        android:id="@+id/info_guardioes"
+        android:layout_width="302dp"
+        android:layout_height="134dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_corridas"
+        app:srcCompat="@drawable/informativo_guardioes" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="302dp"
+        android:layout_height="134dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_guardioes"
+        app:srcCompat="@drawable/informativo_contribuicoes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
