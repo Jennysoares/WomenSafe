@@ -7,10 +7,9 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_cadastro.*
 
-class CadastroActivity : AppCompatActivity() {
+class RegistrerActivity : AppCompatActivity() {
     private val viewModel: FirebaseViewModel by lazy {
         ViewModelProvider(this). get(FirebaseViewModel::class.java)
     }
@@ -31,7 +30,7 @@ class CadastroActivity : AppCompatActivity() {
 
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show()
                 if(id == 1) {
-                    startActivity(Intent(this@CadastroActivity, ProfileActivity::class.java))
+                    startActivity(Intent(this@RegistrerActivity, ProfileActivity::class.java))
                     finish()
                 }
         }
