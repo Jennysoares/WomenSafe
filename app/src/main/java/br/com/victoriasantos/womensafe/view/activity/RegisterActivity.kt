@@ -7,16 +7,16 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
-import kotlinx.android.synthetic.main.activity_cadastro.*
+import kotlinx.android.synthetic.main.activity_register.*
 
-class RegistrerActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     private val viewModel: FirebaseViewModel by lazy {
         ViewModelProvider(this). get(FirebaseViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cadastro)
+        setContentView(R.layout.activity_register)
 
         cadastrobt.setOnClickListener { cadastrar() }
 
@@ -30,7 +30,7 @@ class RegistrerActivity : AppCompatActivity() {
 
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show()
                 if(id == 1) {
-                    startActivity(Intent(this@RegistrerActivity, ProfileActivity::class.java))
+                    startActivity(Intent(this@RegisterActivity, ProfileActivity::class.java))
                     finish()
                 }
         }

@@ -13,6 +13,6 @@ class InfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_info)
 
         info_victim_bt.setOnClickListener {
-            startActivity(Intent(this,ViolenceInfoActivity::class.java)) }
+            startActivity(Intent(this,AbuseInfoActivity::class.java)) }
     }
 }

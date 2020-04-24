@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun cadastro() {
-        startActivity(Intent(this, RegistrerActivity::class.java))
+        startActivity(Intent(this, RegisterActivity::class.java))
         finish()
     }
 }

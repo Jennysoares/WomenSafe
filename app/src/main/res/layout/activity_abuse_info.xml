@@ -4,4 +4,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.AbuseInfoActivity"/>
+    android:background="@drawable/pagina_login"
+    tools:context=".view.activity.AbuseInfoActivity">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:text="Para mais informações referentes ao infográfico, a ações legais, inclusive em caso de violência, tipos de assédio, clique no seguinte botão:"
+        android:textColor="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text=" Os Centros Especializados de Atendimento à Mulher – CEAM ofertam o acolhimento(social, psicológico, pedagógico e de orientação jurídica) às mulheres em situação de violência, para mais informações clique no botão seguinte:"
+        android:textColor="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1" />
+
+    <TextView
+        android:id="@+id/text3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Caso foi vítima de assalto é de extrema importância o registro de um boletim de ocorrência, que pode ser feito ao clicar no botão seguinte:"
+        android:textColor="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text2" />
+
+    <Button
+        android:id="@+id/link1"
+        android:layout_width="110dp"
+        android:layout_height="25dp"
+        android:background="@drawable/design_botao"
+        android:text="CLIQUE"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1" />
+
+    <Button
+        android:id="@+id/link2"
+        android:layout_width="110dp"
+        android:layout_height="25dp"
+        android:background="@drawable/design_botao"
+        android:text="Button"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text2"
+        tools:text="CLIQUE" />
+
+    <Button
+        android:id="@+id/link3"
+        android:layout_width="110dp"
+        android:layout_height="25dp"
+        android:background="@drawable/design_botao"
+        android:text="Button"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text3"
+        tools:text="CLIQUE" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="399dp"
+        android:layout_height="419dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/infografico"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
