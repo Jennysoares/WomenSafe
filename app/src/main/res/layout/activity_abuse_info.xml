@@ -22,11 +22,11 @@
         android:id="@+id/text2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:text=" Os Centros Especializados de Atendimento à Mulher – CEAM ofertam o acolhimento(social, psicológico, pedagógico e de orientação jurídica) às mulheres em situação de violência, para mais informações clique no botão seguinte:"
         android:textColor="@color/login_detalhes_formulario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text1" />
 
@@ -46,14 +46,15 @@
         android:id="@+id/link1"
         android:layout_width="110dp"
         android:layout_height="25dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/design_botao"
         android:text="CLIQUE"
         android:textColor="@color/login_detalhes_formulario_medio"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text1" />
+        app:layout_constraintTop_toTopOf="@+id/text1" />
 
     <Button
         android:id="@+id/link2"
@@ -73,19 +74,21 @@
         android:id="@+id/link3"
         android:layout_width="110dp"
         android:layout_height="25dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/design_botao"
         android:text="Button"
         android:textColor="@color/login_detalhes_formulario_medio"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text3"
+        app:layout_constraintTop_toBottomOf="@+id/link2"
         tools:text="CLIQUE" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="399dp"
-        android:layout_height="419dp"
+        android:layout_width="379dp"
+        android:layout_height="403dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/infografico"
         app:layout_constraintEnd_toEndOf="parent"
