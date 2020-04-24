@@ -27,7 +27,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        bt_cancelar.setOnClickListener{cancelar()}
+        bt_cancelar.setOnClickListener{finish()}
         bt_excluirConta.setOnClickListener{excluirConta()}
         consulta()
 
@@ -66,10 +66,6 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
-    private fun cancelar(){
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
-    }
 
     private fun excluirConta(){
 
@@ -80,8 +76,6 @@ class ProfileActivity : AppCompatActivity() {
                     finish()
                 }
             }
-
-
     }
 
 

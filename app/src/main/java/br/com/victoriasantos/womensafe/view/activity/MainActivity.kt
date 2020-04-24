@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        getWindow().setStatusBarColor(getColor(R.color.colorAccent));
+
         primeira_opcao.setOnClickListener {
             startActivity(Intent(this, MapActivity::class.java))
         }

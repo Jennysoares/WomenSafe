@@ -21,8 +21,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         entrarbt.setOnClickListener { login() }
-        cadastrarbt.setOnClickListener { cadastro() }
-        resetbt.setOnClickListener { resetarSenha() }
+        cadastrarbt.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
+        resetbt.setOnClickListener { startActivity(Intent(this, ResetPasswordActivity::class.java)) }
 
     }
 
@@ -44,17 +44,5 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
-    }
-
-
-    private fun resetarSenha(){
-        startActivity(Intent(this, ResetPasswordActivity::class.java))
-        finish()
-    }
-
-
-    private fun cadastro() {
-        startActivity(Intent(this, RegisterActivity::class.java))
-        finish()
     }
 }
