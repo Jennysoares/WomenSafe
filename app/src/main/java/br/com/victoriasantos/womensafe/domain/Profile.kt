@@ -4,5 +4,6 @@ data class Profile (
     var email: String? = null,
     var username: String? = null,
     var nomecompleto: String? = null,
-    var telefone: String? = null
+    var telefone: String? = null,
+    var guardians: Array<Guardian>? = null
 )

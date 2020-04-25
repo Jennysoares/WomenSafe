@@ -9,5 +9,7 @@
     <string name="cadastrar">Cadastrar</string>
     <string name="email_required">Email obrigatório</string>
     <string name="password_required">Senha obrigatória</string>
+    <string name="short_password">Senha precisa ter ao menos 6 caracteres</string>
+    <string name="auth_email">Email autenticado, para concluir o cadastro preencha o perfil!</string>
 
 </resources>

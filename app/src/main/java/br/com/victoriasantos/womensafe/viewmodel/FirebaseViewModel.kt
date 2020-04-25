@@ -3,6 +3,7 @@ package br.com.victoriasantos.womensafe.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import br.com.victoriasantos.womensafe.R
+import br.com.victoriasantos.womensafe.domain.Guardian
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.interactor.FirebaseInterector
 
@@ -20,10 +21,10 @@ class FirebaseViewModel (val app: Application) : AndroidViewModel(app) {
             }
             else if(result == "SC"){
                 // TODO: MUDAR AS STRINGS PARA O PADRAO ACIMA
-                callback("Senha precisa ter ao menos 6 caracteres", 0)
+                callback(app.applicationContext.getString(R.string.short_password), 0)
             }
             else if(result == "S"){
-                callback("Email autenticado, para concluir o cadastro preencha o perfil!", 1)
+                callback(app.applicationContext.getString(R.string.auth_email), 1)
             }
             else{
                 callback(result, 0)
@@ -93,6 +94,7 @@ class FirebaseViewModel (val app: Application) : AndroidViewModel(app) {
             }
     }
 
+
     fun deleteUser(callback: (result: String, id: Int) -> Unit){
         interactor.deleteUser{result ->
             if(result == "SUCCESS"){
@@ -112,6 +114,28 @@ class FirebaseViewModel (val app: Application) : AndroidViewModel(app) {
             }
             else{
                 callback("E-mail para recuperar senha enviado", 1)
+            }
+        }
+
+    }
+
+    fun showGuardians(callback: (guardians: Array<Guardian>?) -> Unit){
+        interactor.showGuardians(callback)
+
+    }
+
+    fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
+        interactor.registerGuardian(nome, telefone, email){ result ->
+            if(result == "SUCCESS"){
+                callback("Guardião cadastrado!")
+
+            }
+            else if(result == "UID RECOVER FAIL"){
+                callback("Erro na recuperação da identificação do usuário")
+            }
+            else{
+                //error
+                callback(result)
             }
         }
 

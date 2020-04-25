@@ -2,6 +2,7 @@ package br.com.victoriasantos.womensafe.repository
 
 
 import android.content.Context
+import br.com.victoriasantos.womensafe.domain.Guardian
 import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -15,6 +16,7 @@ class FirebaseRepository (context: Context) {
     private val mAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance()
     private var profile: Profile? = null
+    private var guardian: Guardian? = null
 
 
     fun cadastro(email: String, senha: String, callback: (result: String) -> Unit){
@@ -36,7 +38,7 @@ class FirebaseRepository (context: Context) {
 
     fun consulta(callback: (snapshot: DataSnapshot?) -> Unit){
         val email = mAuth.currentUser?.email
-        val profiles = database.getReference("Usuários")
+        val profiles = database.getReference("Users")
         val query = profiles.orderByChild("email").equalTo(email)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -94,7 +96,7 @@ class FirebaseRepository (context: Context) {
 
             if(uid != null){
                 // Variável que define qual nó será atualizado, nesse caso será o nó "Usuários"
-                val userprofile = database.getReference("Usuários/$uid") // $uid é o onde será substituido pelo id do usuário logado
+                val userprofile = database.getReference("Users/$uid") // $uid é o onde será substituido pelo id do usuário logado
                     userprofile.setValue(profile) //Atualiza/cria os dados
                     callback("SUCCESS")
 
@@ -123,7 +125,7 @@ class FirebaseRepository (context: Context) {
             }
             // exclui no banco de dados
             val uid = usuario?.uid
-            val dados = database.getReference("Usuários/$uid")
+            val dados = database.getReference("Users/$uid")
 
             dados.removeValue().addOnCompleteListener { task ->
                 if(!task.isSuccessful) {
@@ -145,6 +147,57 @@ class FirebaseRepository (context: Context) {
 
         fun changePassword(email: String){
             mAuth.sendPasswordResetEmail(email)
+        }
+
+        fun showGuardians(callback: (snapshot: DataSnapshot?) -> Unit){
+
+            val ref = database.getReference("Users/${mAuth.currentUser?.uid}/guardians")
+
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    callback(null)
+                }
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    callback(snapshot)
+                }
+            })
+
+
+        }
+
+        fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
+            guardian = Guardian(
+                nome = nome,
+                telefone = telefone,
+                email = email
+            )
+
+            val uid = mAuth.currentUser?.uid
+
+                if(uid != null){
+                val userprofile = database.getReference("Users/$uid")
+                val userguardian = userprofile.child("guardians")
+                userguardian.push().setValue(guardian)
+                callback("SUCCESS")
+            }
+            else
+            {
+                callback("UID RECOVER FAIL")
+            }
+
+
+        }
+
+        fun getGuardiansCount(callback: (qtd: Int) -> Unit){
+            val ref = database.getReference("Users/${mAuth.currentUser?.uid}/guardians")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    callback(0)
+                }
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    callback(snapshot.childrenCount.toInt())
+                }
+            })
         }
 
     }

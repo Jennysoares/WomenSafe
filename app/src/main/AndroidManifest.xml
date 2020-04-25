@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.AbuseInfoActivity"></activity>
+        <activity android:name=".view.activity.NewGuardianActivity"></activity>
+        <activity android:name=".view.activity.AbuseInfoActivity" />
         <activity android:name=".view.activity.AssaltInfoActivity" />
         <activity android:name=".view.activity.AbuseInfoActivity" />
         <activity android:name=".view.activity.ResetPasswordActivity" />

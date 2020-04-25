@@ -1,6 +1,7 @@
 package br.com.victoriasantos.womensafe.interactor
 
 import android.content.Context
+import br.com.victoriasantos.womensafe.domain.Guardian
 
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.repository.FirebaseRepository
@@ -92,7 +93,7 @@ class FirebaseInterector(private val context: Context) {
     }
 
     fun saveData(emailCampo: String, nomecompleto: String, telefone: String, username: String, callback: (result: String) -> Unit) {
-
+                // POSSO ALTERAR PRA EMAIL VAZIO -> CONCERTAR
             repository.getEmail { emailFinal ->
                 if (!emailFinal.equals(emailCampo)) { // Pergunta se o email do usuario antigo(emailFinal) é diferente(por ter uma ! no início) ao email que está no campo da página(emailCampo)
                     val email = emailCampo
@@ -138,6 +139,45 @@ class FirebaseInterector(private val context: Context) {
             callback("EMPTY EMAIL")
         }
     }
+
+    fun showGuardians(callback: (guardians: Array<Guardian>?) -> Unit){
+        repository.showGuardians{ snapshot ->
+            val guardians = mutableListOf<Guardian>()
+                if (snapshot != null && snapshot.hasChildren() == true) {
+                    snapshot.children.forEach{ g ->
+                        val guardian = g.getValue(Guardian::class.java)
+                        guardians.add(guardian!!)
+                    }
+                    callback(guardians.toTypedArray())
+                } else {
+                    callback(null)
+                }
+        }
+
+    }
+
+    fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
+        val qtd = repository.getGuardiansCount { qtd ->
+            if(qtd<3){
+                repository.registerGuardian(nome, telefone, email){ result ->
+                    if(result.equals("SUCCESS")){
+                        callback("S")
+                    }
+                    else{
+                        callback("NP")
+                    }
+
+                }
+            }
+            else{
+                callback("LR")
+            }
+
+        }
+
+    }
+
+
 }
 
 
