@@ -3,6 +3,7 @@ package br.com.victoriasantos.womensafe.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
@@ -20,6 +21,7 @@ class NewGuardianActivity : AppCompatActivity() {
 
         bt_confirmar.setOnClickListener {
             registerGuardian()
+            finish()
         }
 
         bt_NovoGuardiao.setOnClickListener{
@@ -34,6 +36,8 @@ class NewGuardianActivity : AppCompatActivity() {
         val email = email_guardiao.text.toString()
 
         viewModel.registerGuardian(nome, telefone, email){ result ->
+
+            Toast.makeText(this, result, Toast.LENGTH_LONG).show()
 
         }
 

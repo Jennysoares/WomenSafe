@@ -175,27 +175,27 @@ class FirebaseRepository (context: Context) {
             val uid = mAuth.currentUser?.uid
 
                 if(uid != null){
-                val userprofile = database.getReference("Users/$uid")
-                val userguardian = userprofile.child("guardians")
-                userguardian.push().setValue(guardian)
-                callback("SUCCESS")
-            }
-            else
-            {
-                callback("UID RECOVER FAIL")
-            }
+                    val userprofile = database.getReference("Users/$uid")
+                    val userguardian = userprofile.child("guardians")
+                    userguardian.push().setValue(guardian)
+                    callback("SUCCESS")
+                }
+                else
+                {
+                    callback("UID RECOVER FAIL")
+                }
 
 
         }
 
-        fun getGuardiansCount(callback: (qtd: Int) -> Unit){
+        fun getGuardiansCount(callback: (qtd: Long) -> Unit){
             val ref = database.getReference("Users/${mAuth.currentUser?.uid}/guardians")
-            ref.addValueEventListener(object : ValueEventListener {
+            ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     callback(0)
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    callback(snapshot.childrenCount.toInt())
+                    callback(snapshot.childrenCount)
                 }
             })
         }

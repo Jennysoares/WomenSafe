@@ -157,28 +157,24 @@ class FirebaseInterector(private val context: Context) {
     }
 
     fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
-        val qtd = repository.getGuardiansCount { qtd ->
-            if(qtd<3){
-                repository.registerGuardian(nome, telefone, email){ result ->
-                    if(result.equals("SUCCESS")){
-                        callback("S")
+             repository.getGuardiansCount { qtd ->
+                if(qtd<3){
+                    repository.registerGuardian(nome, telefone, email) { result ->
+                        if (result.equals("SUCCESS")) {
+                            callback("S")
+                        } else {
+                            callback("NP")
+                        }
                     }
-                    else{
-                        callback("NP")
-                    }
-
+                }
+                else{
+                        callback("LR")
                 }
             }
-            else{
-                callback("LR")
-            }
-
         }
 
     }
 
-
-}
 
 
 

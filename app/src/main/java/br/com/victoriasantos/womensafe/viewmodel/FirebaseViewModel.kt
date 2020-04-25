@@ -126,16 +126,15 @@ class FirebaseViewModel (val app: Application) : AndroidViewModel(app) {
 
     fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
         interactor.registerGuardian(nome, telefone, email){ result ->
-            if(result == "SUCCESS"){
+            if(result == "S"){
                 callback("Guardião cadastrado!")
 
             }
-            else if(result == "UID RECOVER FAIL"){
-                callback("Erro na recuperação da identificação do usuário")
+            else if(result == "NP"){
+                callback("Ocorreu um erro")
             }
             else{
-                //error
-                callback(result)
+                callback("Você já tem 3 guardiões cadastrados")
             }
         }
 
