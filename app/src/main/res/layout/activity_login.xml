@@ -42,7 +42,7 @@
         android:autofillHints=""
         android:background="@drawable/campo_texto"
         android:drawableEnd="@drawable/user_icon"
-        android:hint="@string/email"
+        android:hint="@string/e_mail"
         android:inputType="textEmailAddress"
         android:padding="16dp"
         android:textColor="@color/login_detalhes_formulario"

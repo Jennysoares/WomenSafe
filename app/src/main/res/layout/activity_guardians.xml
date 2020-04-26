@@ -31,9 +31,9 @@
         android:layout_marginStart="90dp"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="90dp"
-        android:fontFamily="sans-serif-condensed-light"
+        android:fontFamily="@font/viga"
         android:gravity="start"
-        android:text="SEUS GUARDIÕES"
+        android:text="@string/seus_guardioes"
         android:textColor="@color/login_detalhes_formulario"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
@@ -45,14 +45,28 @@
         android:id="@+id/bt_CadastroGuardiao"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/design_botao"
-        android:text="Cadastrar guardião"
+        android:text="@string/cadastrar_guardioes"
         android:textColor="@color/login_detalhes_formulario_medio"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline_direito"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/recycleView_guardian"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleView_guardian"
+        android:layout_width="0dp"
+        android:layout_height="474dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/guardian_texto" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

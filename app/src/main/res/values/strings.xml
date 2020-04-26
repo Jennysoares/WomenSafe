@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">WomenSafe</string>
-    <string name="email">E-mail</string>
     <string name="senha">Senha</string>
     <string name="cadastre_se">Cadastre-se</string>
     <string name="esqueci_a_senha">Esqueci a senha</string>
@@ -11,5 +10,35 @@
     <string name="password_required">Senha obrigatória</string>
     <string name="short_password">Senha precisa ter ao menos 6 caracteres</string>
     <string name="auth_email">Email autenticado, para concluir o cadastro preencha o perfil!</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="usu_nome">Usuário</string>
+    <string name="nome_completo">Nome completo</string>
+    <string name="telefone">Telefone</string>
+    <string name="e_mail">E-mail</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="excluir_conta">Excluir Conta</string>
+    <string name="clique">Clique</string>
+    <string name="cadastro_guard_titulo">CADASTRO DE GUARDIÕES</string>
+    <string name="informativo_guardioes">Cadastre até 3 pessoas de confinça a quem recorrer quando necessário!</string>
+    <string name="womensafe_funcionalidades">WOMENSAFE - FUNCIONALIDADES:</string>
+    <string name="bt_vitima_assedio_violencia">FUI VÍTIMA DE ASSÉDIO/VIOLÊNCIA</string>
+    <string name="informativo_reset_senha">Informe seu email para alterar sua senha.</string>
+    <string name="informativo_link_1">Para mais informações referentes ao infográfico, a ações legais, inclusive em caso de violência, tipos de assédio, clique no seguinte botão:</string>
+    <string name="informativo_link2">Os Centros Especializados de Atendimento à Mulher – CEAM ofertam o acolhimento(social, psicológico, pedagógico e de orientação jurídica) às mulheres em situação de violência, para mais informações clique no botão seguinte:</string>
+    <string name="informativo_link3">Caso foi vítima de assalto é de extrema importância o registro de um boletim de ocorrência, que pode ser feito ao clicar no botão seguinte:</string>
+    <string name="perfil">Perfil</string>
+    <string name="seus_guardioes">SEUS GUARDIÕES</string>
+    <string name="cadastrar_guardioes">Cadastrar guardião</string>
+    <string name="locais_perigosos">Locais Perigosos</string>
+    <string name="corridas_confiaveis">Corridas Confiáveis</string>
+    <string name="guardioes">Guardiões</string>
+    <string name="minhas_contribuicoes">Minhas Contribuições</string>
+    <string name="informacoes">Informações</string>
+    <string name="faca_seu_cadastro">Faça seu cadastro!</string>
+    <string name="email_vazio">EV</string>
+    <string name="senha_tamanho_invalido">SC</string>
+    <string name="senha_vazia">SV</string>
+    <string name="SOS_message">Em caso de emergência, clique no botão abaixo!</string>
+    <string name="enviar">Enviar</string>
 
 </resources>

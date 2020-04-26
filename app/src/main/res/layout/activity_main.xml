@@ -18,7 +18,7 @@
             android:layout_width="385dp"
             android:layout_height="53dp"
             android:layout_marginStart="15dp"
-            android:text="Em caso de emergência, clique no botão abaixo! "
+            android:text="@string/SOS_message"
             android:textColor="#ffffff"
             android:textSize="15sp" />
 
@@ -83,7 +83,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgLocais"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Locais Perigosos"
+                    android:text="@string/locais_perigosos"
                     android:textSize="21sp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -127,7 +127,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgCorridas"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Corridas Confiáveis"
+                    android:text="@string/corridas_confiaveis"
                     android:textSize="19sp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -171,7 +171,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgGuardioes"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Guardiões"
+                    android:text="@string/guardioes"
                     android:textSize="22sp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -215,7 +215,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgContribuicoes"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Minhas Contribuições"
+                    android:text="@string/minhas_contribuicoes"
                     android:gravity="center"
                     android:textSize="21sp" />
 
@@ -260,7 +260,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgPerfil"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Perfil"
+                    android:text="@string/perfil"
                     android:textSize="22sp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -303,7 +303,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgInfo"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Informações"
+                    android:text="@string/informacoes"
                     android:textSize="22sp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

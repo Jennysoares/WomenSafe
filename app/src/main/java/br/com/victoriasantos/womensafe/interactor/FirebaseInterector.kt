@@ -1,6 +1,7 @@
 package br.com.victoriasantos.womensafe.interactor
 
 import android.content.Context
+import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.domain.Guardian
 
 import br.com.victoriasantos.womensafe.domain.Profile
@@ -16,15 +17,15 @@ class FirebaseInterector(private val context: Context) {
 
 
         if (email.isNullOrBlank()) {
-            callback("EV")
+            callback(context.getString(R.string.email_vazio))
             return
         }
         if (senha.isNullOrBlank()) {
-            callback("SV")
+            callback(context.getString(R.string.senha_vazia))
             return
         } else {
             if (senha.length < 6) {
-                callback("SC")
+                callback(context.getString(R.string.senha_tamanho_invalido))
                 return
             }
         }
@@ -35,15 +36,15 @@ class FirebaseInterector(private val context: Context) {
 
 
         if (email.isNullOrBlank()) {
-            callback("EV")
+            callback(context.getString(R.string.email_vazio))
             return
         }
         if (senha.isNullOrBlank()) {
-            callback("SV")
+            callback(context.getString(R.string.senha_vazia))
             return
         } else {
             if (senha.length < 6) {
-                callback("SC")
+                callback(context.getString(R.string.senha_tamanho_invalido))
                 return
             }
         }
