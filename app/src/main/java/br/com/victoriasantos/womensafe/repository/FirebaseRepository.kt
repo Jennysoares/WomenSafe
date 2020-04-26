@@ -16,7 +16,6 @@ class FirebaseRepository (context: Context) {
     private val mAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance()
     private var profile: Profile? = null
-    private var guardian: Guardian? = null
 
 
     fun cadastro(email: String, senha: String, callback: (result: String) -> Unit){
@@ -33,8 +32,7 @@ class FirebaseRepository (context: Context) {
             }
         }
     }
-
-
+    
 
     fun consulta(callback: (snapshot: DataSnapshot?) -> Unit){
         val email = mAuth.currentUser?.email
@@ -166,7 +164,7 @@ class FirebaseRepository (context: Context) {
         }
 
         fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
-            guardian = Guardian(
+            val guardian = Guardian(
                 nome = nome,
                 telefone = telefone,
                 email = email
@@ -176,9 +174,17 @@ class FirebaseRepository (context: Context) {
 
                 if(uid != null){
                     val userprofile = database.getReference("Users/$uid")
-                    val userguardian = userprofile.child("guardians")
-                    userguardian.push().setValue(guardian)
-                    callback("SUCCESS")
+                    userprofile.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(p0: DatabaseError) {
+                            callback("")
+                        }
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            profile = snapshot.children.first().getValue(Profile::class.java)
+                            profile?.guardians?.add(guardian)
+                            userprofile.setValue(profile)
+                            callback("SUCCESS")
+                        }
+                    })
                 }
                 else
                 {
@@ -188,14 +194,16 @@ class FirebaseRepository (context: Context) {
 
         }
 
-        fun getGuardiansCount(callback: (qtd: Long) -> Unit){
+        fun getGuardiansCount(callback: (qtd: Int) -> Unit){
             val ref = database.getReference("Users/${mAuth.currentUser?.uid}/guardians")
+            var count: Int = 0
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
-                    callback(0)
+                    callback(count)
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    callback(snapshot.childrenCount)
+                    count = snapshot.childrenCount.toInt()
+                    callback(count)
                 }
             })
         }

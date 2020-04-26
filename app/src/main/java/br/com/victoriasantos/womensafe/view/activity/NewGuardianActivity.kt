@@ -21,11 +21,10 @@ class NewGuardianActivity : AppCompatActivity() {
 
         bt_confirmar.setOnClickListener {
             registerGuardian()
-            finish()
+
         }
 
-        bt_NovoGuardiao.setOnClickListener{
-            startActivity(Intent(this, NewGuardianActivity::class.java))
+        bt_cancelar.setOnClickListener{
             finish()
         }
     }
@@ -38,6 +37,7 @@ class NewGuardianActivity : AppCompatActivity() {
         viewModel.registerGuardian(nome, telefone, email){ result ->
 
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
+            finish()
 
         }
 
