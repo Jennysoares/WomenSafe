@@ -39,8 +39,10 @@
 
         <activity
             android:name=".view.activity.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps">
+        </activity>
         <activity android:name=".view.activity.NewGuardianActivity" />
+        <activity android:name=".view.activity.RegistrationPlateActivity"/>
         <activity android:name=".view.activity.AbuseInfoActivity" />
         <activity android:name=".view.activity.ResetPasswordActivity" />
         <activity android:name=".view.activity.ContributionsActivity" />

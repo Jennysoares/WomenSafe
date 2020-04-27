@@ -2,7 +2,9 @@ package br.com.victoriasantos.womensafe.repository
 
 
 import android.content.Context
+import androidx.constraintlayout.solver.widgets.Snapshot
 import br.com.victoriasantos.womensafe.domain.Guardian
+import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -10,12 +12,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
-
 class FirebaseRepository (context: Context) {
     private val mAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance()
     private var profile: Profile? = null
+    private var guardian: Guardian? = null
 
 
     fun cadastro(email: String, senha: String, callback: (result: String) -> Unit){
@@ -28,7 +29,6 @@ class FirebaseRepository (context: Context) {
                 val error = task.exception?.localizedMessage
                     ?: "Não foi possível entrar no aplicativo no momento"
                     callback(error)
-
             }
         }
     }
@@ -46,8 +46,8 @@ class FirebaseRepository (context: Context) {
                 callback(snapshot)
             }
         })
-
     }
+
 
     fun login(email: String, senha: String, callback: (result: String) -> Unit) {
         val operation = mAuth.signInWithEmailAndPassword(email, senha)
@@ -62,10 +62,12 @@ class FirebaseRepository (context: Context) {
         }
     }
 
+
     fun getEmail(callback: (email: String?) -> Unit){
-        var emailFinal = mAuth.currentUser?.email
+        val emailFinal = mAuth.currentUser?.email
         callback(emailFinal)
     }
+
 
     fun UpdateEmail(email: String, callback: (result: String) -> Unit ){
 
@@ -81,6 +83,7 @@ class FirebaseRepository (context: Context) {
             }
         }
     }
+
 
     fun saveData(email: String, nomecompleto: String, telefone: String, username: String, callback: (result: String) -> Unit){
             profile = Profile(
@@ -99,113 +102,138 @@ class FirebaseRepository (context: Context) {
                     callback("SUCCESS")
 
             }
-            else
-            {
+            else{
                 callback("UID RECOVER FAIL")
             }
-
         }
 
-        fun deleteUser(callback: (result: String) -> Unit){
-            //exclui a conta na autenticação
-            val usuario = mAuth.currentUser
-            var erro: Int = 0;
-            var message: String = ""
+    fun deleteUser(callback: (result: String) -> Unit){
+    //exclui a conta na autenticação
+        val usuario = mAuth.currentUser
+        var erro = 0;
+        var message = ""
 
-            usuario?.delete()?.addOnCompleteListener { task ->
-                if(!task.isSuccessful){
-                    val error = task.exception?.localizedMessage
-                        ?:"Não foi possível excluir este usuário!"
-                    erro = 1
-                    message = error
-                }
-
+        usuario?.delete()?.addOnCompleteListener { task ->
+            if(!task.isSuccessful){
+                val error = task.exception?.localizedMessage
+                ?:"Não foi possível excluir este usuário!"
+                erro = 1
+                message = error
             }
-            // exclui no banco de dados
-            val uid = usuario?.uid
-            val dados = database.getReference("Users/$uid")
+        }
+        // exclui no banco de dados
+        val uid = usuario?.uid
+        val dados = database.getReference("Users/$uid")
 
-            dados.removeValue().addOnCompleteListener { task ->
-                if(!task.isSuccessful) {
-                    val error = task.exception?.localizedMessage
-                        ?:"Não foi possível excluir os dados!"
-                    erro = 1
-                    message = error
-                }
+        dados.removeValue().addOnCompleteListener { task ->
+            if(!task.isSuccessful) {
+                val error = task.exception?.localizedMessage
+                ?:"Não foi possível excluir os dados!"
+                erro = 1
+                message = error
             }
+        }
 
-            if(erro == 0){
+        if(erro == 0){
             callback("SUCCESS")
-            }
-            else{
-                callback(message)
-            }
         }
-
-
-        fun changePassword(email: String){
-            mAuth.sendPasswordResetEmail(email)
+        else{
+            callback(message)
         }
+    }
 
-        fun showGuardians(callback: (snapshot: DataSnapshot?) -> Unit){
 
-            val ref = database.getReference("Users/${mAuth.currentUser?.uid}/guardians")
+    fun changePassword(email: String){
+        mAuth.sendPasswordResetEmail(email)
+    }
 
-            ref.addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                    callback(null)
-                }
+
+    fun showGuardians(callback: (snapshot: DataSnapshot?) -> Unit){
+
+        val ref = database.getReference("Users/${mAuth.currentUser?.uid}/guardians")
+
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                callback(null)
+            }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                callback(snapshot)
+            }
+        })
+    }
+
+
+    fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
+        guardian = Guardian(
+            nome = nome,
+            telefone = telefone,
+            email = email
+        )
+
+        val uid = mAuth.currentUser?.uid
+
+        if(uid != null){
+            val userprofile = database.getReference("Users/$uid")
+            val userguardian = userprofile.child("guardians")
+            userguardian.push().setValue(guardian)
+            callback("SUCCESS")
+        }
+        else{
+            callback("UID RECOVER FAIL")
+        }
+    }
+
+    fun getGuardiansCount(callback: (qtd: Long) -> Unit){
+        val ref = database.getReference("Users/${mAuth.currentUser?.uid}/guardians")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                callback(0)
+            }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                callback(snapshot.childrenCount)
+            }
+        })
+    }
+
+    fun deleteGuardian(email : String, callback: (result: String) -> Unit){
+        val uid = mAuth.currentUser?.uid
+
+        if(uid != null){
+            val userguardian = database.getReference("Users/$uid/guardians")
+            val query = userguardian.child("email").orderByChild("email").equalTo(email)
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    callback(snapshot)
+                    snapshot.children.forEach {g ->
+                        g.ref.removeValue()
+                        callback("SUCCESS")
+                    }
+                }
+                override fun onCancelled(p0: DatabaseError) {
+                    callback("ERROR")
                 }
             })
-
-
         }
+        else{
+            callback("UID RECOVER FAIL")
+        }
+    }
 
-        fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
-            val guardian = Guardian(
-                nome = nome,
-                telefone = telefone,
-                email = email
+    fun registerPlate(placa :String, comentario :String, callback: (result: String) -> Unit){
+        val uid = mAuth.currentUser?.uid
+        if(!uid.isNullOrBlank()){
+            val Plate = Plate(
+                placa = placa,
+                comentario = comentario,
+                autor = uid
             )
 
-            val uid = mAuth.currentUser?.uid
-
-                if(uid != null){
-                    val userprofile = database.getReference("Users/$uid")
-                    userprofile.addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onCancelled(p0: DatabaseError) {
-                            callback("")
-                        }
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            profile = snapshot.children.first().getValue(Profile::class.java)
-                            profile?.guardians?.add(guardian)
-                            userprofile.setValue(profile)
-                            callback("SUCCESS")
-                        }
-                    })
-                }
-                else
-                {
-                    callback("UID RECOVER FAIL")
-                }
-
-
+            val platePath = database.getReference("Plate")
+            platePath.setValue(Plate)
+            callback("SUCCESS")
         }
-
-        fun getGuardiansCount(callback: (qtd: Int) -> Unit){
-            val ref = database.getReference("Users/${mAuth.currentUser?.uid}/guardians")
-            var count: Int = 0
-            ref.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                    callback(count)
-                }
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    count = snapshot.childrenCount.toInt()
-                    callback(count)
-                }
-            })
+        else{
+            callback("ERROR")
         }
-
     }
+
+}

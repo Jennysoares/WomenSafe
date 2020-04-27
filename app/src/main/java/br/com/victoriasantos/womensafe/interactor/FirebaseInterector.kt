@@ -3,6 +3,7 @@ package br.com.victoriasantos.womensafe.interactor
 import android.content.Context
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.domain.Guardian
+import br.com.victoriasantos.womensafe.domain.Plate
 
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.repository.FirebaseRepository
@@ -66,8 +67,6 @@ class FirebaseInterector(private val context: Context) {
                 callback(result)
             }
         }
-
-
     }
 
     fun getEmail(callback: (email: String) -> Unit){
@@ -144,38 +143,74 @@ class FirebaseInterector(private val context: Context) {
     fun showGuardians(callback: (guardians: Array<Guardian>?) -> Unit){
         repository.showGuardians{ snapshot ->
             val guardians = mutableListOf<Guardian>()
-                if (snapshot != null && snapshot.hasChildren() == true) {
-                    snapshot.children.forEach{ g ->
-                        val guardian = g.getValue(Guardian::class.java)
-                        guardians.add(guardian!!)
-                    }
-                    callback(guardians.toTypedArray())
-                } else {
-                    callback(null)
+            if (snapshot != null && snapshot.hasChildren() == true) {
+                snapshot.children.forEach{ g ->
+                    val guardian = g.getValue(Guardian::class.java)
+                    guardians.add(guardian!!)
                 }
+                callback(guardians.toTypedArray())
+            } else {
+                callback(null)
+            }
         }
-
     }
 
     fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
-             repository.getGuardiansCount { qtd ->
-                if(qtd<3){
-                    repository.registerGuardian(nome, telefone, email) { result ->
-                        if (result.equals("SUCCESS")) {
-                            callback("S")
-                        } else {
-                            callback("NP")
-                        }
+        repository.getGuardiansCount { qtd ->
+            if(qtd<3){
+                repository.registerGuardian(nome, telefone, email) { result ->
+                    if (result.equals("SUCCESS")) {
+                        callback("S")
+                    }
+                    else {
+                        callback("NP")
                     }
                 }
+            }
+            else{
+                callback("LR")
+            }
+        }
+    }
+
+    fun deleteGuardian(email: String, callback: (result: String) -> Unit){
+        repository.deleteGuardian(email){result ->
+            if(result.equals("SUCESS")){
+                callback("S")
+            }
+            else{
+                callback("Error")
+            }
+        }
+    }
+
+    fun registerPlate(placa: String, comentario: String, callback: (result: String) -> Unit){
+        if(placa.isNullOrBlank()){
+            callback("BLANK PLATE")
+            return
+        }
+        else if(placa.length != 8){
+            callback("INVALID LENGTH PLATE")
+            return
+        }
+        else if (comentario.isNullOrBlank()){
+            callback("BLANK COMMENT")
+            return
+        }
+        else if (comentario.length < 100){
+            callback("INVALID LENGTH COMMENT")
+            return
+        }
+        else{
+            repository.registerPlate(placa, comentario){ result ->
+                if(result.equals("SUCCESS")){
+                    callback(result)
+                }
                 else{
-                        callback("LR")
+                    callback("ERROR")
                 }
             }
         }
-
     }
 
-
-
-
+}
