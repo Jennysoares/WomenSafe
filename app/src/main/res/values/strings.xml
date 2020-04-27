@@ -40,5 +40,6 @@
     <string name="senha_vazia">SV</string>
     <string name="SOS_message">Em caso de emergência, clique no botão abaixo!</string>
     <string name="enviar">Enviar</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

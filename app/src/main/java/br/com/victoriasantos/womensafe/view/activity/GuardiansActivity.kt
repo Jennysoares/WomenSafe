@@ -12,6 +12,7 @@ import br.com.victoriasantos.womensafe.domain.Guardian
 import br.com.victoriasantos.womensafe.view.adapter.GuardianAdapter
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
 import kotlinx.android.synthetic.main.activity_guardians.*
+import kotlinx.android.synthetic.main.item_guardians.*
 
 class GuardiansActivity : AppCompatActivity() {
 
@@ -28,6 +29,9 @@ class GuardiansActivity : AppCompatActivity() {
         }
         configureRecyclerView()
         showGuardians()
+        delete.setOnClickListener {
+            deleteGuardian()
+        }
 
     }
 
@@ -48,4 +52,9 @@ class GuardiansActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun deleteGuardian(){
+
+    }
+
 }

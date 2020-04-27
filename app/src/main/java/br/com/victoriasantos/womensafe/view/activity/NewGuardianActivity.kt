@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
 import kotlinx.android.synthetic.main.activity_new_guardian.*
+import kotlinx.android.synthetic.main.activity_new_guardian.bt_confirmar
+import kotlinx.android.synthetic.main.activity_profile.*
 
 class NewGuardianActivity : AppCompatActivity() {
 

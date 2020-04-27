@@ -32,7 +32,7 @@ class FirebaseRepository (context: Context) {
             }
         }
     }
-    
+
 
     fun consulta(callback: (snapshot: DataSnapshot?) -> Unit){
         val email = mAuth.currentUser?.email

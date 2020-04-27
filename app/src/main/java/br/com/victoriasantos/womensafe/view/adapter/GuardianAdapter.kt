@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.item_guardians.view.nome_guardiao
 
 class GuardianAdapter(private val dataSet: Array<Guardian>) : RecyclerView.Adapter<GuardianAdapter.GuardianViewHolder>() {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuardianViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_guardians, parent, false)
         return GuardianViewHolder(view)
@@ -25,7 +26,7 @@ class GuardianAdapter(private val dataSet: Array<Guardian>) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: GuardianViewHolder, position: Int) {
         val Guardian = dataSet[position]
         holder.nome_guardian.text = "Nome: ${Guardian.nome}"
-        holder.email_guardian.text = "Email: ${Guardian.email}"
+        holder.email_guardian.text = Guardian.email
         holder.telefone_guardian.text = "Telefone: ${Guardian.telefone}"
     }
 
