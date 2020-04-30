@@ -1,6 +1,5 @@
 package br.com.victoriasantos.womensafe.view.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -13,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_new_guardian.bt_confirmar
 class NewGuardianActivity : AppCompatActivity() {
 
     private val viewModel: FirebaseViewModel by lazy {
-        ViewModelProvider(this). get(FirebaseViewModel::class.java)
+        ViewModelProvider(this).get(FirebaseViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,23 +24,21 @@ class NewGuardianActivity : AppCompatActivity() {
 
         }
 
-        bt_cancelar.setOnClickListener{
+        bt_cancelar.setOnClickListener {
             finish()
         }
     }
 
-    fun registerGuardian(){
+    fun registerGuardian() {
         val nome = nome_guardiao.text.toString()
         val telefone = telefone_guardiao.text.toString()
         val email = email_guardiao.text.toString()
 
-        viewModel.registerGuardian(nome, telefone, email){ result ->
-
+        viewModel.registerGuardian(nome, telefone, email) { result ->
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
-            finish()
-
+            if (result.equals(applicationContext.getString(R.string.guardian_registered))) {
+                finish()
+            }
         }
-
-
     }
 }

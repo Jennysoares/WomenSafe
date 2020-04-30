@@ -67,5 +67,8 @@
     <string name="length_comment_plate_required">Comentário deve ter pelo menos 100 caracteres</string>
     <string name="title_activity_maps">Map</string>
     <string name="pesquisar">Pesquisar</string>
+    <string name="phone_required">Telefone obrigatório</string>
+    <string name="phone_invalid">Telefone inválido</string>
+    <string name="name_required">Nome é obrigatório</string>
 
 </resources>

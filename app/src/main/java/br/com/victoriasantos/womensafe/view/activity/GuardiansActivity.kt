@@ -6,13 +6,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.victoriasantos.womensafe.R
-import br.com.victoriasantos.womensafe.domain.Guardian
 import br.com.victoriasantos.womensafe.view.adapter.GuardianAdapter
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
 import kotlinx.android.synthetic.main.activity_guardians.*
-import kotlinx.android.synthetic.main.item_guardians.*
 
 class GuardiansActivity : AppCompatActivity() {
 
@@ -37,16 +34,24 @@ class GuardiansActivity : AppCompatActivity() {
 
     }
 
-
-    fun showGuardians(){
+     fun showGuardians(){
 
         viewModel.showGuardians{ guardians ->
+            val adapter = GuardianAdapter(this,this, guardians)
+            recycleView_guardian.adapter = adapter
             if(guardians.isNullOrEmpty()){
-                Toast.makeText(this, "Você não possui guardiões ainda",Toast.LENGTH_LONG).show()
-            }else{
-                val adapter = GuardianAdapter(guardians)
-                recycleView_guardian.adapter = adapter
+                Toast.makeText(this, "Você não possui guardiões!",Toast.LENGTH_LONG).show()
             }
         }
     }
+
+
+    fun deleteGuardian(email : String?){
+        viewModel.deleteGuardian(email){result ->
+            Toast.makeText(this,result, Toast.LENGTH_LONG).show()
+            showGuardians()
+        }
+    }
+
+
 }

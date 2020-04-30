@@ -9,12 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.domain.Guardian
-import kotlinx.android.synthetic.main.item_guardians.view.*
-import kotlinx.android.synthetic.main.item_guardians.view.email_guardiao
-import kotlinx.android.synthetic.main.item_guardians.view.nome_guardiao
 import br.com.victoriasantos.womensafe.view.activity.GuardiansActivity
+import kotlinx.android.synthetic.main.item_guardians.view.*
 
-class GuardianAdapter(private val dataSet: Array<Guardian>) : RecyclerView.Adapter<GuardianAdapter.GuardianViewHolder>() {
+class GuardianAdapter(private val context : Context , private val activity: GuardiansActivity, private val dataSet: Array<Guardian>?) : RecyclerView.Adapter<GuardianAdapter.GuardianViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuardianViewHolder {
@@ -23,16 +21,22 @@ class GuardianAdapter(private val dataSet: Array<Guardian>) : RecyclerView.Adapt
     }
 
     override fun getItemCount(): Int {
-        return dataSet.size
+        if (dataSet != null) {
+            return dataSet.size
+        }
+        else return 0
     }
 
     override fun onBindViewHolder(holder: GuardianViewHolder, position: Int) {
-        val Guardian = dataSet[position]
-        holder.nome_guardian.text = "Nome: ${Guardian.nome}"
-        holder.email_guardian.text = Guardian.email
-        holder.telefone_guardian.text = "Telefone: ${Guardian.telefone}"
-
+        val Guardian = dataSet?.get(position)
+        holder.nome_guardian.text = "Nome: ${Guardian?.nome}"
+        holder.email_guardian.text = Guardian?.email
+        holder.telefone_guardian.text = "Telefone: ${Guardian?.telefone}"
+        holder.excluir.setOnClickListener{
+            activity.deleteGuardian(Guardian?.email)
+        }
     }
+
 
     class GuardianViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val nome_guardian: TextView = itemView.nome_guardiao

@@ -51,10 +51,13 @@ class FirebaseInterector(private val context: Context) {
         }
         repository.login(email, senha) { result ->
             if (result == "S") {
-                repository.consulta{ snapshot ->
+                repository.consulta { snapshot ->
                     if (snapshot != null && snapshot.hasChildren() == true) {// Verifica se possui dados{
                         profile = snapshot.children.first().getValue(Profile::class.java)
-                        if (profile?.nomecompleto.toString().isNotEmpty() && profile?.telefone.toString().isNotEmpty() && profile?.username.toString().isNotEmpty()) {
+                        if (profile?.nomecompleto.toString()
+                                .isNotEmpty() && profile?.telefone.toString()
+                                .isNotEmpty() && profile?.username.toString().isNotEmpty()
+                        ) {
                             callback("PP")
                         } else {
                             callback("PV")
@@ -69,9 +72,9 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun getEmail(callback: (email: String) -> Unit){
-        repository.getEmail {email ->
-            if(email != null){
+    fun getEmail(callback: (email: String) -> Unit) {
+        repository.getEmail { email ->
+            if (email != null) {
                 callback(email)
             }
         }
@@ -92,59 +95,62 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun saveData(emailCampo: String, nomecompleto: String, telefone: String, username: String, callback: (result: String) -> Unit) {
-                // POSSO ALTERAR PRA EMAIL VAZIO -> CONCERTAR
-            repository.getEmail { emailFinal ->
-                if (!emailFinal.equals(emailCampo)) { // Pergunta se o email do usuario antigo(emailFinal) é diferente(por ter uma ! no início) ao email que está no campo da página(emailCampo)
-                    val email = emailCampo
-                    repository.UpdateEmail(email) { result ->
-                        if (result == "S") {
-                            if (nomecompleto.isNotEmpty() && telefone.isNotEmpty() && username.isNotEmpty()) {
-                                repository.saveData(email, nomecompleto, telefone, username, callback)
-                            } else {
-                                callback("EMPTY DATA")
-                                // Todos os campos devem ser preenchidos!"
-                            }
-
+    fun saveData(
+        emailCampo: String,
+        nomecompleto: String,
+        telefone: String,
+        username: String,
+        callback: (result: String) -> Unit
+    ) {
+        // POSSO ALTERAR PRA EMAIL VAZIO -> CONCERTAR
+        repository.getEmail { emailFinal ->
+            if (!emailFinal.equals(emailCampo)) { // Pergunta se o email do usuario antigo(emailFinal) é diferente(por ter uma ! no início) ao email que está no campo da página(emailCampo)
+                val email = emailCampo
+                repository.UpdateEmail(email) { result ->
+                    if (result == "S") {
+                        if (nomecompleto.isNotEmpty() && telefone.isNotEmpty() && username.isNotEmpty()) {
+                            repository.saveData(email, nomecompleto, telefone, username, callback)
+                        } else {
+                            callback("EMPTY DATA")
+                            // Todos os campos devem ser preenchidos!"
                         }
-                        else{
-                            callback(result)
-                        }
 
-                    }
-                }
-                else{
-                    val email = emailCampo
-                    if (nomecompleto.isNotEmpty() && telefone.isNotEmpty() && username.isNotEmpty() && email.isNotEmpty()) {
-                        repository.saveData(email, nomecompleto, telefone, username, callback)
                     } else {
-                        callback("EMPTY DATA")
-                        // Todos os campos devem ser preenchidos!"
+                        callback(result)
                     }
 
                 }
+            } else {
+                val email = emailCampo
+                if (nomecompleto.isNotEmpty() && telefone.isNotEmpty() && username.isNotEmpty() && email.isNotEmpty()) {
+                    repository.saveData(email, nomecompleto, telefone, username, callback)
+                } else {
+                    callback("EMPTY DATA")
+                    // Todos os campos devem ser preenchidos!"
+                }
+
             }
+        }
     }
 
-    fun deleteUser(callback: (result: String) -> Unit){
+    fun deleteUser(callback: (result: String) -> Unit) {
         repository.deleteUser(callback)
     }
 
-    fun changePassword(email: String, callback: (result: String) -> Unit){
-        if(email != ""){
+    fun changePassword(email: String, callback: (result: String) -> Unit) {
+        if (email != "") {
             repository.changePassword(email)
             callback("EMAIL SENT")
-        }
-        else{
+        } else {
             callback("EMPTY EMAIL")
         }
     }
 
-    fun showGuardians(callback: (guardians: Array<Guardian>?) -> Unit){
-        repository.showGuardians{ snapshot ->
+    fun showGuardians(callback: (guardians: Array<Guardian>?) -> Unit) {
+        repository.showGuardians { snapshot ->
             val guardians = mutableListOf<Guardian>()
             if (snapshot != null && snapshot.hasChildren() == true) {
-                snapshot.children.forEach{ g ->
+                snapshot.children.forEach { g ->
                     val guardian = g.getValue(Guardian::class.java)
                     guardians.add(guardian!!)
                 }
@@ -155,58 +161,65 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit){
-        repository.getGuardiansCount { qtd ->
-            if(qtd<3){
-                repository.registerGuardian(nome, telefone, email) { result ->
-                    if (result.equals("SUCCESS")) {
-                        callback("S")
+    fun registerGuardian(
+        nome: String?,
+        telefone: String?,
+        email: String?,
+        callback: (result: String) -> Unit
+    ) {
+        if (email.isNullOrBlank()) {
+            callback("EV")
+        } else if (telefone.isNullOrBlank()) {
+            callback("TF")
+        } else if (telefone.length < 15) {
+            callback("TI")
+        } else if (nome.isNullOrBlank()) {
+            callback("NV")
+        } else {
+            repository.getGuardiansCount { qtd ->
+                if (qtd < 3) {
+                    repository.registerGuardian(nome, telefone, email) { result ->
+                        if (result.equals("SUCCESS")) {
+                            callback("S")
+                        } else {
+                            callback("NP")
+                        }
                     }
-                    else {
-                        callback("NP")
-                    }
+                } else {
+                    callback("LR")
                 }
-            }
-            else{
-                callback("LR")
             }
         }
     }
 
-    fun deleteGuardian(email: String, callback: (result: String) -> Unit){
-        repository.deleteGuardian(email){result ->
-            if(result.equals("SUCESS")){
+    fun deleteGuardian(email: String?, callback: (result: String) -> Unit) {
+        repository.deleteGuardian(email) { result ->
+            if (result.equals("SUCCESS")) {
                 callback("S")
-            }
-            else{
+            } else {
                 callback("Error")
             }
         }
     }
 
-    fun registerPlate(placa: String, comentario: String, callback: (result: String) -> Unit){
-        if(placa.isNullOrBlank()){
+    fun registerPlate(placa: String, comentario: String, callback: (result: String) -> Unit) {
+        if (placa.isNullOrBlank()) {
             callback("BLANK PLATE")
             return
-        }
-        else if(placa.length != 8){
+        } else if (placa.length != 8) {
             callback("INVALID LENGTH PLATE")
             return
-        }
-        else if (comentario.isNullOrBlank()){
+        } else if (comentario.isNullOrBlank()) {
             callback("BLANK COMMENT")
             return
-        }
-        else if (comentario.length < 100){
+        } else if (comentario.length < 100) {
             callback("INVALID LENGTH COMMENT")
             return
-        }
-        else{
-            repository.registerPlate(placa, comentario){ result ->
-                if(result.equals("SUCCESS")){
+        } else {
+            repository.registerPlate(placa, comentario) { result ->
+                if (result.equals("SUCCESS")) {
                     callback(result)
-                }
-                else{
+                } else {
                     callback("ERROR")
                 }
             }
