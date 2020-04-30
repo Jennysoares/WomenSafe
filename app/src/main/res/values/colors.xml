@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#c86dd7</color>
     <color name="colorAccent">#9d5db9</color>
-    <color name="azul_escuro">#3023AE</color>
+    <color name="azul_escuro">#191970</color>
     <color name="roxo">#c86dd7</color>
 
     <color name="login_detalhes_formulario">#ccffffff</color>

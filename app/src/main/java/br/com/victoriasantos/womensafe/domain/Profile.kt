@@ -5,5 +5,5 @@ data class Profile (
     var username: String? = null,
     var nomecompleto: String? = null,
     var telefone: String? = null,
-    var guardians: ArrayList<Guardian> = ArrayList()
+    var guardians: Guardian? = null
 )

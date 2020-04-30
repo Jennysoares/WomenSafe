@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        getWindow().setStatusBarColor(getColor(R.color.colorAccent));
 
         primeira_opcao.setOnClickListener {
             startActivity(Intent(this, MapsActivity::class.java))

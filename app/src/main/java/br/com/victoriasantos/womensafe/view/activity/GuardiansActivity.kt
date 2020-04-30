@@ -44,17 +44,9 @@ class GuardiansActivity : AppCompatActivity() {
             if(guardians.isNullOrEmpty()){
                 Toast.makeText(this, "Você não possui guardiões ainda",Toast.LENGTH_LONG).show()
             }else{
-               // val adapter = GuardianAdapter(this, guardians)
-                //recycleView_guardian.adapter = adapter
+                val adapter = GuardianAdapter(guardians)
+                recycleView_guardian.adapter = adapter
             }
         }
-    }
-
-    fun deleteGuardian(){
-        val email = email_guardiao.text.toString()
-        viewModel.deleteGuardian(email){result ->
-            Toast.makeText(this, result, Toast.LENGTH_LONG).show()
-        }
-
     }
 }

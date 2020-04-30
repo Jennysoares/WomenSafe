@@ -31,9 +31,7 @@ class GuardianAdapter(private val dataSet: Array<Guardian>) : RecyclerView.Adapt
         holder.nome_guardian.text = "Nome: ${Guardian.nome}"
         holder.email_guardian.text = Guardian.email
         holder.telefone_guardian.text = "Telefone: ${Guardian.telefone}"
-        holder.excluir.setOnClickListener {
 
-        }
     }
 
     class GuardianViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
