@@ -118,8 +118,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     )
                 )
             )
-            val titleStr = getAddress(location)
-            markerOptions.title("Você está aqui!\n${titleStr}")
+            val titleStr = getAddress(location).toString()
+            markerOptions.title(titleStr)
             map.addMarker(markerOptions)
 
         }
@@ -166,28 +166,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
 
-        private fun getAddress(latLng: LatLng): String {
+        private fun getAddress(latLng: LatLng): String? {
 
             val geocoder = Geocoder(this)
-            val addresses: List<Address>?
-            val address: Address?
-            var addressText = ""
+            var addresses: List<Address>? = null
+            var Address1: String? = null
 
             try {
                 addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-                if (null != addresses && !addresses.isEmpty()) {
-                    address = addresses[0]
-                    for (i in 0 until address.maxAddressLineIndex) {
-                        addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(
-                            i
-                        )
-                    }
-                }
             } catch (e: IOException) {
                 Log.e("MapsActivity", e.localizedMessage)
             }
+            if(addresses != null){
+                Address1 = addresses[0].getAddressLine(0)
+            }
 
-            return addressText
+            return Address1
         }
 
         private fun startLocationUpdates() {
