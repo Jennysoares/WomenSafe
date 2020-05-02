@@ -12,19 +12,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import br.com.victoriasantos.womensafe.R
-import br.com.victoriasantos.womensafe.domain.LocationData
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import java.util.*
 import android.location.Address
 import android.location.Geocoder
 import android.util.Log
-import android.view.View
-import android.widget.Toast
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.*
@@ -79,11 +73,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         map.setOnMarkerClickListener(this)
         map.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
             override fun onMapClick(latLng: LatLng) {
-                configureAlertDialog()
-                val marker = MarkerOptions().position(latLng)
-                marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                marker.title("MARCADO COMO LOCAL PERIGOSO!")
-                map.addMarker(marker)
+                configureAlertDialog(latLng)
                 //TODO: PESSOA DEVE CADASTRAR AVALIAÇÃO SOBRE O LOCAL
                 //TODO: SO ADICIONAR O MARCADOR DEPOIS DA CADASTRO DA AVALIAÇÃO
             }
@@ -91,20 +81,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         setUpMap()
     }
 
-    fun configureAlertDialog() {
+    fun configureAlertDialog(latLng: LatLng) {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Marcar local perigoso!")
             builder.setMessage("Deseja marcar esse ponto do mapa como pergioso?")
+            val marker = MarkerOptions().position(latLng)
+            marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            marker.title("MARCADO COMO LOCAL PERIGOSO!")
+            val marker2 = map.addMarker(marker);
+
             builder.apply {
                 setPositiveButton("SIM", object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface, which: Int) {
-                        val intent = Intent(this@MapsActivity, MainActivity::class.java)
+                        val intent = Intent(this@MapsActivity, DangerousSpotActivity::class.java)
                         startActivity(intent)
                     }
                 })
                 setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface, which: Int) {
-
+                        marker2.remove()
                     }
                 })
             }

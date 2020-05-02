@@ -4,6 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.DangerousSpotActivity">
+    tools:context=".view.activity.DangerousSpotActivity"
+    android:background="@drawable/pagina_login">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_esquerdo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_direito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <TextView
+        android:id="@+id/titulo_lugar"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/viga"
+        android:gravity="center"
+        android:text="Cadastro lugar perigoso"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/comentario_lugar"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints="@string/comentario"
+        android:background="@drawable/campo_texto"
+        android:hint="@string/comentario"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:gravity="start"
+        android:padding="16dp"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textColorHint="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_lugar" />
+
+    <Button
+        android:id="@+id/bt_confirmar"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/design_botao"
+        android:text="@string/confirmar"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/comentario_lugar" />
+
+    <Button
+        android:id="@+id/bt_cancelar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/design_botao"
+        android:text="@string/cancelar"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/bt_confirmar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
