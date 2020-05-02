@@ -1,6 +1,8 @@
 package br.com.victoriasantos.womensafe.view.activity
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -15,18 +17,17 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 import android.location.Address
 import android.location.Geocoder
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.*
 import java.io.IOException
 
 
@@ -34,8 +35,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     private lateinit var map: GoogleMap
     private lateinit var lastLocation: Location
-    private val database = FirebaseDatabase.getInstance()
-    private val mAuth = FirebaseAuth.getInstance()
+    // private val database = FirebaseDatabase.getInstance()
+    //private val mAuth = FirebaseAuth.getInstance()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
@@ -60,6 +61,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
         createLocationRequest()
+
     }
 
     /**
@@ -75,142 +77,203 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         map = googleMap
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)
-
+        map.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+            override fun onMapClick(latLng: LatLng) {
+                configureAlertDialog()
+                val marker = MarkerOptions().position(latLng)
+                marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                marker.title("MARCADO COMO LOCAL PERIGOSO!")
+                map.addMarker(marker)
+                //TODO: PESSOA DEVE CADASTRAR AVALIAÇÃO SOBRE O LOCAL
+                //TODO: SO ADICIONAR O MARCADOR DEPOIS DA CADASTRO DA AVALIAÇÃO
+            }
+        })
         setUpMap()
     }
 
-    private fun placeMarkerOnMap(location: LatLng) {
+    fun configureAlertDialog() {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Marcar local perigoso!")
+            builder.setMessage("Deseja marcar esse ponto do mapa como pergioso?")
+            builder.apply {
+                setPositiveButton("SIM", object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface, which: Int) {
+                        val intent = Intent(this@MapsActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                })
+                setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface, which: Int) {
 
-        val markerOptions = MarkerOptions().position(location)
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources, R.mipmap.ic_user_location)))
-        val titleStr = getAddress(location)
-        markerOptions.title("Você está aqui!\n${titleStr}")
-        map.addMarker(markerOptions)
+                    }
+                })
+            }
+            builder.show()
     }
 
-    private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-            return
+
+        private fun placeMarkerOnMap(location: LatLng) {
+
+            val markerOptions = MarkerOptions().position(location)
+            markerOptions.icon(
+                BitmapDescriptorFactory.fromBitmap(
+                    BitmapFactory.decodeResource(
+                        resources,
+                        R.mipmap.ic_user_location
+                    )
+                )
+            )
+            val titleStr = getAddress(location)
+            markerOptions.title("Você está aqui!\n${titleStr}")
+            map.addMarker(markerOptions)
+
         }
-        else{
-            GPSlocation()
-        }
 
-    }
-
-    fun GPSlocation() {
-        map.isMyLocationEnabled = true
-        map.mapType = GoogleMap.MAP_TYPE_TERRAIN
-
-
-        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
-            // Got last known location. In some rare situations this can be null.
-
-            if (location != null) {
-                lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                // MARCADOR PARA A LOCALIZAÇÃO DO USUÁRIO
-                placeMarkerOnMap(currentLatLng)
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
-                //TODO: TENTAR JOGAR PARA A REPOSITORY
-               // val uid = mAuth.currentUser?.uid
-                //val locationData: LocationData =
-                  //  LocationData(uid, lastLocation.latitude, lastLocation.longitude)
-               // database.getReference("Location").child(Date().time.toString()).setValue(locationData)
+        private fun setUpMap() {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+                return
+            } else {
+                GPSlocation()
             }
 
         }
-    }
 
-    private fun getAddress(latLng: LatLng): String {
+        fun GPSlocation() {
+            map.isMyLocationEnabled = true
+            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
 
-        val geocoder = Geocoder(this)
-        val addresses: List<Address>?
-        val address: Address?
-        var addressText = ""
 
-        try {
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (!addresses.isNullOrEmpty()) {
-                address = addresses[0]
-                for (i in 0 until address.maxAddressLineIndex) {
-                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
+            fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+                // Got last known location. In some rare situations this can be null.
+
+                if (location != null) {
+                    lastLocation = location
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    // MARCADOR PARA A LOCALIZAÇÃO DO USUÁRIO
+                    placeMarkerOnMap(currentLatLng)
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                    //TODO: TENTAR JOGAR PARA A REPOSITORY
+                    // val uid = mAuth.currentUser?.uid
+                    //val locationData: LocationData =
+                    //  LocationData(uid, lastLocation.latitude, lastLocation.longitude)
+                    // database.getReference("Location").child(Date().time.toString()).setValue(locationData)
                 }
+
             }
-        } catch (e: IOException) {
-            Log.e("MapsActivity", e.localizedMessage)
         }
 
-        return addressText
-    }
+        private fun getAddress(latLng: LatLng): String {
 
-    private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE)
-            return
-        }
+            val geocoder = Geocoder(this)
+            val addresses: List<Address>?
+            val address: Address?
+            var addressText = ""
 
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
-    }
-
-    private fun createLocationRequest() {
-        locationRequest = LocationRequest()
-        locationRequest.interval = 10000
-        locationRequest.fastestInterval = 5000
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-
-        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
-
-        val client = LocationServices.getSettingsClient(this)
-        val task = client.checkLocationSettings(builder.build())
-
-
-        task.addOnSuccessListener {
-            locationUpdateState = true
-            startLocationUpdates()
-        }
-        task.addOnFailureListener { e ->
-            // 6
-            if (e is ResolvableApiException) {
-                // Location settings are not satisfied, but this can be fixed
-                // by showing the user a dialog.
-                try {
-                    // Show the dialog by calling startResolutionForResult(),
-                    // and check the result in onActivityResult().
-                    e.startResolutionForResult(this@MapsActivity,
-                        REQUEST_CHECK_SETTINGS)
-                } catch (sendEx: IntentSender.SendIntentException) {
-                    // Ignore the error.
+            try {
+                addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+                if (null != addresses && !addresses.isEmpty()) {
+                    address = addresses[0]
+                    for (i in 0 until address.maxAddressLineIndex) {
+                        addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(
+                            i
+                        )
+                    }
                 }
+            } catch (e: IOException) {
+                Log.e("MapsActivity", e.localizedMessage)
             }
-        }
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CHECK_SETTINGS) {
-            if (resultCode == Activity.RESULT_OK) {
+            return addressText
+        }
+
+        private fun startLocationUpdates() {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+                return
+            }
+
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                null /* Looper */
+            )
+        }
+
+        private fun createLocationRequest() {
+            locationRequest = LocationRequest()
+            locationRequest.interval = 10000
+            locationRequest.fastestInterval = 5000
+            locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+            val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+            val client = LocationServices.getSettingsClient(this)
+            val task = client.checkLocationSettings(builder.build())
+
+
+            task.addOnSuccessListener {
                 locationUpdateState = true
                 startLocationUpdates()
             }
+            task.addOnFailureListener { e ->
+                // 6
+                if (e is ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        e.startResolutionForResult(
+                            this@MapsActivity,
+                            REQUEST_CHECK_SETTINGS
+                        )
+                    } catch (sendEx: IntentSender.SendIntentException) {
+                        // Ignore the error.
+                    }
+                }
+            }
         }
-    }
 
-    override fun onPause() {
-        super.onPause()
-        fusedLocationClient.removeLocationUpdates(locationCallback)
-    }
-
-    public override fun onResume() {
-        super.onResume()
-        if (!locationUpdateState) {
-            startLocationUpdates()
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            if (requestCode == REQUEST_CHECK_SETTINGS) {
+                if (resultCode == Activity.RESULT_OK) {
+                    locationUpdateState = true
+                    startLocationUpdates()
+                }
+            }
         }
+
+        override fun onPause() {
+            super.onPause()
+            fusedLocationClient.removeLocationUpdates(locationCallback)
+        }
+
+        public override fun onResume() {
+            super.onResume()
+            if (!locationUpdateState) {
+                startLocationUpdates()
+            }
+        }
+
+
+        override fun onMarkerClick(p0: Marker?) = false
+        //TODO: CHAMAR OUTRA ATIVIDADE PARA MOSTRAR AVALIAÇÕES SOBRE O MARKER
     }
 
-    override fun onMarkerClick(p0: Marker?) = false
-}

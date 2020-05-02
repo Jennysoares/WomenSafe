@@ -43,6 +43,5 @@ class GuardianAdapter(private val context : Context , private val activity: Guar
         val email_guardian: TextView = itemView.email_guardiao
         val telefone_guardian: TextView = itemView.numero_guardiao
         val excluir : ImageView = itemView.delete
-
     }
 }
