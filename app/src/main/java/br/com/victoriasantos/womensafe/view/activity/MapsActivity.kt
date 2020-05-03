@@ -19,6 +19,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import android.location.Address
 import android.location.Geocoder
 import android.util.Log
+import android.view.View
+import android.widget.EditText
+import android.widget.Toast
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.*
@@ -55,7 +58,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
         createLocationRequest()
-
     }
 
     /**
@@ -83,18 +85,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     fun configureAlertDialog(latLng: LatLng) {
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Marcar local perigoso!")
-            builder.setMessage("Deseja marcar esse ponto do mapa como pergioso?")
+            builder.setTitle(getString(R.string.marcar_local_perigoso))
+            builder.setMessage(getString(R.string.ask_dangerous_local))
             val marker = MarkerOptions().position(latLng)
             marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-            marker.title("MARCADO COMO LOCAL PERIGOSO!")
+            marker.title(getString(R.string.local_perigoso_marcado))
             val marker2 = map.addMarker(marker);
 
             builder.apply {
                 setPositiveButton("SIM", object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface, which: Int) {
                         val intent = Intent(this@MapsActivity, DangerousSpotActivity::class.java)
+                        val endereco = getAddress(latLng)
+                        intent.putExtra("latitude", latLng.latitude.toString())
+                        intent.putExtra("longitude", latLng.longitude.toString())
+                        intent.putExtra("endereco", endereco)
                         startActivity(intent)
+                        marker2.remove()
                     }
                 })
                 setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
@@ -139,7 +146,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             } else {
                 GPSlocation()
             }
-
         }
 
         fun GPSlocation() {
@@ -155,14 +161,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     val currentLatLng = LatLng(location.latitude, location.longitude)
                     // MARCADOR PARA A LOCALIZAÇÃO DO USUÁRIO
                     placeMarkerOnMap(currentLatLng)
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
                     //TODO: TENTAR JOGAR PARA A REPOSITORY
                     // val uid = mAuth.currentUser?.uid
                     //val locationData: LocationData =
                     //  LocationData(uid, lastLocation.latitude, lastLocation.longitude)
                     // database.getReference("Location").child(Date().time.toString()).setValue(locationData)
                 }
-
             }
         }
 
@@ -260,6 +265,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 startLocationUpdates()
             }
         }
+
+    fun searchLocation(view: View) {
+        val locationSearch: EditText = findViewById<EditText>(R.id.editText)
+        lateinit var location: String
+        location = locationSearch.text.toString()
+        var addressList: List<Address>? = null
+
+        if (location.isNullOrBlank()) {
+            Toast.makeText(applicationContext,getString(R.string.digite_local), Toast.LENGTH_SHORT).show()
+        }
+        else{
+            val geoCoder = Geocoder(this)
+            try {
+                addressList = geoCoder.getFromLocationName(location, 1)
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            val address = addressList!![0]
+            val latLng = LatLng(address.latitude, address.longitude)
+            map.addMarker(MarkerOptions().position(latLng).title(location))
+            map.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+           // Toast.makeText(applicationContext, address.latitude.toString() + " " + address.longitude, Toast.LENGTH_LONG).show()
+        }
+    }
 
 
         override fun onMarkerClick(p0: Marker?) = false

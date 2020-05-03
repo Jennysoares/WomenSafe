@@ -29,9 +29,9 @@ class GuardianAdapter(private val context : Context , private val activity: Guar
 
     override fun onBindViewHolder(holder: GuardianViewHolder, position: Int) {
         val Guardian = dataSet?.get(position)
-        holder.nome_guardian.text = "Nome: ${Guardian?.nome}"
+        holder.nome_guardian.text = context.getString(R.string.nome_titulo) + Guardian?.nome
         holder.email_guardian.text = Guardian?.email
-        holder.telefone_guardian.text = "Telefone: ${Guardian?.telefone}"
+        holder.telefone_guardian.text = context.getString(R.string.telefone_titulo) + Guardian?.telefone
         holder.excluir.setOnClickListener{
             activity.deleteGuardian(Guardian?.email)
         }
