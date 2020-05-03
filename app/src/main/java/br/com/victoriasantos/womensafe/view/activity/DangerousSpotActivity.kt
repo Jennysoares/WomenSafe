@@ -26,7 +26,10 @@ class DangerousSpotActivity : AppCompatActivity() {
         val latitude = intent.getStringExtra("latitude")
         val longitude = intent.getStringExtra("longitude")
         val endereco = intent.getStringExtra("endereco")
-        endereco_lugar.text = endereco.toString()
+
+        if(!endereco.isNullOrBlank()){
+            endereco_lugar.text = endereco.toString()
+        }
 
         bt_cancelar.setOnClickListener { finish() }
         bt_confirmar.setOnClickListener { spotRegister(latitude, longitude) }

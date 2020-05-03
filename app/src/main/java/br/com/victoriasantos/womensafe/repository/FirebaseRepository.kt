@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.util.Date
 
 
 class FirebaseRepository(context: Context) {
@@ -247,10 +248,11 @@ class FirebaseRepository(context: Context) {
         val location = LocationData(
             evaluation = comentario,
             latitude = latitude.toDouble(),
-            longitude = longitude.toDouble()
+            longitude = longitude.toDouble(),
+            uid = uid
         )
         if(uid != null) {
-            database.getReference("Location").child(uid).setValue(location)
+            database.getReference("Location").child(Date().time.toString()).setValue(location)
             callback("SUCCESS")
         }
         else{
@@ -258,17 +260,19 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun getMarkers(callback: (snapshot: DataSnapshot?) -> Unit){
-        database.getReference("location").addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                   callback(dataSnapshot)
-                }
+    fun getMarkers(callback: (snapshot: DataSnapshot?) -> Unit) {
 
-                override fun onCancelled(databaseError: DatabaseError) { //handle databaseError
-                    callback(null)
-                }
-            })
+        val ref = database.getReference("Location")
+
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                callback(null)
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                callback(snapshot)
+            }
+        })
     }
 
 }
