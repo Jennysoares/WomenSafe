@@ -58,7 +58,7 @@
         android:background="@drawable/campo_texto"
         android:ems="10"
         android:gravity="start"
-        android:hint="@string/comentario"
+        android:hint="Avalie o local abordando critérios como a iluminação, movimentação de pessoas, visibilidade, incidência de assaltos.\nLembre-se que estará ajudando uma comunidade. "
         android:inputType="textMultiLine"
         android:padding="16dp"
         android:textColor="@color/login_detalhes_formulario"

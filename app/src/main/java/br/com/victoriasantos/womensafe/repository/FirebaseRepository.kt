@@ -2,12 +2,16 @@ package br.com.victoriasantos.womensafe.repository
 
 
 import android.content.Context
-import androidx.constraintlayout.solver.widgets.Snapshot
 import br.com.victoriasantos.womensafe.domain.Guardian
+import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+
 
 class FirebaseRepository(context: Context) {
     private val mAuth = FirebaseAuth.getInstance()
@@ -236,6 +240,35 @@ class FirebaseRepository(context: Context) {
         } else {
             callback("ERROR")
         }
+    }
+
+    fun spotRegister(latitude : String, longitude : String, comentario: String?, callback: (result: String) -> Unit){
+       val uid = mAuth.currentUser?.uid
+        val location = LocationData(
+            evaluation = comentario,
+            latitude = latitude.toDouble(),
+            longitude = longitude.toDouble()
+        )
+        if(uid != null) {
+            database.getReference("Location").child(uid).setValue(location)
+            callback("SUCCESS")
+        }
+        else{
+            callback("UID RECOVER FAIL")
+        }
+    }
+
+    fun getMarkers(callback: (snapshot: DataSnapshot?) -> Unit){
+        database.getReference("location").addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                   callback(dataSnapshot)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) { //handle databaseError
+                    callback(null)
+                }
+            })
     }
 
 }

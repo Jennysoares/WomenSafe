@@ -7,6 +7,7 @@ import br.com.victoriasantos.womensafe.domain.Guardian
 import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.interactor.FirebaseInterector
+import com.google.android.gms.maps.model.LatLng
 
 class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     private val interactor = FirebaseInterector(app.applicationContext)
@@ -161,6 +162,34 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
                 callback(app.applicationContext.getString(R.string.error_plate_register))
             }
 
+        }
+    }
+
+    fun spotRegister(latitude : String, longitude : String, comentario: String?, callback: (result: String, id: Int) -> Unit){
+            interactor.spotRegister(latitude, longitude, comentario){ result ->
+                if(result == "UID RECOVER FAIL"){
+                    callback(app.applicationContext.getString(R.string.error_id_user), 0)
+                }
+                else if (result == "EVALUATION EMPTY"){
+                    callback("Você deve avaliar o local!", 0)
+                }
+                else if(result == "EVALUATION SHORT"){
+                    callback("Avaliação muito curta", 0)
+                }
+                else{
+                    callback("Ponto registrado com sucesso! Obrigada!", 1)
+                }
+            }
+    }
+
+    fun getMarkers(callback: (markers: Array<LatLng>?) -> Unit){
+        interactor.getMarkers{ l ->
+            val markers = mutableListOf<LatLng>()
+            l?.forEach { c ->
+                val marker = LatLng(c.latitude, c.longitude)
+                markers.add(marker)
+            }
+            callback(markers.toTypedArray())
         }
     }
 }

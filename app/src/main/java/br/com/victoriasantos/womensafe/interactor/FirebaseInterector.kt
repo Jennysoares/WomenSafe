@@ -3,10 +3,12 @@ package br.com.victoriasantos.womensafe.interactor
 import android.content.Context
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.domain.Guardian
+import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
 
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.repository.FirebaseRepository
+import com.google.android.gms.maps.model.LatLng
 
 
 class FirebaseInterector(private val context: Context) {
@@ -223,6 +225,39 @@ class FirebaseInterector(private val context: Context) {
                     callback("ERROR")
                 }
             }
+        }
+    }
+
+    fun spotRegister(latitude : String, longitude : String, comentario: String?, callback: (result: String) -> Unit){
+        if(comentario.isNullOrBlank()){
+            callback("EVALUATION EMPTY")
+        }
+        else if (comentario.length<100) {
+            callback("EVALUATION SHORT")
+        }
+        else{
+            repository.spotRegister(latitude, longitude, comentario, callback)
+        }
+
+    }
+
+    fun getMarkers(callback: (locations: Array<LocationData>?) -> Unit){
+        repository.getMarkers{ snapshot ->
+            val locations = mutableListOf<LocationData>()
+            if (snapshot != null && snapshot.hasChildren() == true) {
+                snapshot.children.forEach{ l ->
+                    val location = l.getValue(LocationData::class.java)
+                    if (location != null) {
+                        locations.add(location)
+                    }
+                }
+                callback(locations.toTypedArray())
+            }
+            else{
+                callback(null)
+
+            }
+
         }
     }
 

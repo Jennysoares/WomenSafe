@@ -22,6 +22,8 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.*
@@ -30,10 +32,13 @@ import java.io.IOException
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+
+    private val viewModel: FirebaseViewModel by lazy {
+        ViewModelProvider(this). get(FirebaseViewModel::class.java)
+    }
+
     private lateinit var map: GoogleMap
     private lateinit var lastLocation: Location
-    // private val database = FirebaseDatabase.getInstance()
-    //private val mAuth = FirebaseAuth.getInstance()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
@@ -58,6 +63,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
         createLocationRequest()
+        getMarkers()
     }
 
     /**
@@ -100,8 +106,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                         intent.putExtra("latitude", latLng.latitude.toString())
                         intent.putExtra("longitude", latLng.longitude.toString())
                         intent.putExtra("endereco", endereco)
-                        startActivity(intent)
                         marker2.remove()
+                        startActivity(intent)
+                        finish()
                     }
                 })
                 setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
@@ -114,7 +121,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
 
-        private fun placeMarkerOnMap(location: LatLng) {
+     private fun placeMarkerOnMap(location: LatLng) {
 
             val markerOptions = MarkerOptions().position(location)
             markerOptions.icon(
@@ -291,6 +298,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
+      private fun getMarkers(){
+          viewModel.getMarkers{ markers ->
+              markers?.forEach { m ->
+                  placeMarkerOnMap(m)
+              }
+          }
+
+      }
 
         override fun onMarkerClick(p0: Marker?) = false
         //TODO: CHAMAR OUTRA ATIVIDADE PARA MOSTRAR AVALIAÇÕES SOBRE O MARKER
