@@ -18,7 +18,6 @@ class FirebaseInterector(private val context: Context) {
 
     fun cadastro(email: String, senha: String, callback: (result: String) -> Unit) {
 
-
         if (email.isNullOrBlank()) {
             callback(context.getString(R.string.email_vazio))
             return
@@ -35,9 +34,7 @@ class FirebaseInterector(private val context: Context) {
         repository.cadastro(email, senha, callback)
     }
 
-
     fun login(email: String, senha: String, callback: (result: String) -> Unit) {
-
 
         if (email.isNullOrBlank()) {
             callback(context.getString(R.string.email_vazio))
@@ -75,7 +72,6 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-
     fun getEmail(callback: (email: String) -> Unit) {
         repository.getEmail { email ->
             if (email != null) {
@@ -83,7 +79,6 @@ class FirebaseInterector(private val context: Context) {
             }
         }
     }
-
 
     fun consulta(callback: (perfil: Profile?) -> Unit) {
         repository.consulta { snapshot ->
@@ -99,7 +94,6 @@ class FirebaseInterector(private val context: Context) {
             }
         }
     }
-
 
     fun saveData(emailCampo: String, nomecompleto: String, telefone: String, username: String, callback: (result: String) -> Unit) {
         // POSSO ALTERAR PRA EMAIL VAZIO -> CONCERTAR
@@ -133,11 +127,9 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-
     fun deleteUser(callback: (result: String) -> Unit) {
         repository.deleteUser(callback)
     }
-
 
     fun changePassword(email: String, callback: (result: String) -> Unit) {
         if (email != "") {
@@ -147,7 +139,6 @@ class FirebaseInterector(private val context: Context) {
             callback("EMPTY EMAIL")
         }
     }
-
 
     fun showGuardians(callback: (guardians: Array<Guardian>?) -> Unit) {
         repository.showGuardians { snapshot ->
@@ -163,7 +154,6 @@ class FirebaseInterector(private val context: Context) {
             }
         }
     }
-
 
     fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit) {
         if (email.isNullOrBlank()) {
@@ -201,7 +191,6 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-
     fun registerPlate(placa: String, comentario: String, callback: (result: String) -> Unit) {
         if (placa.isNullOrBlank()) {
             callback("BLANK PLATE")
@@ -226,7 +215,6 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-
     fun showPlate(child: Int, placa: String?, callback: (plates: Array<Plate>?) -> Unit) {
         repository.showPlate(child, placa) { snapshot ->
             val plates = mutableListOf<Plate>()
@@ -242,7 +230,6 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-
     fun deletePlate(placa: String?, comentario: String?, callback: (result: String) -> Unit) {
         repository.deletePlate(placa, comentario) { result ->
             if (result.equals("SUCCESS")) {
@@ -253,7 +240,6 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-
     fun spotRegister(latitude: String, longitude: String, comentario: String?, callback: (result: String) -> Unit) {
         if (comentario.isNullOrBlank()) {
             callback("EVALUATION EMPTY")
@@ -263,7 +249,6 @@ class FirebaseInterector(private val context: Context) {
             repository.spotRegister(latitude, longitude, comentario, callback)
         }
     }
-
 
     fun showSpotEvaluation(child: Int, cep: String?, callback: (spots: Array<LocationData>?) -> Unit) {
         repository.showSpotEvaluation(child, cep) { snapshot ->
@@ -280,8 +265,7 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-
-    fun deleteSpotEvaluation(latitude: String?, longitude: String?,evaluation: String?, callback: (result: String) -> Unit) {
+    fun deleteSpotEvaluation(latitude: Double?, longitude: Double?,evaluation: String?, callback: (result: String) -> Unit) {
         repository.deleteSpotEvaluation(latitude, longitude, evaluation) { result ->
             if (result.equals("SUCCESS")) {
                 callback("S")
@@ -290,7 +274,6 @@ class FirebaseInterector(private val context: Context) {
             }
         }
     }
-
 
     fun getMarkers(callback: (locations: Array<LocationData>?) -> Unit) {
         repository.getMarkers { snapshot ->
@@ -305,10 +288,9 @@ class FirebaseInterector(private val context: Context) {
                 callback(locations.toTypedArray())
             } else {
                 callback(null)
-
             }
-
         }
     }
+
 
 }

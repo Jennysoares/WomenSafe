@@ -33,7 +33,7 @@ class SpotEvaluationAdapter(private val contributionsActivity: ContributionsActi
         holder.endereco.text = endereco
         holder.comentario.text = LocationData?.evaluation
         holder.excluir.setOnClickListener{
-            contributionsActivity.deleteSpotEvaluation(LocationData.latitude.toString(), LocationData.longitude.toString(), LocationData.evaluation)
+            contributionsActivity.deleteSpotEvaluation(LocationData.latitude, LocationData.longitude, LocationData.evaluation)
         }
     }
 

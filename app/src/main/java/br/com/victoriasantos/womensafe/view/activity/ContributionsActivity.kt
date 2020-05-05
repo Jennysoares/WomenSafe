@@ -54,7 +54,7 @@ class ContributionsActivity : AppCompatActivity() {
         }
     }
 
-    fun deleteSpotEvaluation(latitude: String?, longitude: String?,evaluation: String? ){
+    fun deleteSpotEvaluation(latitude: Double?, longitude: Double?,evaluation: String? ){
         viewModel.deleteSpotEvaluation(latitude, longitude, evaluation){ result ->
             Toast.makeText(this,result, Toast.LENGTH_LONG).show()
         }

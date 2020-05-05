@@ -335,7 +335,12 @@ class FirebaseRepository(context: Context) {
         })
     }
 
-    fun deleteSpotEvaluation(latitude: String?, longitude: String?,evaluation: String?, callback: (result: String) -> Unit) {
+    fun deleteSpotEvaluation(
+        latitude: Double?,
+        longitude: Double?,
+        evaluation: String?,
+        callback: (result: String) -> Unit
+    ) {
         val uid = mAuth.currentUser?.uid
 
         if (uid != null) {
@@ -343,12 +348,14 @@ class FirebaseRepository(context: Context) {
             spotEvaluation.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { spot ->
-                            if(spot.child("evaluation").value?.equals(evaluation)!! ){
+                        if (spot.child("latitude").value?.equals(latitude)!! && spot.child("longitude").value?.equals(longitude)!!) {
+                            if (spot.child("evaluation").value?.equals(evaluation)!!) {
                                 spot.ref.removeValue()
                                 callback("SUCCESS")
                             }
                         }
                     }
+                }
 
                 override fun onCancelled(p0: DatabaseError) {
                     callback("ERROR")
