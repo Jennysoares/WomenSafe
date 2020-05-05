@@ -7,26 +7,29 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.location.Location
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import br.com.victoriasantos.womensafe.R
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import java.io.IOException
 
 
@@ -96,7 +99,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     intent.putExtra("endereco", endereco)
                     marker2.remove()
                     startActivity(intent)
-                    finish()
                 }
             })
             setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
@@ -142,9 +144,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 LOCATION_PERMISSION_REQUEST_CODE
             )
             return
-        } else {
-            GPSlocation()
         }
+        GPSlocation()
     }
 
     fun GPSlocation() {
@@ -163,7 +164,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    private fun getAddress(latLng: LatLng): String? {
+     fun getAddress(latLng: LatLng): String? {
 
         val geocoder = Geocoder(this)
         var addresses: List<Address>? = null
@@ -257,27 +258,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    fun searchLocation() {
-        val locationSearch: EditText = findViewById<EditText>(R.id.editText)
-        lateinit var location: String
-        location = locationSearch.text.toString()
+    fun searchLocation(view: View?) {
+        val locationSearch = findViewById(R.id.editText) as EditText
+        val location = locationSearch.text.toString()
         var addressList: List<Address>? = null
-
-        if (location.isNullOrBlank()) {
-            Toast.makeText(applicationContext, getString(R.string.digite_local), Toast.LENGTH_SHORT)
-                .show()
-        } else {
-            val geoCoder = Geocoder(this)
+        if (location != null || location != "") {
+            val geocoder = Geocoder(this)
             try {
-                addressList = geoCoder.getFromLocationName(location, 1)
-
+                addressList = geocoder.getFromLocationName(location, 1)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-            val address = addressList!![0]
-            val latLng = LatLng(address.latitude, address.longitude)
-            map.addMarker(MarkerOptions().position(latLng).title(location))
-            map.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+            if (!addressList.isNullOrEmpty()) {
+                val address = addressList!![0]
+                val latLng = LatLng(address.latitude, address.longitude)
+                map.addMarker(MarkerOptions().position(latLng).title(location))
+                map.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+            } else {
+                Toast.makeText(applicationContext, getString(R.string.local_not_found), Toast.LENGTH_LONG).show()
+            }
+            //Toast.makeText(applicationContext,address.latitude.toString() + " " + address.longitude,Toast.LENGTH_LONG).show()
         }
     }
 
@@ -296,4 +296,3 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onMarkerClick(p0: Marker?) = false
     //TODO: CHAMAR OUTRA ATIVIDADE PARA MOSTRAR AVALIAÇÕES SOBRE O MARKER
 }
-

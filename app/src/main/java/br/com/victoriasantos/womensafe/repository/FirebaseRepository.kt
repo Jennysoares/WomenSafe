@@ -7,10 +7,7 @@ import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import java.util.Date
 
 
@@ -171,7 +168,12 @@ class FirebaseRepository(context: Context) {
     }
 
 
-    fun registerGuardian( nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit) {
+    fun registerGuardian(
+        nome: String?,
+        telefone: String?,
+        email: String?,
+        callback: (result: String) -> Unit
+    ) {
         guardian = Guardian(
             nome = nome,
             telefone = telefone,
@@ -231,31 +233,128 @@ class FirebaseRepository(context: Context) {
         if (!uid.isNullOrBlank()) {
             val Plate = Plate(
                 placa = placa,
-                comentario = comentario,
-                autor = uid
+                comentario = comentario
             )
 
-            val platePath = database.getReference("Plate")
-            platePath.setValue(Plate)
+            val platePath = database.getReference("Plate/$uid")
+            platePath.push().setValue(Plate)
             callback("SUCCESS")
         } else {
             callback("ERROR")
         }
     }
 
-    fun spotRegister(latitude : String, longitude : String, comentario: String?, callback: (result: String) -> Unit){
-       val uid = mAuth.currentUser?.uid
+    fun showPlate(child: Int, placa: String?, callback: (snapshot: DataSnapshot?) -> Unit) {
+        val uid = mAuth.currentUser?.uid
+        var ref: Query? = null
+
+        if (child == 1) { // busca pela placa
+            // ref = database.getReference("Plate").orderByChild("placa").equalTo(placa)
+        } else if (child == 2) { // busca pelo uid
+            ref = database.getReference("Plate/$uid").orderByKey()
+        }
+
+        ref?.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                callback(null)
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                callback(snapshot)
+            }
+        })
+    }
+
+    fun deletePlate(placa: String?, comentario: String?, callback: (result: String) -> Unit) {
+        val uid = mAuth.currentUser?.uid
+
+        if (uid != null) {
+            val plates = database.getReference("Plate/$uid/")
+            plates.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { plate ->
+                        if (plate.child("placa").value?.equals(placa)!! && plate.child("comentario").value?.equals(
+                                comentario
+                            )!!
+                        ) {
+                            plate.ref.removeValue()
+                            callback("SUCCESS")
+                        }
+                    }
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+                    callback("ERROR")
+                }
+            })
+        } else {
+            callback("UID RECOVER FAIL")
+        }
+    }
+
+    fun spotRegister(
+        latitude: String,
+        longitude: String,
+        comentario: String?,
+        callback: (result: String) -> Unit
+    ) {
+        val uid = mAuth.currentUser?.uid
         val location = LocationData(
             evaluation = comentario,
             latitude = latitude.toDouble(),
             longitude = longitude.toDouble(),
             uid = uid
         )
-        if(uid != null) {
+        if (uid != null) {
             database.getReference("Location").child(Date().time.toString()).setValue(location)
             callback("SUCCESS")
+        } else {
+            callback("UID RECOVER FAIL")
         }
-        else{
+    }
+
+    fun showSpotEvaluation(child: Int, cep: String?, callback: (snapshot: DataSnapshot?) -> Unit) {
+        val uid = mAuth.currentUser?.uid
+        var ref: Query? = null
+
+        if (child == 1) { // sem busca com base em filhos
+            ref = database.getReference("Location").orderByKey()
+        } else if (child == 2) { // busca pelo uid
+            ref = database.getReference("Location").orderByChild("uid").equalTo(uid)
+        }
+
+
+        ref?.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                callback(null)
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                callback(snapshot)
+            }
+        })
+    }
+
+    fun deleteSpotEvaluation(latitude: String?, longitude: String?,evaluation: String?, callback: (result: String) -> Unit) {
+        val uid = mAuth.currentUser?.uid
+
+        if (uid != null) {
+            val spotEvaluation = database.getReference("Location").orderByChild("uid").equalTo(uid)
+            spotEvaluation.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { spot ->
+                            if(spot.child("evaluation").value?.equals(evaluation)!! ){
+                                spot.ref.removeValue()
+                                callback("SUCCESS")
+                            }
+                        }
+                    }
+
+                override fun onCancelled(p0: DatabaseError) {
+                    callback("ERROR")
+                }
+            })
+        } else {
             callback("UID RECOVER FAIL")
         }
     }
@@ -274,5 +373,6 @@ class FirebaseRepository(context: Context) {
             }
         })
     }
+
 
 }

@@ -35,6 +35,7 @@ class FirebaseInterector(private val context: Context) {
         repository.cadastro(email, senha, callback)
     }
 
+
     fun login(email: String, senha: String, callback: (result: String) -> Unit) {
 
 
@@ -74,6 +75,7 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
+
     fun getEmail(callback: (email: String) -> Unit) {
         repository.getEmail { email ->
             if (email != null) {
@@ -81,6 +83,7 @@ class FirebaseInterector(private val context: Context) {
             }
         }
     }
+
 
     fun consulta(callback: (perfil: Profile?) -> Unit) {
         repository.consulta { snapshot ->
@@ -97,13 +100,8 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun saveData(
-        emailCampo: String,
-        nomecompleto: String,
-        telefone: String,
-        username: String,
-        callback: (result: String) -> Unit
-    ) {
+
+    fun saveData(emailCampo: String, nomecompleto: String, telefone: String, username: String, callback: (result: String) -> Unit) {
         // POSSO ALTERAR PRA EMAIL VAZIO -> CONCERTAR
         repository.getEmail { emailFinal ->
             if (!emailFinal.equals(emailCampo)) { // Pergunta se o email do usuario antigo(emailFinal) é diferente(por ter uma ! no início) ao email que está no campo da página(emailCampo)
@@ -135,9 +133,11 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
+
     fun deleteUser(callback: (result: String) -> Unit) {
         repository.deleteUser(callback)
     }
+
 
     fun changePassword(email: String, callback: (result: String) -> Unit) {
         if (email != "") {
@@ -147,6 +147,7 @@ class FirebaseInterector(private val context: Context) {
             callback("EMPTY EMAIL")
         }
     }
+
 
     fun showGuardians(callback: (guardians: Array<Guardian>?) -> Unit) {
         repository.showGuardians { snapshot ->
@@ -163,12 +164,8 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun registerGuardian(
-        nome: String?,
-        telefone: String?,
-        email: String?,
-        callback: (result: String) -> Unit
-    ) {
+
+    fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit) {
         if (email.isNullOrBlank()) {
             callback("EV")
         } else if (telefone.isNullOrBlank()) {
@@ -204,6 +201,7 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
+
     fun registerPlate(placa: String, comentario: String, callback: (result: String) -> Unit) {
         if (placa.isNullOrBlank()) {
             callback("BLANK PLATE")
@@ -228,32 +226,84 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun spotRegister(latitude : String, longitude : String, comentario: String?, callback: (result: String) -> Unit){
-        if(comentario.isNullOrBlank()){
-            callback("EVALUATION EMPTY")
-        }
-        else if (comentario.length<100) {
-            callback("EVALUATION SHORT")
-        }
-        else{
-            repository.spotRegister(latitude, longitude, comentario, callback)
-        }
 
+    fun showPlate(child: Int, placa: String?, callback: (plates: Array<Plate>?) -> Unit) {
+        repository.showPlate(child, placa) { snapshot ->
+            val plates = mutableListOf<Plate>()
+            if (snapshot != null && snapshot.hasChildren() == true) {
+                snapshot.children.forEach { g ->
+                    val plate = g.getValue(Plate::class.java)
+                    plates.add(plate!!)
+                }
+                callback(plates.toTypedArray())
+            } else {
+                callback(null)
+            }
+        }
     }
 
-    fun getMarkers(callback: (locations: Array<LocationData>?) -> Unit){
-        repository.getMarkers{ snapshot ->
+
+    fun deletePlate(placa: String?, comentario: String?, callback: (result: String) -> Unit) {
+        repository.deletePlate(placa, comentario) { result ->
+            if (result.equals("SUCCESS")) {
+                callback("S")
+            } else {
+                callback("Error")
+            }
+        }
+    }
+
+
+    fun spotRegister(latitude: String, longitude: String, comentario: String?, callback: (result: String) -> Unit) {
+        if (comentario.isNullOrBlank()) {
+            callback("EVALUATION EMPTY")
+        } else if (comentario.length < 100) {
+            callback("EVALUATION SHORT")
+        } else {
+            repository.spotRegister(latitude, longitude, comentario, callback)
+        }
+    }
+
+
+    fun showSpotEvaluation(child: Int, cep: String?, callback: (spots: Array<LocationData>?) -> Unit) {
+        repository.showSpotEvaluation(child, cep) { snapshot ->
+            val spots = mutableListOf<LocationData>()
+            if (snapshot != null && snapshot.hasChildren() == true) {
+                snapshot.children.forEach { g ->
+                    val spot = g.getValue(LocationData::class.java)
+                    spots.add(spot!!)
+                }
+                callback(spots.toTypedArray())
+            } else {
+                callback(null)
+            }
+        }
+    }
+
+
+    fun deleteSpotEvaluation(latitude: String?, longitude: String?,evaluation: String?, callback: (result: String) -> Unit) {
+        repository.deleteSpotEvaluation(latitude, longitude, evaluation) { result ->
+            if (result.equals("SUCCESS")) {
+                callback("S")
+            } else {
+                callback("Error")
+            }
+        }
+    }
+
+
+    fun getMarkers(callback: (locations: Array<LocationData>?) -> Unit) {
+        repository.getMarkers { snapshot ->
             val locations = mutableListOf<LocationData>()
             if (snapshot != null && snapshot.hasChildren() == true) {
-                snapshot.children.forEach{ l ->
+                snapshot.children.forEach { l ->
                     val location = l.getValue(LocationData::class.java)
                     if (location != null) {
                         locations.add(location)
                     }
                 }
                 callback(locations.toTypedArray())
-            }
-            else{
+            } else {
                 callback(null)
 
             }

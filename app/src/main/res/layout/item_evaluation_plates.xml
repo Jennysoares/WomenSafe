@@ -26,14 +26,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/pagina_login"/>
+                android:src="@drawable/background"/>
 
             <TextView
-                android:id="@+id/placa"
+                android:id="@+id/texto_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:gravity="center"
+                android:fontFamily="@font/viga"
+                android:textStyle="italic"
                 android:textColor="@color/login_detalhes_formulario"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toStartOf="@id/guideline_direito"
@@ -42,18 +44,33 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/comentario"
+                android:id="@+id/comentario_avl"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:textColor="@color/login_detalhes_formulario"
-                android:gravity="center"
                 android:layout_marginTop="15dp"
+                android:fontFamily="@font/viga"
+                android:ellipsize="end"
                 android:textSize="20sp"
+                android:textColor="@color/cinza"
+                android:gravity="start"
+                android:lines="3"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toStartOf="@id/guideline_direito"
-                app:layout_constraintTop_toBottomOf="@id/placa"
+                app:layout_constraintTop_toBottomOf="@id/texto_id"
                 app:layout_constraintStart_toEndOf="@id/guideline_esquerdo"
                 tools:layout_editor_absoluteY="80dp" />
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="23dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/trash_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_esquerdo"

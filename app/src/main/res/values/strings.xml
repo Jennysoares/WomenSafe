@@ -74,9 +74,19 @@
     <string name="local_perigoso_marcado">MARCADO COMO LOCAL PERIGOSO!</string>
     <string name="marcar_local_perigoso">Marcar local perigoso!</string>
     <string name="digite_local">Digite um local.</string>
-    <string name="nome_titulo">\"Nome: \"</string>
-    <string name="telefone_titulo">\"Telefone: \"</string>
+    <string name="nome_titulo">\Nome: \</string>
+    <string name="telefone_titulo">\Telefone: \</string>
     <string name="buscar_locais">Buscar locais</string>
     <string name="cadastro_lugar_perigoso">Cadastro lugar perigoso</string>
+    <string name="local_not_found">Local não encontrado!</string>
+    <string name="placas">Placas</string>
+    <string name="lugares_perigosos">Lugares Perigosos</string>
+    <string name="plate_successfully_removed">Avaliação da placa excluída!</string>
+    <string name="error_delete_plate">Não foi possível excluir avaliação desta placa!</string>
+    <string name="SpotEvaluation_successfully_delete">Avaliação do local excluída!</string>
+    <string name="SpotEvaluation_register_ok">Ponto registrado com sucesso! Obrigada!</string>
+    <string name="SpotEvaluation_too_short">Avaliação muito curta</string>
+    <string name="required_SpotEvaluation">Você deve avaliar o local!</string>
+    <string name="error_SpotEvaluation_delete">Não foi possível excluir está avaliação!</string>
 
 </resources>

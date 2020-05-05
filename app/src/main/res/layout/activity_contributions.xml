@@ -4,6 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.ContributionsActivity">
+    tools:context=".view.activity.ContributionsActivity"
+    android:background="@drawable/pagina_login">
 
+    <Button
+        android:id="@+id/placa_texto"
+        android:layout_width="0dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/viga"
+        android:gravity="center"
+        android:text="@string/placas"
+        android:background="@drawable/design_botao"
+        android:textAllCaps="true"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleview_placa"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placa_texto"
+        app:layout_constraintBottom_toTopOf="@id/separador"/>
+
+
+    <View
+        android:id="@+id/separador"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="300dp"
+        android:background="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placa_texto" />
+
+    <Button
+        android:id="@+id/lugares_perigosos"
+        android:layout_width="0dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/viga"
+        android:gravity="center"
+        android:background="@drawable/design_botao"
+        android:text="@string/lugares_perigosos"
+        android:textAllCaps="true"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separador" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleview_lugares_perigosos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lugares_perigosos" />
 </androidx.constraintlayout.widget.ConstraintLayout>

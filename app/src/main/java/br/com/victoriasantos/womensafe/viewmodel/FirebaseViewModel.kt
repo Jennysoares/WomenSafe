@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.domain.Guardian
+import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.interactor.FirebaseInterector
@@ -165,25 +166,52 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun spotRegister(latitude : String, longitude : String, comentario: String?, callback: (result: String, id: Int) -> Unit){
-            interactor.spotRegister(latitude, longitude, comentario){ result ->
-                if(result == "UID RECOVER FAIL"){
-                    callback(app.applicationContext.getString(R.string.error_id_user), 0)
-                }
-                else if (result == "EVALUATION EMPTY"){
-                    callback("Você deve avaliar o local!", 0)
-                }
-                else if(result == "EVALUATION SHORT"){
-                    callback("Avaliação muito curta", 0)
-                }
-                else{
-                    callback("Ponto registrado com sucesso! Obrigada!", 1)
-                }
-            }
+    fun showPlate(child: Int, placa: String?, callback: (plates: Array<Plate>?) -> Unit) {
+        interactor.showPlate(child, placa, callback)
     }
 
-    fun getMarkers(callback: (markers: Array<LatLng>?) -> Unit){
-        interactor.getMarkers{ l ->
+    fun deletePlate(placa: String?, comentario: String?, callback: (result: String) -> Unit) {
+        interactor.deletePlate(placa, comentario){ result ->
+            if (result.equals("S")) {
+                callback(app.applicationContext.getString(R.string.plate_successfully_removed))
+            } else {
+                callback(app.applicationContext.getString(R.string.error_delete_plate))
+            }
+        }
+    }
+
+
+
+    fun spotRegister(latitude: String, longitude: String, comentario: String?, callback: (result: String, id: Int) -> Unit) {
+        interactor.spotRegister(latitude, longitude, comentario) { result ->
+            if (result == "UID RECOVER FAIL") {
+                callback(app.applicationContext.getString(R.string.error_id_user), 0)
+            } else if (result == "EVALUATION EMPTY") {
+                callback(app.applicationContext.getString(R.string.required_SpotEvaluation), 0)
+            } else if (result == "EVALUATION SHORT") {
+                callback(app.applicationContext.getString(R.string.SpotEvaluation_too_short), 0)
+            } else {
+                callback(app.applicationContext.getString(R.string.SpotEvaluation_register_ok), 1)
+            }
+        }
+    }
+
+    fun showSpotEvaluation(child: Int, cep: String?, callback: (spots: Array<LocationData>?) -> Unit) {
+        interactor.showSpotEvaluation(child, cep, callback)
+    }
+
+    fun deleteSpotEvaluation(latitude: String?, longitude: String?,evaluation: String?, callback: (result: String) -> Unit) {
+        interactor.deleteSpotEvaluation(latitude, longitude, evaluation){ result ->
+            if (result.equals("S")) {
+                callback(app.applicationContext.getString(R.string.SpotEvaluation_successfully_delete))
+            } else {
+                callback(app.applicationContext.getString(R.string.error_SpotEvaluation_delete))
+            }
+        }
+    }
+
+    fun getMarkers(callback: (markers: Array<LatLng>?) -> Unit) {
+        interactor.getMarkers { l ->
             val markers = mutableListOf<LatLng>()
             l?.forEach { c ->
                 val marker = LatLng(c.latitude, c.longitude)

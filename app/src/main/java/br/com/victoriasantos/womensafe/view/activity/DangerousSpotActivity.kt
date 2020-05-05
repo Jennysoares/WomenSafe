@@ -41,7 +41,7 @@ class DangerousSpotActivity : AppCompatActivity() {
             viewModel.spotRegister(latitude, longitude, comentario){ result, id ->
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show()
                 if(id==1){
-                    startActivity(Intent(this, MapsActivity::class.java))
+                    finish()
                 }
             }
     }
