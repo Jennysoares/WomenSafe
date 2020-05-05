@@ -298,9 +298,8 @@ class FirebaseInterector(private val context: Context) {
             if (snapshot != null && snapshot.hasChildren() == true) {
                 snapshot.children.forEach { l ->
                     val location = l.getValue(LocationData::class.java)
-                    if (location != null) {
-                        locations.add(location)
-                    }
+                        locations.add(location!!)
+
                 }
                 callback(locations.toTypedArray())
             } else {
@@ -311,4 +310,24 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
+    fun showEvaluations(latitude: Double, longitude: Double, callback: (evaluations: Array<String>?) -> Unit){
+        repository.showEvaluations { l ->
+            if (l != null) {
+                val mapMarker = LatLng(latitude, longitude)
+                val evaluations = mutableListOf<String>()
+                l?.forEach { c ->
+                    val databaseMarker = LatLng(c.latitude, c.longitude)
+                    if (mapMarker == databaseMarker) {
+                        evaluations.add(c.evaluation!!)
+                    }
+                }
+                callback(evaluations.toTypedArray())
+
+            }
+            else{
+                callback(null)
+            }
+        }
+
+    }
 }

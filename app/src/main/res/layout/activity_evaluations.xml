@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pagina_login"
-    android:orientation="vertical"
-    tools:context=".view.activity.ProfileActivity">
-
+    tools:context=".view.activity.EvaluationsActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_esquerdo"
@@ -25,15 +23,15 @@
 
 
     <TextView
-        android:id="@+id/guardian_texto"
+        android:id="@+id/evaluations"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_marginStart="90dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="90dp"
         android:fontFamily="@font/viga"
         android:gravity="start"
-        android:text="@string/seus_guardioes"
+        android:text="Avaliações sobre o local"
         android:textColor="@color/login_detalhes_formulario"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
@@ -41,30 +39,26 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/bt_CadastroGuardiao"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/design_botao"
-        android:text="@string/cadastrar_guardioes"
-        android:textColor="@color/login_detalhes_formulario_medio"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleView_guardian"
+        android:id="@+id/evaluationRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/bt_CadastroGuardiao"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
         app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
-        app:layout_constraintTop_toBottomOf="@+id/guardian_texto"
-        app:layout_constraintVertical_bias="0.016" />
+        app:layout_constraintTop_toBottomOf="@+id/address_field" />
 
-
+    <TextView
+        android:id="@+id/address_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/evaluations" />
 </androidx.constraintlayout.widget.ConstraintLayout>

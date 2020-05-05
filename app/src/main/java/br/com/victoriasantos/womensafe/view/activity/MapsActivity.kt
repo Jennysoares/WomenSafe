@@ -7,29 +7,26 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
-import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
-import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import android.location.Address
+import android.location.Geocoder
+import android.util.Log
+import android.view.View
+import android.widget.EditText
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.*
 import java.io.IOException
 
 
@@ -99,6 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     intent.putExtra("endereco", endereco)
                     marker2.remove()
                     startActivity(intent)
+                    finish()
                 }
             })
             setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
@@ -133,16 +131,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
         GPSlocation()
@@ -164,7 +154,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-     fun getAddress(latLng: LatLng): String? {
+    private fun getAddress(latLng: LatLng): String? {
 
         val geocoder = Geocoder(this)
         var addresses: List<Address>? = null
@@ -293,6 +283,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    override fun onMarkerClick(p0: Marker?) = false
-    //TODO: CHAMAR OUTRA ATIVIDADE PARA MOSTRAR AVALIAÇÕES SOBRE O MARKER
+    override fun onMarkerClick(p0: Marker?): Boolean {
+        val aux = LatLng(p0!!.position.latitude, p0!!.position.longitude)
+        val address = getAddress(aux)
+        val intent = Intent(this, EvaluationsActivity::class.java)
+        startActivity(intent)
+        intent.putExtra("latitude", p0?.position?.latitude)
+        intent.putExtra("longitude", p0?.position?.longitude)
+        intent.putExtra("endereço", address)
+        return true
+    }
+
 }
+

@@ -70,7 +70,7 @@
     <string name="phone_required">Telefone obrigatório</string>
     <string name="phone_invalid">Telefone inválido</string>
     <string name="name_required">Nome é obrigatório</string>
-    <string name="ask_dangerous_local">Deseja marcar esse ponto do mapa como pergioso?</string>
+    <string name="ask_dangerous_local">Deseja marcar esse ponto do mapa como perigioso?</string>
     <string name="local_perigoso_marcado">MARCADO COMO LOCAL PERIGOSO!</string>
     <string name="marcar_local_perigoso">Marcar local perigoso!</string>
     <string name="digite_local">Digite um local.</string>

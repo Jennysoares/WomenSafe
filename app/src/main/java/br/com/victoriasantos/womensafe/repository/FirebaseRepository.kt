@@ -7,7 +7,10 @@ import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.Date
 
 
@@ -168,12 +171,7 @@ class FirebaseRepository(context: Context) {
     }
 
 
-    fun registerGuardian(
-        nome: String?,
-        telefone: String?,
-        email: String?,
-        callback: (result: String) -> Unit
-    ) {
+    fun registerGuardian( nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit) {
         guardian = Guardian(
             nome = nome,
             telefone = telefone,
@@ -246,13 +244,13 @@ class FirebaseRepository(context: Context) {
 
     fun showPlate(child: Int, placa: String?, callback: (snapshot: DataSnapshot?) -> Unit) {
         val uid = mAuth.currentUser?.uid
-        var ref: Query? = null
+       // var ref: Query? = null
 
-        if (child == 1) { // busca pela placa
+        //if (child == 1) { // busca pela placa
             // ref = database.getReference("Plate").orderByChild("placa").equalTo(placa)
-        } else if (child == 2) { // busca pelo uid
-            ref = database.getReference("Plate/$uid").orderByKey()
-        }
+        //} else if (child == 2) { // busca pelo uid
+          val ref = database.getReference("Plate/$uid").orderByKey()
+        //}
 
         ref?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -305,7 +303,7 @@ class FirebaseRepository(context: Context) {
             longitude = longitude.toDouble(),
             uid = uid
         )
-        if (uid != null) {
+        if(uid != null) {
             database.getReference("Location").child(Date().time.toString()).setValue(location)
             callback("SUCCESS")
         } else {
@@ -315,13 +313,13 @@ class FirebaseRepository(context: Context) {
 
     fun showSpotEvaluation(child: Int, cep: String?, callback: (snapshot: DataSnapshot?) -> Unit) {
         val uid = mAuth.currentUser?.uid
-        var ref: Query? = null
+       // var ref: Query? = null
 
-        if (child == 1) { // sem busca com base em filhos
-            ref = database.getReference("Location").orderByKey()
-        } else if (child == 2) { // busca pelo uid
-            ref = database.getReference("Location").orderByChild("uid").equalTo(uid)
-        }
+       // if (child == 1) { // sem busca com base em filhos
+           // ref = database.getReference("Location").orderByKey()
+        //} else if (child == 2) { // busca pelo uid
+           val ref = database.getReference("Location").orderByChild("uid").equalTo(uid)
+        //}
 
 
         ref?.addValueEventListener(object : ValueEventListener {
@@ -374,5 +372,26 @@ class FirebaseRepository(context: Context) {
         })
     }
 
+    fun showEvaluations(callback: (locations: Array<LocationData>?) -> Unit){
+
+        val ref = database.getReference("Location")
+        val locations = mutableListOf<LocationData>()
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                    callback(null)
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot != null && snapshot.hasChildren() == true) {
+                    snapshot.children.forEach{ l ->
+                        val location = l.getValue(LocationData::class.java)
+                        locations.add(location!!)
+                    }
+                    callback(locations.toTypedArray())
+                }
+                callback(null)
+            }
+        })
+    }
 
 }

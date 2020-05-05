@@ -1,6 +1,8 @@
 package br.com.victoriasantos.womensafe.view.activity
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CALL_PHONE), REQUEST_PHONE_CALL)
             }
             else{
+
                 callPolice()
             }
         }
@@ -65,11 +68,22 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     fun callPolice(){
-        val intent = Intent(Intent.ACTION_CALL)
-        intent.data = Uri.parse("tel:190")
-        startActivity(intent)
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirmar ligação")
+        builder.setMessage("Você está prestes a ligar para polícia militar. Deseja continuar?")
+        builder.apply {
+            setPositiveButton("SIM", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    val intent = Intent(Intent.ACTION_CALL)
+                    intent.data = Uri.parse("tel:190")
+                    startActivity(intent)
+                }
+            })
+            setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                }
+            })
+        }
+        builder.show()
     }
-
-
-
 }
