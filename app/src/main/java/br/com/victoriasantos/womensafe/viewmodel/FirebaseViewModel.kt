@@ -200,7 +200,7 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         interactor.showSpotEvaluation(child, cep, callback)
     }
 
-    fun deleteSpotEvaluation(latitude: String?, longitude: String?,evaluation: String?, callback: (result: String) -> Unit) {
+    fun deleteSpotEvaluation(latitude: Double?, longitude: Double?,evaluation: String?, callback: (result: String) -> Unit) {
         interactor.deleteSpotEvaluation(latitude, longitude, evaluation){ result ->
             if (result.equals("S")) {
                 callback(app.applicationContext.getString(R.string.SpotEvaluation_successfully_delete))

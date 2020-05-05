@@ -32,8 +32,9 @@
                 android:id="@+id/texto_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="33dp"
                 android:gravity="center"
+                android:autoSizeTextType="uniform"
                 android:fontFamily="@font/viga"
                 android:textStyle="italic"
                 android:textColor="@color/login_detalhes_formulario"
@@ -47,18 +48,19 @@
                 android:id="@+id/comentario_avl"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/viga"
+                android:layout_marginTop="10dp"
                 android:ellipsize="end"
-                android:textSize="20sp"
-                android:textColor="@color/cinza"
+                android:fontFamily="@font/viga"
                 android:gravity="start"
-                android:lines="3"
+                android:layout_marginBottom="5dp"
+                android:lines="4"
+                android:textColor="@color/cinza"
+                android:textSize="15sp"
                 android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/fundo"
                 app:layout_constraintEnd_toStartOf="@id/guideline_direito"
-                app:layout_constraintTop_toBottomOf="@id/texto_id"
                 app:layout_constraintStart_toEndOf="@id/guideline_esquerdo"
-                tools:layout_editor_absoluteY="80dp" />
+                app:layout_constraintTop_toBottomOf="@id/texto_id" />
 
             <ImageView
                 android:id="@+id/delete"
@@ -71,6 +73,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
+
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_esquerdo"
