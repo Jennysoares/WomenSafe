@@ -292,5 +292,23 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
+    fun showEvaluations(latitude: Double, longitude: Double, callback: (evaluations: Array<String>?) -> Unit) {
+        repository.showEvaluations { l ->
+            if (l != null) {
+                val mapMarker = LatLng(latitude, longitude)
+                val evaluations = mutableListOf<String>()
+                l?.forEach { c ->
+                    val databaseMarker = LatLng(c.latitude, c.longitude)
+                    if (mapMarker == databaseMarker) {
+                        evaluations.add(c.evaluation!!)
+                    }
+                }
+                callback(evaluations.toTypedArray())
+
+            } else {
+                callback(null)
+            }
+        }
+    }
 
 }

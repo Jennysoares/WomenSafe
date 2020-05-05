@@ -88,5 +88,9 @@
     <string name="SpotEvaluation_too_short">Avaliação muito curta</string>
     <string name="required_SpotEvaluation">Você deve avaliar o local!</string>
     <string name="error_SpotEvaluation_delete">Não foi possível excluir está avaliação!</string>
+    <string name="manual_message">Clique em um local do mapa para marcar um ponto de perigo. Para saber as avaliações de um ponto já marcado, clique no marcador.</string>
+    <string name="how_touse_map">Como usar</string>
+    <string name="dialog_ok">OK, ENTENDI</string>
+    <string name="dialog_dontShowAgain">OK, NÃO MOSTRAR NOVAMENTE</string>
 
 </resources>

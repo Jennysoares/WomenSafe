@@ -43,6 +43,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
+    private var showManual: Boolean = true
 
     val REQUEST_CHECK_SETTINGS = 2
     val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -53,6 +54,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        manual()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
@@ -62,6 +64,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
         createLocationRequest()
+    }
+
+    fun manual(){
+        if(showManual){
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(getString(R.string.how_touse_map))
+            builder.setMessage(getString(R.string.manual_message))
+            builder.apply {
+                setPositiveButton(getString(R.string.dialog_ok), object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface, which: Int) {
+                    }
+                })
+                setNegativeButton(getString(R.string.dialog_dontShowAgain), object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface, which: Int) {
+                        !showManual
+                    }
+                })
+                builder.show()
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

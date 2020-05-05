@@ -290,12 +290,7 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun spotRegister(
-        latitude: String,
-        longitude: String,
-        comentario: String?,
-        callback: (result: String) -> Unit
-    ) {
+    fun spotRegister(latitude: String, longitude: String, comentario: String?, callback: (result: String) -> Unit) {
         val uid = mAuth.currentUser?.uid
         val location = LocationData(
             evaluation = comentario,
@@ -387,7 +382,6 @@ class FirebaseRepository(context: Context) {
             override fun onCancelled(p0: DatabaseError) {
                     callback(null)
             }
-
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot != null && snapshot.hasChildren() == true) {
                     snapshot.children.forEach{ l ->
