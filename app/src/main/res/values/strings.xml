@@ -92,5 +92,9 @@
     <string name="how_touse_map">Como usar</string>
     <string name="dialog_ok">OK, ENTENDI</string>
     <string name="dialog_dontShowAgain">OK, NÃO MOSTRAR NOVAMENTE</string>
+    <string name="address_unavailable">Endereço Indiponível</string>
+    <string name="avaliacoes_sobre_o_local">Avaliações sobre o local</string>
+    <string name="cadastrar_nova_avaliacao">Cadastrar nova avaliação</string>
+    <string name="avaliacao_criterios">Avalie o local abordando critérios como a iluminação, movimentação de pessoas, visibilidade, incidência de assaltos.\nLembre-se que estará ajudando uma comunidade.</string>
 
 </resources>

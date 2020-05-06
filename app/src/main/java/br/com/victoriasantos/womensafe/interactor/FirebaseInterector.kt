@@ -1,6 +1,7 @@
 package br.com.victoriasantos.womensafe.interactor
 
 import android.content.Context
+import android.util.Log
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.domain.Guardian
 import br.com.victoriasantos.womensafe.domain.LocationData
@@ -215,8 +216,8 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun showPlate(child: Int, placa: String?, callback: (plates: Array<Plate>?) -> Unit) {
-        repository.showPlate(child, placa) { snapshot ->
+    fun showPlate(callback: (plates: Array<Plate>?) -> Unit) {
+        repository.showPlate{ snapshot ->
             val plates = mutableListOf<Plate>()
             if (snapshot != null && snapshot.hasChildren() == true) {
                 snapshot.children.forEach { g ->
@@ -250,8 +251,8 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun showSpotEvaluation(child: Int, cep: String?, callback: (spots: Array<LocationData>?) -> Unit) {
-        repository.showSpotEvaluation(child, cep) { snapshot ->
+    fun showSpotEvaluation(callback: (spots: Array<LocationData>?) -> Unit) {
+        repository.showSpotEvaluation { snapshot ->
             val spots = mutableListOf<LocationData>()
             if (snapshot != null && snapshot.hasChildren() == true) {
                 snapshot.children.forEach { g ->
@@ -293,22 +294,27 @@ class FirebaseInterector(private val context: Context) {
     }
 
     fun showEvaluations(latitude: Double, longitude: Double, callback: (evaluations: Array<String>?) -> Unit) {
-        repository.showEvaluations { l ->
-            if (l != null) {
-                val mapMarker = LatLng(latitude, longitude)
-                val evaluations = mutableListOf<String>()
-                l?.forEach { c ->
-                    val databaseMarker = LatLng(c.latitude, c.longitude)
-                    if (mapMarker == databaseMarker) {
-                        evaluations.add(c.evaluation!!)
+        repository.getMarkers { snapshot ->
+            val locations = mutableListOf<LocationData>()
+            if (snapshot != null && snapshot.hasChildren() == true) {
+                snapshot.children.forEach { l ->
+                    val location = l.getValue(LocationData::class.java)
+                    if (location != null) {
+                        locations.add(location)
                     }
                 }
-                callback(evaluations.toTypedArray())
-
-            } else {
+            }
+            else{
                 callback(null)
             }
+            val evaluations = mutableListOf<String>()
+            locations?.forEach { c ->
+                if (c.latitude == latitude && c.longitude == longitude) {
+                    evaluations.add(c.evaluation!!)
+                }
+            }
+            callback(evaluations.toTypedArray())
+
         }
     }
-
 }

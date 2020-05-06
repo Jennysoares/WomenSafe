@@ -2,6 +2,7 @@ package br.com.victoriasantos.womensafe.view.activity
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
@@ -43,8 +44,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
-    private var showManual: Boolean = true
-
+    private var showManual: String = "ShowManual"
     val REQUEST_CHECK_SETTINGS = 2
     val LOCATION_PERMISSION_REQUEST_CODE = 1
 
@@ -67,7 +67,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     fun manual(){
-        if(showManual){
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+
+        if(sharedPref.getBoolean(showManual,true )){
             val builder = AlertDialog.Builder(this)
             builder.setTitle(getString(R.string.how_touse_map))
             builder.setMessage(getString(R.string.manual_message))
@@ -78,7 +80,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 })
                 setNegativeButton(getString(R.string.dialog_dontShowAgain), object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface, which: Int) {
-                        !showManual
+                        sharedPref.edit().putBoolean(showManual, false).apply()
+
                     }
                 })
                 builder.show()
@@ -90,12 +93,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         map = googleMap
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)
+        setUpMap()
         map.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
             override fun onMapClick(latLng: LatLng) {
                 configureAlertDialog(latLng)
             }
         })
-        setUpMap()
         getMarkers()
     }
 
@@ -118,7 +121,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     intent.putExtra("endereco", endereco)
                     marker2.remove()
                     startActivity(intent)
-                    finish()
                 }
             })
             setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
@@ -306,14 +308,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
-        val aux = LatLng(p0!!.position.latitude, p0!!.position.longitude)
-        val address = getAddress(aux)
-        val intent = Intent(this, EvaluationsActivity::class.java)
-        startActivity(intent)
-        intent.putExtra("latitude", p0?.position?.latitude)
-        intent.putExtra("longitude", p0?.position?.longitude)
-        intent.putExtra("endereço", address)
-        return true
+        if(currentLocation?.position != p0?.position) {
+            val aux = LatLng(p0!!.position.latitude, p0!!.position.longitude)
+            val address = getAddress(aux)
+            val intent = Intent(this, EvaluationsActivity::class.java)
+            intent.putExtra("latitude", p0?.position?.latitude)
+            intent.putExtra("longitude", p0?.position?.longitude)
+            intent.putExtra("endereço", address)
+            startActivity(intent)
+            return true
+        }
+        else{
+            return false
+        }
     }
 
 }

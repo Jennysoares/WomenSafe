@@ -1,5 +1,6 @@
 package br.com.victoriasantos.womensafe.view.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -25,9 +26,22 @@ class EvaluationsActivity : AppCompatActivity() {
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)
         val address = intent.getStringExtra("endereço")
-        address_field.text = address
+
+        if(!address.isNullOrBlank()){
+            address_field.text = address
+        }
+        else{
+            address_field.text = getString(R.string.address_unavailable)
+        }
         configureRecyclerView()
         showEvaluations(latitude, longitude)
+        bt_cadastrarAvaliacao.setOnClickListener {
+            val intent = Intent(this, DangerousSpotActivity::class.java)
+            intent.putExtra("latitude", latitude.toString())
+            intent.putExtra("longitude",longitude.toString())
+            intent.putExtra("endereco", address)
+            startActivity(intent)
+        }
     }
 
     fun configureRecyclerView(){
@@ -36,7 +50,7 @@ class EvaluationsActivity : AppCompatActivity() {
 
     fun showEvaluations(latitude: Double, longitude: Double){
         viewModel.showEvaluations(latitude, longitude){ result ->
-            if(result == null){
+            if(result.isNullOrEmpty()){
                 Toast.makeText(this, "Não foi possível recuperar as avaliações", Toast.LENGTH_LONG).show()
             }
             else{

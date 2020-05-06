@@ -36,13 +36,13 @@ class ContributionsActivity : AppCompatActivity() {
     }
 
     fun showPlatesAndSpotsContribution(){
-        viewModel.showPlate(2,null){ plates ->
+        viewModel.showPlate{ plates ->
             val adapter = PlatesAdapter(this, plates)
             recycleview_placa.adapter = adapter
         }
 
-        viewModel.showSpotEvaluation(2,null){ spots ->
-            val adapter = SpotEvaluationAdapter(this, MapsActivity(), spots)
+        viewModel.showSpotEvaluation{ spots ->
+            val adapter = SpotEvaluationAdapter(this, spots)
             recycleview_lugares_perigosos.adapter = adapter
         }
 

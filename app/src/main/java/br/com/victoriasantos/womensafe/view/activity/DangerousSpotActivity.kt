@@ -30,6 +30,9 @@ class DangerousSpotActivity : AppCompatActivity() {
         if(!endereco.isNullOrBlank()){
             endereco_lugar.text = endereco.toString()
         }
+        else{
+            endereco_lugar.text = getString(R.string.address_unavailable)
+        }
 
         bt_cancelar.setOnClickListener { finish() }
         bt_confirmar.setOnClickListener { spotRegister(latitude, longitude) }

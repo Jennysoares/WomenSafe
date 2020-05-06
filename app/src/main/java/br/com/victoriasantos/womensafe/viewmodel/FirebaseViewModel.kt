@@ -166,8 +166,8 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun showPlate(child: Int, placa: String?, callback: (plates: Array<Plate>?) -> Unit) {
-        interactor.showPlate(child, placa, callback)
+    fun showPlate(callback: (plates: Array<Plate>?) -> Unit) {
+        interactor.showPlate(callback)
     }
 
     fun deletePlate(placa: String?, comentario: String?, callback: (result: String) -> Unit) {
@@ -196,8 +196,8 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun showSpotEvaluation(child: Int, cep: String?, callback: (spots: Array<LocationData>?) -> Unit) {
-        interactor.showSpotEvaluation(child, cep, callback)
+    fun showSpotEvaluation(callback: (spots: Array<LocationData>?) -> Unit) {
+        interactor.showSpotEvaluation(callback)
     }
 
     fun deleteSpotEvaluation(latitude: Double?, longitude: Double?,evaluation: String?, callback: (result: String) -> Unit) {

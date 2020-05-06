@@ -242,15 +242,11 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun showPlate(child: Int, placa: String?, callback: (snapshot: DataSnapshot?) -> Unit) {
+    fun showPlate(callback: (snapshot: DataSnapshot?) -> Unit) {
         val uid = mAuth.currentUser?.uid
-       // var ref: Query? = null
 
-        //if (child == 1) { // busca pela placa
-            // ref = database.getReference("Plate").orderByChild("placa").equalTo(placa)
-        //} else if (child == 2) { // busca pelo uid
           val ref = database.getReference("Plate/$uid").orderByKey()
-        //}
+
 
         ref?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -306,16 +302,10 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun showSpotEvaluation(child: Int, cep: String?, callback: (snapshot: DataSnapshot?) -> Unit) {
+    fun showSpotEvaluation(callback: (snapshot: DataSnapshot?) -> Unit) {
         val uid = mAuth.currentUser?.uid
-       // var ref: Query? = null
 
-       // if (child == 1) { // sem busca com base em filhos
-           // ref = database.getReference("Location").orderByKey()
-        //} else if (child == 2) { // busca pelo uid
            val ref = database.getReference("Location").orderByChild("uid").equalTo(uid)
-        //}
-
 
         ref?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -374,25 +364,6 @@ class FirebaseRepository(context: Context) {
         })
     }
 
-    fun showEvaluations(callback: (locations: Array<LocationData>?) -> Unit){
 
-        val ref = database.getReference("Location")
-        val locations = mutableListOf<LocationData>()
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                    callback(null)
-            }
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot != null && snapshot.hasChildren() == true) {
-                    snapshot.children.forEach{ l ->
-                        val location = l.getValue(LocationData::class.java)
-                        locations.add(location!!)
-                    }
-                    callback(locations.toTypedArray())
-                }
-                callback(null)
-            }
-        })
-    }
 
 }
