@@ -19,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import android.location.Address
 import android.location.Geocoder
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -28,10 +29,12 @@ import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.*
+import kotlinx.android.synthetic.main.activity_guardians.*
+import kotlinx.android.synthetic.main.activity_maps.*
 import java.io.IOException
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private val viewModel: FirebaseViewModel by lazy {
         ViewModelProvider(this).get(FirebaseViewModel::class.java)
@@ -152,6 +155,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         markerOptions.title(titleStr)
         currentLocation = map.addMarker(markerOptions)
 
+        btn_SendLocation.setOnClickListener {
+            sendLocation()
+        }
+
     }
 
     private fun setUpMap() {
@@ -258,6 +265,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 startLocationUpdates()
             }
         }
+
     }
 
     override fun onPause() {
@@ -320,6 +328,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
         else{
             return false
+        }
+    }
+
+    fun sendLocation() {
+        if (currentLocation != null) {
+            try {
+                val waIntent = Intent(Intent.ACTION_SEND)
+                waIntent.type = "text/plain"
+                // Uri uri = Uri.parse("smsto:" + number);
+                //waIntent.data = Uri.parse("https://wa.me/5561983110947")
+                val whatsAppMessage = "https://www.google.com/maps/search/?api=1&query=" + currentLocation!!.position.latitude + "," + currentLocation!!.position.longitude
+                //Check if package exists or not. If not then code
+                //in catch block will be called
+                waIntent.setPackage("com.whatsapp")
+                waIntent.putExtra(Intent.EXTRA_TEXT, "Minha localização: $whatsAppMessage")
+                startActivity(Intent.createChooser(waIntent, "Compartilhar com"))
+                //startActivity(waIntent)
+            } catch (e: PackageManager.NameNotFoundException) {
+                Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
