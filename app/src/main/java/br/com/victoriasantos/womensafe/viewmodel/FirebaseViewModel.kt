@@ -38,21 +38,20 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
                 callback(app.applicationContext.getString(R.string.email_required), 0)
             } else if (result == "SV") {
                 callback(app.applicationContext.getString(R.string.password_required), 0)
+            } else if( "password is invalid" in result){
+                callback(app.applicationContext.getString(R.string.invalid_password),0)
             } else if (result == "SC") {
                 callback(app.applicationContext.getString(R.string.short_password), 0)
             } else if (result == "S") {
                 callback(app.applicationContext.getString(R.string.concluir_cadastro), 1)
             } else if (result == "PP") {
                 callback(app.applicationContext.getString(R.string.welcome), 1)
-
             } else if (result == "PV") {
                 callback(app.applicationContext.getString(R.string.required_fiel_profile), 2)
-
             } else {
                 callback(result, 0)
             }
         }
-
     }
 
     fun getEmail(callback: (email: String) -> Unit) {

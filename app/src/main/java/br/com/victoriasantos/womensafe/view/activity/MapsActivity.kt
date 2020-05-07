@@ -8,28 +8,30 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.location.Location
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import br.com.victoriasantos.womensafe.R
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.model.*
-import kotlinx.android.synthetic.main.activity_guardians.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
 import java.io.IOException
 
@@ -156,7 +158,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         currentLocation = map.addMarker(markerOptions)
 
         btn_SendLocation.setOnClickListener {
-            sendLocation()
+          //  sendLocation()
         }
 
     }
@@ -331,20 +333,22 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         }
     }
 
-    fun sendLocation() {
+    fun sendLocation(numero : String?) {
         if (currentLocation != null) {
             try {
-                val waIntent = Intent(Intent.ACTION_SEND)
-                waIntent.type = "text/plain"
-                // Uri uri = Uri.parse("smsto:" + number);
-                //waIntent.data = Uri.parse("https://wa.me/5561983110947")
-                val whatsAppMessage = "https://www.google.com/maps/search/?api=1&query=" + currentLocation!!.position.latitude + "," + currentLocation!!.position.longitude
-                //Check if package exists or not. If not then code
-                //in catch block will be called
-                waIntent.setPackage("com.whatsapp")
-                waIntent.putExtra(Intent.EXTRA_TEXT, "Minha localização: $whatsAppMessage")
-                startActivity(Intent.createChooser(waIntent, "Compartilhar com"))
-                //startActivity(waIntent)
+                val latitude = currentLocation!!.position.latitude.toString()
+                val longitude = currentLocation!!.position.longitude.toString()
+                val texto = "Minha localização"
+                var smsNumber = "55"+numero
+                smsNumber = smsNumber.replace("(", "")
+                smsNumber = smsNumber.replace(")", "")
+                smsNumber = smsNumber.replace(" ", "")
+                val waIntent = Intent(Intent.ACTION_VIEW)
+                val whatsAppMessage = "https://maps.google.com/?q=$latitude,$longitude"
+                waIntent.data = Uri.parse("http://api.whatsapp.com/send?phone=$smsNumber&text=Minha localização:$whatsAppMessage")
+               // waIntent.putExtra("chat", true)
+                //startActivity(Intent.createChooser(waIntent, "Compartilhar com"))
+               startActivity(waIntent)
             } catch (e: PackageManager.NameNotFoundException) {
                 Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT).show()
             }
