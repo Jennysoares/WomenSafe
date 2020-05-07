@@ -1,6 +1,10 @@
 package br.com.victoriasantos.womensafe.view.activity
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -16,6 +20,8 @@ class GuardiansActivity : AppCompatActivity() {
     private val viewModel: FirebaseViewModel by lazy {
         ViewModelProvider(this). get(FirebaseViewModel::class.java)
     }
+
+    val REQUEST_PHONE_CALL = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +51,6 @@ class GuardiansActivity : AppCompatActivity() {
         }
     }
 
-
     fun deleteGuardian(email : String?){
         viewModel.deleteGuardian(email){result ->
             Toast.makeText(this,result, Toast.LENGTH_LONG).show()
@@ -53,5 +58,25 @@ class GuardiansActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("MissingPermission")
+    fun callGuardian(numero : String?){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirmar ligação")
+        builder.setMessage("Você está prestes a ligar para seu guardião. Deseja continuar?")
+        builder.apply {
+            setPositiveButton("SIM", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    val intent = Intent(Intent.ACTION_CALL)
+                    intent.data = Uri.parse("tel:$numero")
+                    startActivity(intent)
+                }
+            })
+            setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                }
+            })
+        }
+        builder.show()
+    }
 
 }

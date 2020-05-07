@@ -49,6 +49,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="50dp"
         tools:context=".view.activity.MapsActivity" >
+
+        <FrameLayout
+            android:id="@+id/fram_map"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <ImageButton
+                android:id="@+id/btn_draw_State"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/map_button"
+                android:src="@drawable/send_circle"
+                android:layout_gravity="right|top"
+                android:layout_marginTop="55dp"
+                android:elevation="10dp"
+                android:layout_marginRight="11dp" />
+        </FrameLayout>
+
     </fragment>
 
 
