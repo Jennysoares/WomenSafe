@@ -98,5 +98,6 @@
     <string name="avaliacao_criterios">Avalie o local abordando critérios como a iluminação, movimentação de pessoas, visibilidade, incidência de assaltos.\nLembre-se que estará ajudando uma comunidade.</string>
     <string name="invalid_password">Senha inválida, tente novamente!</string>
     <string name="empty_guardians">Você não possui guardiões</string>
+    <string name="titulo_send_location_guardian">Clique no nome do guardião no qual deseja mandar sua localização</string>
 
 </resources>

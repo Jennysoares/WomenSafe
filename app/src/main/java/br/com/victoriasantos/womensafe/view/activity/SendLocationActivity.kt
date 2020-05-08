@@ -30,38 +30,39 @@ class SendLocationActivity : AppCompatActivity() {
         viewModel.showGuardians { guardians ->
             if (guardians != null) {
                 nome1.text = guardians.component1().nome
-                if (guardians.component2() != null) {
+                if (guardians.size >= 2) {
                     nome2.text = guardians.component2().nome
-                }
-                if (guardians.component3() != null) {
-                    nome3.text = guardians.component3().nome
+                    nome2.setOnClickListener {
+                        sendLocation(latitude, longitude, guardians.component2())
+                    }
+
+                    if (guardians.size >= 3) {
+                        nome3.text = guardians.component3().nome
+                        nome3.setOnClickListener {
+                            sendLocation(latitude, longitude, guardians.component3())
+                        }
+                    }
                 }
 
                 nome1.setOnClickListener {
                     sendLocation(latitude, longitude, guardians.component1())
                 }
-                nome2.setOnClickListener {
-                    sendLocation(latitude, longitude, guardians.component2())
-                }
-                nome3.setOnClickListener {
-                    sendLocation(latitude, longitude, guardians.component3())
-                }
+
             } else {
                 Toast.makeText(this, getString(R.string.empty_guardians), Toast.LENGTH_LONG).show()
             }
-
         }
     }
 
-    fun sendLocation(latitude: Double, longitude: Double, guardian: Guardian){
-        viewModel.getGuardianNumber(guardian){ smsNumber ->
+    fun sendLocation(latitude: Double, longitude: Double, guardian: Guardian) {
+        viewModel.getGuardianNumber(guardian) { smsNumber ->
             try {
                 val latitude = latitude.toString()
                 val longitude = longitude.toString()
                 val waIntent = Intent(Intent.ACTION_VIEW)
                 val whatsAppMessage = "https://maps.google.com/?q=$latitude,$longitude"
                 waIntent.data =
-                    Uri.parse("http://api.whatsapp.com/send?phone=$smsNumber&text=Minha localização:$whatsAppMessage")
+                    Uri.parse("http://api.whatsapp.com/send?phone=$smsNumber&text=Minha localização: $whatsAppMessage")
                 startActivity(waIntent)
                 Toast.makeText(this, "Localização enviada", Toast.LENGTH_LONG).show()
             } catch (e: PackageManager.NameNotFoundException) {
