@@ -158,7 +158,12 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         currentLocation = map.addMarker(markerOptions)
 
         btn_SendLocation.setOnClickListener {
-          //  sendLocation()
+            if (currentLocation != null) {
+                val intent = Intent(this, SendLocationActivity::class.java)
+                intent.putExtra("latitude", currentLocation!!.position.latitude)
+                intent.putExtra("longitude", currentLocation!!.position.longitude)
+               startActivity(intent)
+            }
         }
 
     }
@@ -333,27 +338,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         }
     }
 
-    fun sendLocation(numero : String?) {
-        if (currentLocation != null) {
-            try {
-                val latitude = currentLocation!!.position.latitude.toString()
-                val longitude = currentLocation!!.position.longitude.toString()
-                val texto = "Minha localização"
-                var smsNumber = "55"+numero
-                smsNumber = smsNumber.replace("(", "")
-                smsNumber = smsNumber.replace(")", "")
-                smsNumber = smsNumber.replace(" ", "")
-                val waIntent = Intent(Intent.ACTION_VIEW)
-                val whatsAppMessage = "https://maps.google.com/?q=$latitude,$longitude"
-                waIntent.data = Uri.parse("http://api.whatsapp.com/send?phone=$smsNumber&text=Minha localização:$whatsAppMessage")
-               // waIntent.putExtra("chat", true)
-                //startActivity(Intent.createChooser(waIntent, "Compartilhar com"))
-               startActivity(waIntent)
-            } catch (e: PackageManager.NameNotFoundException) {
-                Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+
 
 }
 

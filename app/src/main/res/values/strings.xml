@@ -97,5 +97,6 @@
     <string name="cadastrar_nova_avaliacao">Cadastrar nova avaliação</string>
     <string name="avaliacao_criterios">Avalie o local abordando critérios como a iluminação, movimentação de pessoas, visibilidade, incidência de assaltos.\nLembre-se que estará ajudando uma comunidade.</string>
     <string name="invalid_password">Senha inválida, tente novamente!</string>
+    <string name="empty_guardians">Você não possui guardiões</string>
 
 </resources>

@@ -223,4 +223,14 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     fun showEvaluations(latitude: Double, longitude: Double,callback: (evaluations: Array<String>?) -> Unit){
         interactor.showEvaluations(latitude, longitude, callback)
     }
+
+    fun getGuardianNumber(guardian: Guardian, callback: (numero: String) -> Unit){
+            var smsNumber = "55" + guardian.telefone.toString()
+            smsNumber = smsNumber.replace("(", "")
+            smsNumber = smsNumber.replace(")", "")
+            smsNumber = smsNumber.replace(" ", "")
+            smsNumber = smsNumber.replace("-", "")
+            callback(smsNumber)
+    }
+
 }

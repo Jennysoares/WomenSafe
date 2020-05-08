@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.EvaluationsActivity"></activity>
+        <activity android:name=".view.activity.SendLocationActivity"></activity>
+        <activity android:name=".view.activity.EvaluationsActivity" />
         <activity android:name=".view.activity.DangerousSpotActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -39,7 +40,7 @@
 
         <activity
             android:name=".view.activity.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
         <activity android:name=".view.activity.NewGuardianActivity" />
         <activity android:name=".view.activity.RegistrationPlateActivity" />
         <activity android:name=".view.activity.AbuseInfoActivity" />
