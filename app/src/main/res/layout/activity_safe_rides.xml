@@ -41,7 +41,7 @@
     <EditText
         android:id="@+id/pesquisa"
         android:layout_width="0dp"
-        android:layout_height="34dp"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="3dp"
         android:background="@drawable/campo_texto"
@@ -54,12 +54,12 @@
         app:layout_constraintStart_toEndOf="@id/guideline_esquerdo"
         app:layout_constraintTop_toBottomOf="@id/placas_texto" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bt_pesquisa"
-        android:layout_width="0dp"
-        android:layout_height="34dp"
+        android:layout_width="63dp"
+        android:layout_height="50dp"
         android:background="@drawable/design_botao"
-        android:drawableTop="@drawable/search_icon"
+        android:src="@drawable/search_icon"
         app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
         app:layout_constraintTop_toTopOf="@+id/pesquisa" />
 
@@ -69,7 +69,6 @@
         android:layout_height="474dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
         app:layout_constraintTop_toBottomOf="@+id/pesquisa" />
 
@@ -77,14 +76,13 @@
         android:id="@+id/bt_avaliar_placa"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
-        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
-        app:layout_constraintTop_toBottomOf="@id/recycleView_placas"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/design_botao"
-        android:textColor="@color/login_detalhes_formulario_medio"
         android:text="@string/avaliar_placa"
-        />
+        android:textColor="@color/login_detalhes_formulario_medio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

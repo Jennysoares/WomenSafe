@@ -11,7 +11,7 @@ import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.view.activity.ContributionsActivity
 import kotlinx.android.synthetic.main.item_evaluation_plates.view.*
 
-class PlatesAdapter(private val contributionsActivity: ContributionsActivity, private val dataSet: Array<Plate>?) : RecyclerView.Adapter<PlatesAdapter.PlatesViewHolder>() {
+class PlatesAdapter(private val contributionsActivity: ContributionsActivity, private val dataSet: Array<Plate>?, private val mostrar: Int) : RecyclerView.Adapter<PlatesAdapter.PlatesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlatesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_evaluation_plates, parent, false)
@@ -29,8 +29,12 @@ class PlatesAdapter(private val contributionsActivity: ContributionsActivity, pr
         val Plate = dataSet?.get(position)
         holder.placa.text = Plate?.placa
         holder.comentario.text = Plate?.comentario
-        holder.excluir.setOnClickListener{
-            contributionsActivity.deletePlate(Plate?.placa, Plate?.comentario)
+        if(mostrar == 1){
+            holder.excluir.setOnClickListener{
+                contributionsActivity.deletePlate(Plate?.placa, Plate?.comentario)
+            }
+        } else{
+            holder.excluir.visibility = View.INVISIBLE
         }
     }
 

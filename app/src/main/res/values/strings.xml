@@ -42,7 +42,7 @@
     <string name="enviar">Enviar</string>
     <string name="placas_avaliadas">Placas Avaliadas</string>
     <string name="avaliar_placa">Avaliar Placa</string>
-    <string name="numero_placa">Placa (Digite letras em maiúsculo)</string>
+    <string name="numero_placa">Número da placa (Ex: ABC-1234)</string>
     <string name="comentario">Comentário</string>
     <string name="cadastro_placa_avaliacao">Cadastro placa avaliação</string>
     <string name="request_plate">Placa deve ser preenchida!</string>

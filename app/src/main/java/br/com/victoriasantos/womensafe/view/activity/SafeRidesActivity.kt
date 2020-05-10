@@ -24,10 +24,17 @@ class SafeRidesActivity : AppCompatActivity() {
 
         bt_avaliar_placa.setOnClickListener { startActivity(Intent(this,RegistrationPlateActivity::class.java)) }
         configureRecyclerView()
+        showPlates()
     }
 
     private fun configureRecyclerView(){
         recycleView_placas.layoutManager = LinearLayoutManager(this)
     }
 
+    fun showPlates(){
+        viewModel.showPlate(2){ plates ->
+            val adapter = PlatesAdapter(ContributionsActivity(), plates, 0)
+            recycleView_placas.adapter = adapter
+        }
+    }
 }

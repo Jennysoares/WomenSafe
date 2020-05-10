@@ -7,10 +7,7 @@ import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import java.util.Date
 
 
@@ -231,10 +228,11 @@ class FirebaseRepository(context: Context) {
         if (!uid.isNullOrBlank()) {
             val Plate = Plate(
                 placa = placa,
-                comentario = comentario
+                comentario = comentario,
+                uid = uid
             )
 
-            val platePath = database.getReference("Plate/$uid")
+            val platePath = database.getReference("Plate")
             platePath.push().setValue(Plate)
             callback("SUCCESS")
         } else {
@@ -242,11 +240,16 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun showPlate(callback: (snapshot: DataSnapshot?) -> Unit) {
+    fun showPlate(child : Int,callback: (snapshot: DataSnapshot?) -> Unit) {
         val uid = mAuth.currentUser?.uid
+        var ref : Query? = null
 
-          val ref = database.getReference("Plate/$uid").orderByKey()
-
+        if(child == 1){
+            ref = database.getReference("Plate").orderByChild("uid").equalTo(uid)
+        }
+        if(child == 2){
+            ref = database.getReference("Plate")
+        }
 
         ref?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -257,19 +260,20 @@ class FirebaseRepository(context: Context) {
                 callback(snapshot)
             }
         })
+
     }
 
     fun deletePlate(placa: String?, comentario: String?, callback: (result: String) -> Unit) {
         val uid = mAuth.currentUser?.uid
 
         if (uid != null) {
-            val plates = database.getReference("Plate/$uid/")
+            val plates = database.getReference("Plate")
             plates.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { plate ->
                         if (plate.child("placa").value?.equals(placa)!! && plate.child("comentario").value?.equals(
                                 comentario
-                            )!!
+                            )!! && plate.child("uid").value?.equals(uid)!!
                         ) {
                             plate.ref.removeValue()
                             callback("SUCCESS")

@@ -216,8 +216,8 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun showPlate(callback: (plates: Array<Plate>?) -> Unit) {
-        repository.showPlate{ snapshot ->
+    fun showPlate(child : Int, callback: (plates: Array<Plate>?) -> Unit) {
+        repository.showPlate(child){ snapshot ->
             val plates = mutableListOf<Plate>()
             if (snapshot != null && snapshot.hasChildren() == true) {
                 snapshot.children.forEach { g ->

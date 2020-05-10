@@ -17,13 +17,12 @@ class RegistrationPlateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration_plate)
-
         bt_confirmar.setOnClickListener { registerPlate() }
         bt_cancelar.setOnClickListener { finish() }
     }
 
     fun registerPlate(){
-        val placa = numero_placa.text.toString()
+        val placa = numero_placa.text.toString().toUpperCase()
         val comentario = obs_avaliacao.text.toString()
         viewModel.registerPlate(placa, comentario){ result ->
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
