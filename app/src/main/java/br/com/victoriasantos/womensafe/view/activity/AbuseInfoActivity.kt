@@ -4,10 +4,16 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
+import br.com.victoriasantos.womensafe.viewmodel.DialogFlowViewModel
 import kotlinx.android.synthetic.main.activity_abuse_info.*
 
 class AbuseInfoActivity : AppCompatActivity() {
+
+    private val viewModel: DialogFlowViewModel by lazy {
+        ViewModelProvider(this). get(DialogFlowViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
