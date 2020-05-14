@@ -5,5 +5,3 @@ data class DialogFlowRequest(
      val email: String,
      val sessionId: String
 )
-
-class DialogFlowResponse()

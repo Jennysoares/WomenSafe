@@ -2,7 +2,7 @@ package br.com.victoriasantos.womensafe.repository
 
 import android.content.Context
 import br.com.victoriasantos.womensafe.domain.DialogFlowRequest
-import br.com.victoriasantos.womensafe.domain.DialogFlowResponse
+import br.com.victoriasantos.womensafe.repository.dto.DialogFlowResult
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,24 +16,24 @@ interface DialogflowService {
     @Headers("Content-Type: application/json")
     fun sendTextMessage(
         @Body request: DialogFlowRequest
-    ): Call<DialogFlowResponse>
+    ): Call<DialogFlowResult>
 }
 
 class DialogflowRepository(context: Context, baseUrl: String) : DialogFlowBaseRetrofit(context, baseUrl) {
     private val service = retrofit.create(DialogflowService::class.java)
 
-    fun sendTextMessage(text: String, email: String, sessionId: String, callback: (response: DialogFlowResponse)-> Unit) {
+    fun sendTextMessage(text: String, email: String, sessionId: String, callback: (response: String?)-> Unit) {
         val request = DialogFlowRequest(text, email, sessionId)
-        service.sendTextMessage(request).enqueue(object : Callback<DialogFlowResponse> {
+        service.sendTextMessage(request).enqueue(object : Callback<DialogFlowResult> {
 
-            override fun onResponse(call: Call<DialogFlowResponse>, response: Response<DialogFlowResponse>) {
-                val result = response.body()
-
-                //callback()
+            override fun onResponse(call: Call<DialogFlowResult>, response: Response<DialogFlowResult>) {
+                val result = response.body()?.queryResult?.fulfillmentMessages
+                val message =  result?.text
+                callback(message)
             }
 
-            override fun onFailure(call: Call<DialogFlowResponse>, t: Throwable) {
-                //callback()
+            override fun onFailure(call: Call<DialogFlowResult>, t: Throwable) {
+                callback(null)
             }
         })
     }
