@@ -3,6 +3,7 @@ package br.com.victoriasantos.womensafe.repository
 import android.content.Context
 import br.com.victoriasantos.womensafe.domain.DialogFlowRequest
 import br.com.victoriasantos.womensafe.repository.dto.DialogFlowResult
+import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,8 +22,12 @@ interface DialogflowService {
 
 class DialogflowRepository(context: Context, baseUrl: String) : DialogFlowBaseRetrofit(context, baseUrl) {
     private val service = retrofit.create(DialogflowService::class.java)
+    private val mAuth = FirebaseAuth.getInstance()
 
-    fun sendTextMessage(text: String, email: String, sessionId: String, callback: (response: String?)-> Unit) {
+
+    fun sendTextMessage(text: String, sessionId: String, callback: (response: String?)-> Unit) {
+
+        val email = mAuth.currentUser?.email!!
         val request = DialogFlowRequest(text, email, sessionId)
         service.sendTextMessage(request).enqueue(object : Callback<DialogFlowResult> {
 

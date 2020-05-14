@@ -30,7 +30,4 @@ open class DialogFlowBaseRetrofit(context: Context, baseUrl: String){
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
         }
-
-        fun toJson(obj: Any): String = gson.toJson(obj)
-        inline fun <reified T> fromJson(json: String) = gson.fromJson(json, T::class.java)
 }
