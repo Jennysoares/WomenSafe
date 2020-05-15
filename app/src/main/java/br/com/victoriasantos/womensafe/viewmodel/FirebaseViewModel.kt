@@ -38,8 +38,8 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
                 callback(app.applicationContext.getString(R.string.email_required), 0)
             } else if (result == "SV") {
                 callback(app.applicationContext.getString(R.string.password_required), 0)
-            } else if( "password is invalid" in result){
-                callback(app.applicationContext.getString(R.string.invalid_password),0)
+            } else if ("password is invalid" in result) {
+                callback(app.applicationContext.getString(R.string.invalid_password), 0)
             } else if (result == "SC") {
                 callback(app.applicationContext.getString(R.string.short_password), 0)
             } else if (result == "S") {
@@ -146,8 +146,15 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun registerPlate(placa: String, comentario: String, callback: (result: String) -> Unit) {
-        interactor.registerPlate(placa, comentario) { result ->
+    fun registerPlate(
+        placa: String?,
+        placaUpdate: String?,
+        comentario: String?,
+        comentarioUpdate: String?,
+        child: Int,
+        callback: (result: String) -> Unit
+    ) {
+        interactor.registerPlate(placa, placaUpdate, comentario, comentarioUpdate, child) { result ->
             if (result.equals("BLANK PLATE")) {
                 callback(app.applicationContext.getString(R.string.request_plate))
             } else if (result.equals("INVALID LENGTH PLATE")) {
@@ -157,7 +164,11 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
             } else if (result.equals("INVALID LENGTH COMMENT")) {
                 callback(app.applicationContext.getString(R.string.length_comment_plate_required))
             } else if (result.equals("SUCCESS")) {
-                callback(app.applicationContext.getString(R.string.plate_registered_success))
+                if (child == 1) {
+                    callback(app.applicationContext.getString(R.string.plate_registered_success))
+                } else if (child == 2) {
+                    callback(app.applicationContext.getString(R.string.plate_updated_ok))
+                }
             } else if (result.equals("ERROR")) {
                 callback(app.applicationContext.getString(R.string.error_plate_register))
             }
@@ -166,11 +177,11 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     fun showPlate(child: Int, callback: (plates: Array<Plate>?) -> Unit) {
-        interactor.showPlate(child,callback)
+        interactor.showPlate(child, callback)
     }
 
     fun deletePlate(placa: String?, comentario: String?, callback: (result: String) -> Unit) {
-        interactor.deletePlate(placa, comentario){ result ->
+        interactor.deletePlate(placa, comentario) { result ->
             if (result.equals("S")) {
                 callback(app.applicationContext.getString(R.string.plate_successfully_removed))
             } else {
@@ -179,8 +190,16 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun spotRegister(latitude: String, longitude: String, comentario: String?, callback: (result: String, id: Int) -> Unit) {
-        interactor.spotRegister(latitude, longitude, comentario) { result ->
+    fun spotRegister(
+        latitude: String?,
+        longitude: String?,
+        comentario: String?,
+        comentarioUpdate: String?,
+        data : String?,
+        child: Int,
+        callback: (result: String, id: Int) -> Unit
+    ) {
+        interactor.spotRegister(latitude, longitude, comentario, comentarioUpdate, data, child) { result ->
             if (result == "UID RECOVER FAIL") {
                 callback(app.applicationContext.getString(R.string.error_id_user), 0)
             } else if (result == "EVALUATION EMPTY") {
@@ -188,7 +207,11 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
             } else if (result == "EVALUATION SHORT") {
                 callback(app.applicationContext.getString(R.string.SpotEvaluation_too_short), 0)
             } else {
-                callback(app.applicationContext.getString(R.string.SpotEvaluation_register_ok), 1)
+                if(child == 1){
+                    callback(app.applicationContext.getString(R.string.SpotEvaluation_register_ok), 1)
+                } else if(child == 2){
+                    callback(app.applicationContext.getString(R.string.spot_update_ok),1)
+                }
             }
         }
     }
@@ -197,8 +220,13 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         interactor.showSpotEvaluation(callback)
     }
 
-    fun deleteSpotEvaluation(latitude: Double?, longitude: Double?,evaluation: String?, callback: (result: String) -> Unit) {
-        interactor.deleteSpotEvaluation(latitude, longitude, evaluation){ result ->
+    fun deleteSpotEvaluation(
+        latitude: Double?,
+        longitude: Double?,
+        evaluation: String?,
+        callback: (result: String) -> Unit
+    ) {
+        interactor.deleteSpotEvaluation(latitude, longitude, evaluation) { result ->
             if (result.equals("S")) {
                 callback(app.applicationContext.getString(R.string.SpotEvaluation_successfully_delete))
             } else {
@@ -218,17 +246,21 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun showEvaluations(latitude: Double, longitude: Double,callback: (evaluations: Array<String>?) -> Unit){
+    fun showEvaluations(
+        latitude: Double,
+        longitude: Double,
+        callback: (evaluations: Array<LocationData>?) -> Unit
+    ) {
         interactor.showEvaluations(latitude, longitude, callback)
     }
 
-    fun getGuardianNumber(guardian: Guardian, callback: (numero: String) -> Unit){
-            var smsNumber = "55" + guardian.telefone.toString()
-            smsNumber = smsNumber.replace("(", "")
-            smsNumber = smsNumber.replace(")", "")
-            smsNumber = smsNumber.replace(" ", "")
-            smsNumber = smsNumber.replace("-", "")
-            callback(smsNumber)
+    fun getGuardianNumber(guardian: Guardian, callback: (numero: String) -> Unit) {
+        var smsNumber = "55" + guardian.telefone.toString()
+        smsNumber = smsNumber.replace("(", "")
+        smsNumber = smsNumber.replace(")", "")
+        smsNumber = smsNumber.replace(" ", "")
+        smsNumber = smsNumber.replace("-", "")
+        callback(smsNumber)
     }
 
 }

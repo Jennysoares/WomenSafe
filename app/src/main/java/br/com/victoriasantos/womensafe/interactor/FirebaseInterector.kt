@@ -96,7 +96,13 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun saveData(emailCampo: String, nomecompleto: String, telefone: String, username: String, callback: (result: String) -> Unit) {
+    fun saveData(
+        emailCampo: String,
+        nomecompleto: String,
+        telefone: String,
+        username: String,
+        callback: (result: String) -> Unit
+    ) {
         // POSSO ALTERAR PRA EMAIL VAZIO -> CONCERTAR
         repository.getEmail { emailFinal ->
             if (!emailFinal.equals(emailCampo)) { // Pergunta se o email do usuario antigo(emailFinal) é diferente(por ter uma ! no início) ao email que está no campo da página(emailCampo)
@@ -156,7 +162,12 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit) {
+    fun registerGuardian(
+        nome: String?,
+        telefone: String?,
+        email: String?,
+        callback: (result: String) -> Unit
+    ) {
         if (email.isNullOrBlank()) {
             callback("EV")
         } else if (telefone.isNullOrBlank()) {
@@ -192,21 +203,28 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun registerPlate(placa: String, comentario: String, callback: (result: String) -> Unit) {
-        if (placa.isNullOrBlank()) {
+    fun registerPlate(
+        placa: String?,
+        placaUpdate: String?,
+        comentario: String?,
+        comentarioUpdate: String?,
+        child: Int,
+        callback: (result: String) -> Unit
+    ) {
+        if (placaUpdate.isNullOrBlank()) {
             callback("BLANK PLATE")
             return
-        } else if (placa.length != 8) {
+        } else if (placaUpdate.length != 8) {
             callback("INVALID LENGTH PLATE")
             return
-        } else if (comentario.isNullOrBlank()) {
+        } else if (comentarioUpdate.isNullOrBlank()) {
             callback("BLANK COMMENT")
             return
-        } else if (comentario.length < 100) {
+        } else if (comentarioUpdate.length < 100) {
             callback("INVALID LENGTH COMMENT")
             return
         } else {
-            repository.registerPlate(placa, comentario) { result ->
+            repository.registerPlate(placa, placaUpdate, comentario, comentarioUpdate, child) { result ->
                 if (result.equals("SUCCESS")) {
                     callback(result)
                 } else {
@@ -216,8 +234,8 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun showPlate(child : Int, callback: (plates: Array<Plate>?) -> Unit) {
-        repository.showPlate(child){ snapshot ->
+    fun showPlate(child: Int, callback: (plates: Array<Plate>?) -> Unit) {
+        repository.showPlate(child) { snapshot ->
             val plates = mutableListOf<Plate>()
             if (snapshot != null && snapshot.hasChildren() == true) {
                 snapshot.children.forEach { g ->
@@ -241,13 +259,21 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun spotRegister(latitude: String, longitude: String, comentario: String?, callback: (result: String) -> Unit) {
+    fun spotRegister(
+        latitude: String?,
+        longitude: String?,
+        comentario: String?,
+        comentarioUpdate: String?,
+        data: String?,
+        child: Int,
+        callback: (result: String) -> Unit
+    ) {
         if (comentario.isNullOrBlank()) {
             callback("EVALUATION EMPTY")
         } else if (comentario.length < 100) {
             callback("EVALUATION SHORT")
         } else {
-            repository.spotRegister(latitude, longitude, comentario, callback)
+            repository.spotRegister(latitude, longitude, comentario, comentarioUpdate, data, child, callback)
         }
     }
 
@@ -266,7 +292,12 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun deleteSpotEvaluation(latitude: Double?, longitude: Double?,evaluation: String?, callback: (result: String) -> Unit) {
+    fun deleteSpotEvaluation(
+        latitude: Double?,
+        longitude: Double?,
+        evaluation: String?,
+        callback: (result: String) -> Unit
+    ) {
         repository.deleteSpotEvaluation(latitude, longitude, evaluation) { result ->
             if (result.equals("SUCCESS")) {
                 callback("S")
@@ -293,7 +324,11 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun showEvaluations(latitude: Double, longitude: Double, callback: (evaluations: Array<String>?) -> Unit) {
+    fun showEvaluations(
+        latitude: Double,
+        longitude: Double,
+        callback: (evaluations: Array<LocationData>?) -> Unit
+    ) {
         repository.getMarkers { snapshot ->
             val locations = mutableListOf<LocationData>()
             if (snapshot != null && snapshot.hasChildren() == true) {
@@ -303,14 +338,13 @@ class FirebaseInterector(private val context: Context) {
                         locations.add(location)
                     }
                 }
-            }
-            else{
+            } else {
                 callback(null)
             }
-            val evaluations = mutableListOf<String>()
+            val evaluations = mutableListOf<LocationData>()
             locations?.forEach { c ->
                 if (c.latitude == latitude && c.longitude == longitude) {
-                    evaluations.add(c.evaluation!!)
+                    evaluations.add(c!!)
                 }
             }
             callback(evaluations.toTypedArray())

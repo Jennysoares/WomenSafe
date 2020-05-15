@@ -100,5 +100,7 @@
     <string name="empty_guardians">Você não possui guardiões</string>
     <string name="titulo_send_location_guardian">Clique no nome do guardião no qual deseja mandar sua localização</string>
     <string name="digite_a_mensagem">Digite a mensagem</string>
+    <string name="plate_updated_ok">Placa atualizada com sucesso!</string>
+    <string name="spot_update_ok">Avaliação atualizada com sucesso!</string>
 
 </resources>

@@ -8,10 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.R.layout.activity_evaluations
-import br.com.victoriasantos.womensafe.view.adapter.MarkerEvaluationsAdapter
 import br.com.victoriasantos.womensafe.view.adapter.SpotEvaluationAdapter
 import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_evaluations.*
 
 class EvaluationsActivity : AppCompatActivity() {
@@ -27,10 +25,9 @@ class EvaluationsActivity : AppCompatActivity() {
         val longitude = intent.getDoubleExtra("longitude", 0.0)
         val address = intent.getStringExtra("endereço")
 
-        if(!address.isNullOrBlank()){
+        if (!address.isNullOrBlank()) {
             address_field.text = address
-        }
-        else{
+        } else {
             address_field.text = getString(R.string.address_unavailable)
         }
         configureRecyclerView()
@@ -38,26 +35,25 @@ class EvaluationsActivity : AppCompatActivity() {
         bt_cadastrarAvaliacao.setOnClickListener {
             val intent = Intent(this, DangerousSpotActivity::class.java)
             intent.putExtra("latitude", latitude.toString())
-            intent.putExtra("longitude",longitude.toString())
+            intent.putExtra("longitude", longitude.toString())
             intent.putExtra("endereco", address)
             startActivity(intent)
         }
     }
 
-    fun configureRecyclerView(){
+    fun configureRecyclerView() {
         evaluationRecyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    fun showEvaluations(latitude: Double, longitude: Double){
-        viewModel.showEvaluations(latitude, longitude){ result ->
-            if(result.isNullOrEmpty()){
-                Toast.makeText(this, "Não foi possível recuperar as avaliações", Toast.LENGTH_LONG).show()
-            }
-            else{
-                val adapter = MarkerEvaluationsAdapter(this, result)
+    fun showEvaluations(latitude: Double, longitude: Double) {
+        viewModel.showEvaluations(latitude, longitude) { result ->
+            if (result.isNullOrEmpty()) {
+                Toast.makeText(this, "Não foi possível recuperar as avaliações", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                val adapter = SpotEvaluationAdapter(ContributionsActivity(), result, 0)
                 evaluationRecyclerView.adapter = adapter
             }
-
         }
     }
 }

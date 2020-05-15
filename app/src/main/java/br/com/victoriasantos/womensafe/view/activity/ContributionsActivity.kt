@@ -1,5 +1,6 @@
 package br.com.victoriasantos.womensafe.view.activity
 
+import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
@@ -42,7 +43,7 @@ class ContributionsActivity : AppCompatActivity() {
         }
 
         viewModel.showSpotEvaluation{ spots ->
-            val adapter = SpotEvaluationAdapter(this, spots)
+            val adapter = SpotEvaluationAdapter(this, spots,1)
             recycleview_lugares_perigosos.adapter = adapter
         }
 
@@ -58,6 +59,25 @@ class ContributionsActivity : AppCompatActivity() {
         viewModel.deleteSpotEvaluation(latitude, longitude, evaluation){ result ->
             Toast.makeText(this,result, Toast.LENGTH_LONG).show()
         }
+    }
+
+    fun updatePlate(placa : String, comentario : String){
+        val intent = Intent(this, RegistrationPlateActivity::class.java)
+        intent.putExtra("placa", placa)
+        intent.putExtra("comentario",comentario)
+        intent.putExtra("Update", "s")
+        startActivity(intent)
+    }
+
+    fun updateSpot(endereco: String, comentario: String, data: String, latitude: String?, longitude: String?){
+        val intent = Intent(this, DangerousSpotActivity::class.java)
+        intent.putExtra("endereco", endereco)
+        intent.putExtra("avaliacao",comentario)
+        intent.putExtra("data",data)
+        intent.putExtra("latitude",latitude)
+        intent.putExtra("longitude",longitude)
+        intent.putExtra("Update", "s")
+        startActivity(intent)
     }
 
     fun getAddress(latLng: LatLng): String? {
@@ -77,5 +97,7 @@ class ContributionsActivity : AppCompatActivity() {
 
         return Address1
     }
+
+
 
 }

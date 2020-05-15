@@ -2,12 +2,14 @@ package br.com.victoriasantos.womensafe.repository
 
 
 import android.content.Context
+import android.location.Location
 import br.com.victoriasantos.womensafe.domain.Guardian
 import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.text.SimpleDateFormat
 import java.util.Date
 
 
@@ -31,7 +33,6 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-
     fun consulta(callback: (snapshot: DataSnapshot?) -> Unit) {
         val email = mAuth.currentUser?.email
         val profiles = database.getReference("Users")
@@ -47,7 +48,6 @@ class FirebaseRepository(context: Context) {
         })
     }
 
-
     fun login(email: String, senha: String, callback: (result: String) -> Unit) {
         val operation = mAuth.signInWithEmailAndPassword(email, senha)
         operation.addOnCompleteListener { task ->
@@ -61,12 +61,10 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-
     fun getEmail(callback: (email: String?) -> Unit) {
         val emailFinal = mAuth.currentUser?.email
         callback(emailFinal)
     }
-
 
     fun UpdateEmail(email: String, callback: (result: String) -> Unit) {
 
@@ -168,7 +166,12 @@ class FirebaseRepository(context: Context) {
     }
 
 
-    fun registerGuardian( nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit) {
+    fun registerGuardian(
+        nome: String?,
+        telefone: String?,
+        email: String?,
+        callback: (result: String) -> Unit
+    ) {
         guardian = Guardian(
             nome = nome,
             telefone = telefone,
@@ -223,31 +226,62 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun registerPlate(placa: String, comentario: String, callback: (result: String) -> Unit) {
+    fun registerPlate(
+        placa: String?,
+        placaUpdate: String?,
+        comentario: String?,
+        comentarioUpdate: String?,
+        child: Int,
+        callback: (result: String) -> Unit
+    ) {
         val uid = mAuth.currentUser?.uid
         if (!uid.isNullOrBlank()) {
             val Plate = Plate(
-                placa = placa,
-                comentario = comentario,
+                placa = placaUpdate,
+                comentario = comentarioUpdate,
+                data = SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(Date().time),
                 uid = uid
             )
 
-            val platePath = database.getReference("Plate")
-            platePath.push().setValue(Plate)
-            callback("SUCCESS")
+            var platePath = database.getReference("Plate")
+
+            if (child == 2) {
+                platePath.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        snapshot.children.forEach { plate ->
+                            if (plate.child("placa").value?.equals(placa)!! &&
+                                plate.child("comentario").value?.equals(comentario)!! &&
+                                plate.child("uid").value?.equals(uid)!!
+                            ) {
+                                val chave = plate.key
+                                platePath = database.getReference("Plate/$chave")
+                                platePath.setValue(Plate)
+                                callback("SUCCESS")
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(p0: DatabaseError) {
+                        callback("ERROR")
+                    }
+                })
+            } else if (child == 1) {
+                platePath.push().setValue(Plate)
+                callback("SUCCESS")
+            }
         } else {
             callback("ERROR")
         }
     }
 
-    fun showPlate(child : Int,callback: (snapshot: DataSnapshot?) -> Unit) {
+    fun showPlate(child: Int, callback: (snapshot: DataSnapshot?) -> Unit) {
         val uid = mAuth.currentUser?.uid
-        var ref : Query? = null
+        var ref: Query? = null
 
-        if(child == 1){
+        if (child == 1) {
             ref = database.getReference("Plate").orderByChild("uid").equalTo(uid)
         }
-        if(child == 2){
+        if (child == 2) {
             ref = database.getReference("Plate")
         }
 
@@ -290,26 +324,58 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun spotRegister(latitude: String, longitude: String, comentario: String?, callback: (result: String) -> Unit) {
+    fun spotRegister(
+        latitude: String?,
+        longitude: String?,
+        comentario: String?,
+        comentarioUpdate: String?,
+        data: String?,
+        child: Int,
+        callback: (result: String) -> Unit
+    ) {
         val uid = mAuth.currentUser?.uid
         val location = LocationData(
-            evaluation = comentario,
-            latitude = latitude.toDouble(),
-            longitude = longitude.toDouble(),
+            evaluation = comentarioUpdate,
+            latitude = latitude?.toDouble()!!,
+            longitude = longitude?.toDouble()!!,
+            data = SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(Date().time),
             uid = uid
         )
-        if(uid != null) {
-            database.getReference("Location").child(Date().time.toString()).setValue(location)
-            callback("SUCCESS")
-        } else {
-            callback("UID RECOVER FAIL")
+        if (child == 1) {
+            if (uid != null) {
+                database.getReference("Location").child(Date().time.toString()).setValue(location)
+                callback("SUCCESS")
+            } else {
+                callback("UID RECOVER FAIL")
+            }
+        } else if (child == 2) {
+            var ref = database.getReference("Location")
+            ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { spot ->
+                        if (spot.child("evaluation").value?.equals(comentario)!! &&
+                            spot.child("data").value?.equals(data)!!
+                        ) {
+                            val chave = spot.key
+                            ref = database.getReference("Location/$chave")
+                            ref.setValue(location)
+                            callback("SUCCESS")
+                        }
+                    }
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+                    callback("ERROR")
+                }
+            })
         }
+
     }
 
     fun showSpotEvaluation(callback: (snapshot: DataSnapshot?) -> Unit) {
         val uid = mAuth.currentUser?.uid
 
-           val ref = database.getReference("Location").orderByChild("uid").equalTo(uid)
+        val ref = database.getReference("Location").orderByChild("uid").equalTo(uid)
 
         ref?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -335,7 +401,10 @@ class FirebaseRepository(context: Context) {
             spotEvaluation.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { spot ->
-                        if (spot.child("latitude").value?.equals(latitude)!! && spot.child("longitude").value?.equals(longitude)!!) {
+                        if (spot.child("latitude").value?.equals(latitude)!! && spot.child("longitude").value?.equals(
+                                longitude
+                            )!!
+                        ) {
                             if (spot.child("evaluation").value?.equals(evaluation)!!) {
                                 spot.ref.removeValue()
                                 callback("SUCCESS")
@@ -367,7 +436,6 @@ class FirebaseRepository(context: Context) {
             }
         })
     }
-
 
 
 }
