@@ -38,15 +38,17 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <com.vicmikhailau.maskededittext.MaskedEditText
         android:id="@+id/pesquisa"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="3dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        app:mask="***-####"
         android:background="@drawable/campo_texto"
         android:hint="@string/pesquisar"
-        android:inputType="text"
+        android:textAllCaps="true"
+        android:inputType="textVisiblePassword"
+        android:padding="16dp"
         android:textColor="@color/login_detalhes_formulario"
         android:textColorHint="@color/login_detalhes_formulario"
         app:layout_constraintEnd_toStartOf="@+id/bt_pesquisa"
@@ -56,8 +58,8 @@
 
     <ImageButton
         android:id="@+id/bt_pesquisa"
-        android:layout_width="63dp"
-        android:layout_height="50dp"
+        android:layout_width="56dp"
+        android:layout_height="57dp"
         android:background="@drawable/design_botao"
         android:src="@drawable/search_icon"
         app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
@@ -66,8 +68,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleView_placas"
         android:layout_width="356dp"
-        android:layout_height="474dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/bt_avaliar_placa"
         app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
         app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
         app:layout_constraintTop_toBottomOf="@+id/pesquisa" />

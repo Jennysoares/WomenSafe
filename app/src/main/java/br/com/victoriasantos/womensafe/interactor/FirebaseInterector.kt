@@ -234,8 +234,8 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun showPlate(child: Int, callback: (plates: Array<Plate>?) -> Unit) {
-        repository.showPlate(child) { snapshot ->
+    fun showPlate(child: Int, placa: String?, callback: (plates: Array<Plate>?) -> Unit) {
+        repository.showPlate(child, placa) { snapshot ->
             val plates = mutableListOf<Plate>()
             if (snapshot != null && snapshot.hasChildren() == true) {
                 snapshot.children.forEach { g ->
@@ -268,9 +268,9 @@ class FirebaseInterector(private val context: Context) {
         child: Int,
         callback: (result: String) -> Unit
     ) {
-        if (comentario.isNullOrBlank()) {
+        if (comentarioUpdate.isNullOrBlank()) {
             callback("EVALUATION EMPTY")
-        } else if (comentario.length < 100) {
+        } else if (comentarioUpdate.length < 100) {
             callback("EVALUATION SHORT")
         } else {
             repository.spotRegister(latitude, longitude, comentario, comentarioUpdate, data, child, callback)

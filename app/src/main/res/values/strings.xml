@@ -102,5 +102,6 @@
     <string name="digite_a_mensagem">Digite a mensagem</string>
     <string name="plate_updated_ok">Placa atualizada com sucesso!</string>
     <string name="spot_update_ok">Avaliação atualizada com sucesso!</string>
+    <string name="search_empty_plates">Não há avaliações com esssa placa!</string>
 
 </resources>

@@ -3,6 +3,7 @@ package br.com.victoriasantos.womensafe.repository
 
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import br.com.victoriasantos.womensafe.domain.Guardian
 import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
@@ -10,7 +11,8 @@ import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.time.LocalDate
+import java.util.*
 
 
 class FirebaseRepository(context: Context) {
@@ -235,11 +237,12 @@ class FirebaseRepository(context: Context) {
         callback: (result: String) -> Unit
     ) {
         val uid = mAuth.currentUser?.uid
+
         if (!uid.isNullOrBlank()) {
             val Plate = Plate(
                 placa = placaUpdate,
                 comentario = comentarioUpdate,
-                data = SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(Date().time),
+                data = SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Date().time),
                 uid = uid
             )
 
@@ -274,15 +277,16 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun showPlate(child: Int, callback: (snapshot: DataSnapshot?) -> Unit) {
+    fun showPlate(child: Int, placa: String?, callback: (snapshot: DataSnapshot?) -> Unit) {
         val uid = mAuth.currentUser?.uid
         var ref: Query? = null
 
         if (child == 1) {
             ref = database.getReference("Plate").orderByChild("uid").equalTo(uid)
-        }
-        if (child == 2) {
+        } else if (child == 2) {
             ref = database.getReference("Plate")
+        } else if (child == 3) {
+            ref = database.getReference("Plate").orderByChild("placa").equalTo(placa)
         }
 
         ref?.addValueEventListener(object : ValueEventListener {
@@ -338,7 +342,7 @@ class FirebaseRepository(context: Context) {
             evaluation = comentarioUpdate,
             latitude = latitude?.toDouble()!!,
             longitude = longitude?.toDouble()!!,
-            data = SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(Date().time),
+            data = SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Date().time),
             uid = uid
         )
         if (child == 1) {

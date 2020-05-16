@@ -23,6 +23,7 @@ class SafeRidesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_safe_rides)
 
         bt_avaliar_placa.setOnClickListener { startActivity(Intent(this,RegistrationPlateActivity::class.java)) }
+        bt_pesquisa.setOnClickListener { searchPlate() }
         configureRecyclerView()
         showPlates()
     }
@@ -32,9 +33,26 @@ class SafeRidesActivity : AppCompatActivity() {
     }
 
     fun showPlates(){
-        viewModel.showPlate(2){ plates ->
+        viewModel.showPlate(2, null){ plates ->
             val adapter = PlatesAdapter(ContributionsActivity(), plates, 0)
             recycleView_placas.adapter = adapter
+        }
+    }
+
+    fun searchPlate(){
+        val placa = pesquisa.text.toString().toUpperCase()
+
+        if(placa.isNullOrBlank()){
+            showPlates()
+        } else{
+            viewModel.showPlate(3, placa){ plates ->
+                if(plates.isNullOrEmpty()){
+                    Toast.makeText(this, getString(R.string.search_empty_plates), Toast.LENGTH_LONG).show()
+                } else{
+                    val adapter = PlatesAdapter(ContributionsActivity(), plates, 0)
+                    recycleView_placas.adapter = adapter
+                }
+            }
         }
     }
 }

@@ -176,8 +176,8 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun showPlate(child: Int, callback: (plates: Array<Plate>?) -> Unit) {
-        interactor.showPlate(child, callback)
+    fun showPlate(child: Int, placa: String?, callback: (plates: Array<Plate>?) -> Unit) {
+        interactor.showPlate(child, placa, callback)
     }
 
     fun deletePlate(placa: String?, comentario: String?, callback: (result: String) -> Unit) {
