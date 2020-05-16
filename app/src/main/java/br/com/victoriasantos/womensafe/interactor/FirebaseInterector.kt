@@ -343,51 +343,44 @@ class FirebaseInterector(private val context: Context) {
                 }
             }
 
-            val sortedList: Array<LocationData> = evaluations.toTypedArray()
+            val sortedList: List<LocationData> = evaluations
 
-            quick_sort(sortedList, 0, evaluations.size - 1)
-            //selection_sort(sortedList)
+            val ordered =  quicksort(sortedList)
+            //val ordered2 = selection_sort(sortedList)
 
 
-            callback(sortedList)
-            
-        }
-    }
-
-    fun quick_sort(A: Array<LocationData>, p: Int, r: Int) {
-        if (p < r) {
-            var q: Int = partition(A, p, r)
-            quick_sort(A, p, q - 1)
-            quick_sort(A, q + 1, r)
+            callback(ordered.toTypedArray())
 
         }
     }
 
-    fun partition(A: Array<LocationData>, p: Int, r: Int): Int {
-        var x = A[r]
-        var i = p - 1
+    fun quicksort(items:List<LocationData>):List<LocationData>{
         val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-
-        for (j in p until r) {
-            val date1: Date = format.parse(A[j].data)
-            val date2: Date = format.parse(x.data)
-            if (date1.compareTo(date2) <= 0) {
-                i++
-                exchange(A, i, j)
-            }
+       // val date1: Date = format.parse(A[j].data)
+        //val date2: Date = format.parse(A[max].data)
+        if (items.count() < 2){
+            return items
         }
-        exchange(A, i + 1, r)
-        return i + 1
+        val pivot = items[items.count()/2].data
+        val pivotDate: Date = format.parse(pivot)
+
+
+        val equal = items.filter { val date: Date = format.parse(it.data)
+        date.equals(pivotDate)}
+//    println("pivot value is : "+equal)
+
+        val less = items.filter { val date: Date = format.parse(it.data)
+        date.before(pivotDate)}
+//    println("Lesser values than pivot : "+less)
+
+        val greater = items.filter { val date: Date = format.parse(it.data)
+        date.after(pivotDate)}
+//    println("Greater values than pivot : "+greater)
+
+        return quicksort(less) + equal + quicksort(greater)
     }
 
-    fun exchange(A: Array<LocationData>, i: Int, j: Int) {
-        var temp = A[i]
-        A[i] = A[j]
-        A[j] = temp
-    }
-
-
-    fun selection_sort(A:Array<LocationData>){
+    fun selection_sort(A:Array<LocationData>): Array<LocationData>{
         val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
         var n=A.size
         var temp: LocationData
@@ -396,7 +389,7 @@ class FirebaseInterector(private val context: Context) {
             for(j in 0 until i){
                 val date1: Date = format.parse(A[j].data)
                 val date2: Date = format.parse(A[max].data)
-                if(date1.compareTo(date2) >= 0)
+                if(date1.after(date2))
                     max=j
             }
             if(i!=max){
@@ -405,6 +398,7 @@ class FirebaseInterector(private val context: Context) {
                 A[max]=temp
             }
         }
+        return A
     }
 
 
