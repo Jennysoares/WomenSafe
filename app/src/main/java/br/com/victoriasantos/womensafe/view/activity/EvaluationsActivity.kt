@@ -17,7 +17,6 @@ class EvaluationsActivity : AppCompatActivity() {
     private val viewModel: FirebaseViewModel by lazy {
         ViewModelProvider(this).get(FirebaseViewModel::class.java)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activity_evaluations)

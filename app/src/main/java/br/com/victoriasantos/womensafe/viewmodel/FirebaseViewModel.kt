@@ -246,11 +246,7 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun showEvaluations(
-        latitude: Double,
-        longitude: Double,
-        callback: (evaluations: Array<LocationData>?) -> Unit
-    ) {
+    fun showEvaluations(latitude: Double, longitude: Double, callback: (evaluations: Array<LocationData>?) -> Unit) {
         interactor.showEvaluations(latitude, longitude, callback)
     }
 

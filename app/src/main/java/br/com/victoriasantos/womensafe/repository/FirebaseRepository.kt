@@ -328,15 +328,7 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun spotRegister(
-        latitude: String?,
-        longitude: String?,
-        comentario: String?,
-        comentarioUpdate: String?,
-        data: String?,
-        child: Int,
-        callback: (result: String) -> Unit
-    ) {
+    fun spotRegister(latitude: String?, longitude: String?, comentario: String?, comentarioUpdate: String?, data: String?, child: Int, callback: (result: String) -> Unit) {
         val uid = mAuth.currentUser?.uid
         val location = LocationData(
             evaluation = comentarioUpdate,
@@ -358,8 +350,7 @@ class FirebaseRepository(context: Context) {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { spot ->
                         if (spot.child("evaluation").value?.equals(comentario)!! &&
-                            spot.child("data").value?.equals(data)!!
-                        ) {
+                            spot.child("data").value?.equals(data)!!) {
                             val chave = spot.key
                             ref = database.getReference("Location/$chave")
                             ref.setValue(location)

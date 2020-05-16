@@ -1,15 +1,14 @@
 package br.com.victoriasantos.womensafe.interactor
 
 import android.content.Context
-import android.util.Log
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.domain.Guardian
 import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
-
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.repository.FirebaseRepository
-import com.google.android.gms.maps.model.LatLng
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FirebaseInterector(private val context: Context) {
@@ -324,11 +323,7 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun showEvaluations(
-        latitude: Double,
-        longitude: Double,
-        callback: (evaluations: Array<LocationData>?) -> Unit
-    ) {
+    fun showEvaluations(latitude: Double, longitude: Double, callback: (evaluations: Array<LocationData>?) -> Unit) {
         repository.getMarkers { snapshot ->
             val locations = mutableListOf<LocationData>()
             if (snapshot != null && snapshot.hasChildren() == true) {
@@ -347,10 +342,71 @@ class FirebaseInterector(private val context: Context) {
                     evaluations.add(c!!)
                 }
             }
-            callback(evaluations.toTypedArray())
+
+            val sortedList: Array<LocationData> = evaluations.toTypedArray()
+
+            quick_sort(sortedList, 0, evaluations.size - 1)
+            //selection_sort(sortedList)
+
+
+            callback(sortedList)
+            
+        }
+    }
+
+    fun quick_sort(A: Array<LocationData>, p: Int, r: Int) {
+        if (p < r) {
+            var q: Int = partition(A, p, r)
+            quick_sort(A, p, q - 1)
+            quick_sort(A, q + 1, r)
 
         }
     }
+
+    fun partition(A: Array<LocationData>, p: Int, r: Int): Int {
+        var x = A[r]
+        var i = p - 1
+        val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+
+        for (j in p until r) {
+            val date1: Date = format.parse(A[j].data)
+            val date2: Date = format.parse(x.data)
+            if (date1.compareTo(date2) <= 0) {
+                i++
+                exchange(A, i, j)
+            }
+        }
+        exchange(A, i + 1, r)
+        return i + 1
+    }
+
+    fun exchange(A: Array<LocationData>, i: Int, j: Int) {
+        var temp = A[i]
+        A[i] = A[j]
+        A[j] = temp
+    }
+
+
+    fun selection_sort(A:Array<LocationData>){
+        val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        var n=A.size
+        var temp: LocationData
+        for(i in n-1 downTo  0){
+            var max = i
+            for(j in 0 until i){
+                val date1: Date = format.parse(A[j].data)
+                val date2: Date = format.parse(A[max].data)
+                if(date1.compareTo(date2) >= 0)
+                    max=j
+            }
+            if(i!=max){
+                temp =A[i]
+                A[i]=A[max]
+                A[max]=temp
+            }
+        }
+    }
+
 
 
 }
