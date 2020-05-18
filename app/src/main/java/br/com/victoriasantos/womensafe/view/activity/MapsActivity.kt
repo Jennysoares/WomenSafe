@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -28,10 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_maps.*
 import java.io.IOException
 
@@ -146,13 +144,8 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
 
         val markerOptions = MarkerOptions().position(location)
         markerOptions.icon(
-            BitmapDescriptorFactory.fromBitmap(
-                BitmapFactory.decodeResource(
-                    resources,
-                    R.mipmap.ic_user_location
-                )
-            )
-        )
+            BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources, R.mipmap.ic_user_location)))
+
         val titleStr = getAddress(location).toString()
         markerOptions.title(titleStr)
         currentLocation = map.addMarker(markerOptions)
@@ -313,11 +306,23 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     private fun getMarkers() {
         viewModel.getMarkers { markers ->
             markers?.forEach { m ->
-                val markerOptions =
-                    MarkerOptions().position(m)
+                val markerOptions = MarkerOptions().position(m)
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                 markerOptions.title(getString(R.string.local_perigoso_marcado))
                 map.addMarker(markerOptions)
+                val circle = CircleOptions()
+                // Specifying the center of the circle
+                circle.center(m);
+                // Radius of the circle
+                circle.radius(20.0);
+                // Border color of the circle
+                circle.strokeColor(Color.RED);
+                // Fill color of the circle
+                circle.fillColor(Color.RED)
+                // Border width of the circle
+                circle.strokeWidth(2.0F);
+                // Adding the circle to the GoogleMap
+                map.addCircle(circle);
             }
         }
     }

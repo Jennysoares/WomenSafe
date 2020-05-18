@@ -7,8 +7,6 @@ import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.repository.FirebaseRepository
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class FirebaseInterector(private val context: Context) {
@@ -242,13 +240,19 @@ class FirebaseInterector(private val context: Context) {
                     plates.add(plate!!)
                 }
 
-                val ordered =  QuickSort(context).quicksort(plates)
+                var ordered: List<Plate> = if(plates.size>=1000){
+                    MergeSort(context).mergeSort(plates)
+                }else {
+                    QuickSort(context).quicksort(plates)
+                }
                 callback(ordered.toTypedArray())
             } else {
                 callback(null)
             }
         }
     }
+
+
 
     fun deletePlate(placa: String?, comentario: String?, callback: (result: String) -> Unit) {
         repository.deletePlate(placa, comentario) { result ->

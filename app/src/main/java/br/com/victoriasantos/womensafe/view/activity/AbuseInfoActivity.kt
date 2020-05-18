@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.se.omapi.Session
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.viewmodel.DialogFlowViewModel
@@ -50,13 +51,18 @@ class AbuseInfoActivity : AppCompatActivity() {
                 val text = my_chat_view.inputText
                 val SessionId = (0..999999999999).random().toString()
                 viewModel.sendTextMessage(text, SessionId) { response ->
-                    my_chat_view.send(
-                        Message.Builder()
-                            .setRight(true)
-                            .setUser(agent)
-                            .setText(response!!)
-                            .build()
-                    )
+                    if(response.isNullOrEmpty()){
+                        Toast.makeText(this, "Imcompreensível", Toast.LENGTH_LONG).show()
+                    }
+                    else {
+                        my_chat_view.send(
+                            Message.Builder()
+                                .setRight(true)
+                                .setUser(agent)
+                                .setText(response!!)
+                                .build()
+                        )
+                    }
                 }
             }
         )

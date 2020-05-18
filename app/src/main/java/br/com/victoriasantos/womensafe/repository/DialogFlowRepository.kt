@@ -33,10 +33,9 @@ class DialogflowRepository(context: Context, baseUrl: String) : DialogFlowBaseRe
 
             override fun onResponse(call: Call<DialogFlowResult>, response: Response<DialogFlowResult>) {
                 val result = response.body()?.queryResult?.fulfillmentMessages
-                val message =  result?.text
+                val message = result?.text
                 callback(message)
             }
-
             override fun onFailure(call: Call<DialogFlowResult>, t: Throwable) {
                 callback(null)
             }
