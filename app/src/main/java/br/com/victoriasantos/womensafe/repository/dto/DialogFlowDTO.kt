@@ -5,8 +5,6 @@ data class DialogFlowResult(
 )
 
 data class Message(
-    val fulfillmentMessages: Text? = null
+    val fulfillmentText: String? = null
 )
-data class Text(
-    val text: String? = null
-)
+

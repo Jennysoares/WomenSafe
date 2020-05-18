@@ -314,13 +314,13 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                 // Specifying the center of the circle
                 circle.center(m);
                 // Radius of the circle
-                circle.radius(20.0);
+                circle.radius(100.0);
                 // Border color of the circle
                 circle.strokeColor(Color.RED);
                 // Fill color of the circle
-                circle.fillColor(Color.RED)
+                circle.fillColor(0x44ff0000)
                 // Border width of the circle
-                circle.strokeWidth(2.0F);
+                circle.strokeWidth(8F);
                 // Adding the circle to the GoogleMap
                 map.addCircle(circle);
             }

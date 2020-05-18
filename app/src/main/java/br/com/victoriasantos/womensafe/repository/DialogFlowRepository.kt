@@ -32,9 +32,8 @@ class DialogflowRepository(context: Context, baseUrl: String) : DialogFlowBaseRe
         service.sendTextMessage(request).enqueue(object : Callback<DialogFlowResult> {
 
             override fun onResponse(call: Call<DialogFlowResult>, response: Response<DialogFlowResult>) {
-                val result = response.body()?.queryResult?.fulfillmentMessages
-                val message = result?.text
-                callback(message)
+                val result = response.body()?.queryResult?.fulfillmentText
+                callback(result)
             }
             override fun onFailure(call: Call<DialogFlowResult>, t: Throwable) {
                 callback(null)

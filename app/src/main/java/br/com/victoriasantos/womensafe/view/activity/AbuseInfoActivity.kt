@@ -52,7 +52,7 @@ class AbuseInfoActivity : AppCompatActivity() {
                 val SessionId = (0..999999999999).random().toString()
                 viewModel.sendTextMessage(text, SessionId) { response ->
                     if(response.isNullOrEmpty()){
-                        Toast.makeText(this, "Imcompreensível", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, applicationContext.getString(R.string.SpotEvaluation_register_ok), Toast.LENGTH_LONG).show()
                     }
                     else {
                         my_chat_view.send(
