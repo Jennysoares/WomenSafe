@@ -1,10 +1,10 @@
 package br.com.victoriasantos.womensafe.repository.dto
 
-data class DialogFlowResult(
-    val queryResult: Message? = null
-)
 
-data class Message(
+data class DialogFlowResult(
+    val queryResult: QueryResult? = null
+)
+data class QueryResult(
     val fulfillmentText: String? = null
 )
 

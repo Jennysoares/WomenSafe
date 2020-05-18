@@ -17,7 +17,7 @@ interface DialogflowService {
     @Headers("Content-Type: application/json")
     fun sendTextMessage(
         @Body request: DialogFlowRequest
-    ): Call<DialogFlowResult>
+    ): Call<List<DialogFlowResult>>
 }
 
 class DialogflowRepository(context: Context, baseUrl: String) : DialogFlowBaseRetrofit(context, baseUrl) {
@@ -29,13 +29,14 @@ class DialogflowRepository(context: Context, baseUrl: String) : DialogFlowBaseRe
 
         val email = mAuth.currentUser?.email!!
         val request = DialogFlowRequest(text, email, sessionId)
-        service.sendTextMessage(request).enqueue(object : Callback<DialogFlowResult> {
+        service.sendTextMessage(request).enqueue(object : Callback<List<DialogFlowResult>> {
 
-            override fun onResponse(call: Call<DialogFlowResult>, response: Response<DialogFlowResult>) {
-                val result = response.body()?.queryResult?.fulfillmentText
-                callback(result)
+            override fun onResponse(call: Call<List<DialogFlowResult>>, response: Response<List<DialogFlowResult>>) {
+                val result = response.body()
+                var message: String? = result?.component1()?.queryResult?.fulfillmentText
+                callback(message)
             }
-            override fun onFailure(call: Call<DialogFlowResult>, t: Throwable) {
+            override fun onFailure(call: Call<List<DialogFlowResult>>, t: Throwable) {
                 callback(null)
             }
         })

@@ -30,4 +30,5 @@ open class DialogFlowBaseRetrofit(context: Context, baseUrl: String){
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
         }
+
 }

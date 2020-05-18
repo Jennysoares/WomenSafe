@@ -39,7 +39,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     private val viewModel: FirebaseViewModel by lazy {
         ViewModelProvider(this).get(FirebaseViewModel::class.java)
     }
-
+    lateinit var geofencingClient: GeofencingClient
     private lateinit var map: GoogleMap
     private lateinit var lastLocation: Location
     private var currentLocation: Marker? = null
@@ -58,6 +58,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         manual()
+        geofencingClient = LocationServices.getGeofencingClient(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
@@ -311,18 +312,13 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                 markerOptions.title(getString(R.string.local_perigoso_marcado))
                 map.addMarker(markerOptions)
                 val circle = CircleOptions()
-                // Specifying the center of the circle
-                circle.center(m);
-                // Radius of the circle
-                circle.radius(100.0);
-                // Border color of the circle
-                circle.strokeColor(Color.RED);
-                // Fill color of the circle
+                circle.center(m)
+                circle.radius(100.0)
+                circle.strokeColor(Color.RED)
                 circle.fillColor(0x44ff0000)
-                // Border width of the circle
-                circle.strokeWidth(8F);
-                // Adding the circle to the GoogleMap
-                map.addCircle(circle);
+                circle.strokeWidth(8F)
+                map.addCircle(circle)
+
             }
         }
     }
