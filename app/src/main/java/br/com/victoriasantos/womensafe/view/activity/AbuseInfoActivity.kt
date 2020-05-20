@@ -10,6 +10,7 @@ import android.se.omapi.Session
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.size
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.viewmodel.DialogFlowViewModel
@@ -31,25 +32,9 @@ class AbuseInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_abuse_info)
 
+        val human = ChatUser(1, "Você", BitmapFactory.decodeResource(resources, R.drawable.ic_account_circle))
 
-
-        val human = ChatUser(
-            1,
-            "Você",
-            BitmapFactory.decodeResource(
-                resources,
-                R.drawable.ic_account_circle
-            )
-        )
-
-        val agent = ChatUser(
-            2,
-            "WomenSafe's Bot",
-            BitmapFactory.decodeResource(
-                resources,
-                R.drawable.bot_profile
-            )
-        )
+        val agent = ChatUser(2, "WomenSafe's Bot", BitmapFactory.decodeResource(resources, R.drawable.bot_profile))
 
         my_chat_view.setInputTextHint("Digite 'Olá' para iniciar conversa.")
         my_chat_view.setRightBubbleColor(getColor(R.color.roxo))
@@ -57,6 +42,7 @@ class AbuseInfoActivity : AppCompatActivity() {
         my_chat_view.setUsernameTextColor(Color.WHITE);
         my_chat_view.setSendTimeTextColor(Color.WHITE);
         my_chat_view.setDateSeparatorColor(Color.WHITE);
+        my_chat_view.setMessageMaxWidth(700)
 
         my_chat_view.setOnClickSendButtonListener(
             View.OnClickListener { my_chat_view.send(Message.Builder().setUser(human).setText(my_chat_view.inputText).build())
@@ -68,12 +54,7 @@ class AbuseInfoActivity : AppCompatActivity() {
                         Toast.makeText(this, applicationContext.getString(R.string.error), Toast.LENGTH_LONG).show()
                     }
                     else {
-                        my_chat_view.send(
-                            Message.Builder()
-                                .setRight(true)
-                                .setUser(agent)
-                                .setText(response!!)
-                                .build()
+                        my_chat_view.send(Message.Builder().setRight(true).setUser(agent).setText(response!!).build()
                         )
                     }
                 }

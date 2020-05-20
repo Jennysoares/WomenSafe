@@ -1,17 +1,17 @@
 package br.com.victoriasantos.womensafe.view.activity
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
-import android.content.IntentSender
+import android.app.PendingIntent
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -48,8 +48,10 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
     private var showManual: String = "ShowManual"
+    private lateinit var locationManager: LocationManager
     val REQUEST_CHECK_SETTINGS = 2
     val LOCATION_PERMISSION_REQUEST_CODE = 1
+    private val PROX_ALERT_INTENT = "WomenSafe"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +60,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         manual()
+        locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager;
         geofencingClient = LocationServices.getGeofencingClient(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationCallback = object : LocationCallback() {
@@ -205,24 +208,12 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     }
 
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
 
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            null /* Looper */
-        )
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
     }
 
     private fun createLocationRequest() {
@@ -269,17 +260,6 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        fusedLocationClient.removeLocationUpdates(locationCallback)
-    }
-
-    public override fun onResume() {
-        super.onResume()
-        if (!locationUpdateState) {
-            startLocationUpdates()
-        }
-    }
 
     fun searchLocation(view: View?) {
         val locationSearch = findViewById(R.id.editText) as EditText
@@ -318,10 +298,26 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                 circle.fillColor(0x44ff0000)
                 circle.strokeWidth(8F)
                 map.addCircle(circle)
-
             }
+            addProximityAlert(markers)
         }
     }
+
+     fun addProximityAlert(locations: Array<LatLng>?) {
+         val intent = Intent(PROX_ALERT_INTENT);
+         val proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+             return
+         }
+
+         locations?.forEach { l ->
+             locationManager.addProximityAlert(l.latitude, l.longitude, 100F, -1, proximityIntent)
+         }
+
+        val filter = IntentFilter(PROX_ALERT_INTENT);
+        applicationContext.registerReceiver(ProximityIntentReceiver(), filter);
+ }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         if(currentLocation?.position != p0?.position) {
@@ -339,6 +335,17 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         }
     }
 
+    public override fun onResume() {
+        super.onResume()
+        if (!locationUpdateState) {
+            startLocationUpdates()
+        }
+    }
+
+    public override fun onDestroy() {
+        super.onDestroy()
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
 
 
 }

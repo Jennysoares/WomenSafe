@@ -63,6 +63,6 @@ class MergeSort(context: Context){
             newList.add(right[indexRight])
             indexRight++
         }
-        return newList;
+        return newList
     }
 }

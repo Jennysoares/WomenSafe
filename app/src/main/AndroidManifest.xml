@@ -43,6 +43,7 @@
         <activity
             android:name=".view.activity.MapsActivity"
             android:label="@string/title_activity_maps" />
+
         <activity android:name=".view.activity.NewGuardianActivity" />
         <activity android:name=".view.activity.RegistrationPlateActivity" />
         <activity android:name=".view.activity.AbuseInfoActivity" />
