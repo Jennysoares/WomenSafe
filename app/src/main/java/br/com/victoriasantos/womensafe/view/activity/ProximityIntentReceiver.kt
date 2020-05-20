@@ -44,7 +44,9 @@ class ProximityIntentReceiver : BroadcastReceiver() {
 
               builder = Notification.Builder(context,channelId).apply {
                  setSmallIcon(R.drawable.logo)
-                 setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.logo2))
+                  setContentTitle("WomenSafe")
+                  setContentText("Você está próxima a um local marcado como perigoso por nossos usuários. Clique para verificar o mapa.")
+                  setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.logo))
                   setContentIntent(pendingIntent)
                   setAutoCancel(true)
              }
@@ -60,7 +62,7 @@ class ProximityIntentReceiver : BroadcastReceiver() {
               }
           }
 
-          notificationManager.notify(1234,builder.build())
+          notificationManager.notify(intent.getIntExtra("int", 0), builder.build())
 
         }
 

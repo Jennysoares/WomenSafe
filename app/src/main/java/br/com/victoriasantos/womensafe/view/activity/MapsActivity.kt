@@ -52,6 +52,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     val REQUEST_CHECK_SETTINGS = 2
     val LOCATION_PERMISSION_REQUEST_CODE = 1
     private val PROX_ALERT_INTENT = "WomenSafe"
+    var requestCode: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -298,25 +299,26 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                 circle.fillColor(0x44ff0000)
                 circle.strokeWidth(8F)
                 map.addCircle(circle)
+                addProximityAlert(m.latitude, m.longitude)
             }
-            addProximityAlert(markers)
+            
         }
     }
 
-     fun addProximityAlert(locations: Array<LatLng>?) {
-         val intent = Intent(PROX_ALERT_INTENT);
-         val proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+     fun addProximityAlert(latitude: Double, longitude: Double) {
+         val extras =  Bundle()
+         extras.putInt("id", requestCode)
+         val intent = Intent(PROX_ALERT_INTENT)
+         intent.putExtra(PROX_ALERT_INTENT, extras)
+         val proximityIntent = PendingIntent.getBroadcast(this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
          if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
              ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
              return
          }
-
-         locations?.forEach { l ->
-             locationManager.addProximityAlert(l.latitude, l.longitude, 100F, -1, proximityIntent)
-         }
-
+         locationManager.addProximityAlert(latitude, longitude, 100F, -1, proximityIntent)
+         requestCode++
         val filter = IntentFilter(PROX_ALERT_INTENT);
-        applicationContext.registerReceiver(ProximityIntentReceiver(), filter);
+        registerReceiver(ProximityIntentReceiver(), filter);
  }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
