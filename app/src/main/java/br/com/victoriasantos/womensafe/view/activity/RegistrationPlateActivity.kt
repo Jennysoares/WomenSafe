@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
@@ -24,6 +26,7 @@ class RegistrationPlateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration_plate)
+        pBar.visibility = GONE
         bt_confirmar.setOnClickListener { registerPlate() }
         bt_cancelar.setOnClickListener { finish() }
 
@@ -36,14 +39,16 @@ class RegistrationPlateActivity : AppCompatActivity() {
     }
 
     fun registerPlate(){
+        pBar.visibility = VISIBLE
         val placa = numero_placa.text.toString().toUpperCase()
         val comentario = obs_avaliacao.text.toString()
         viewModel.registerPlate(null, placa, null, comentario, 1){ result ->
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
-
             if(result.equals(getString(R.string.plate_registered_success))){
+                pBar.visibility = GONE
                 finish()
             }
+            pBar.visibility = GONE
         }
     }
 
@@ -52,14 +57,17 @@ class RegistrationPlateActivity : AppCompatActivity() {
         obs_avaliacao.setText(comentario)
 
         bt_confirmar.setOnClickListener {
+            pBar.visibility = VISIBLE
             val placaUpdate = numero_placa.text.toString().toUpperCase()
             val comentarioUpdate = obs_avaliacao.text.toString()
             viewModel.registerPlate(placa, placaUpdate,comentario, comentarioUpdate, 2){ result ->
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show()
 
                 if(result.equals(getString(R.string.plate_updated_ok))){
+                    pBar.visibility = GONE
                     finish()
                 }
+                pBar.visibility = GONE
             }
         }
 

@@ -2,6 +2,8 @@ package br.com.victoriasantos.womensafe.view.activity
 
 
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +22,7 @@ class DangerousSpotActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dangerous_spot)
+        pBar.visibility = GONE
 
         val latitude = intent.getStringExtra("latitude")
         val longitude = intent.getStringExtra("longitude")
@@ -46,9 +49,11 @@ class DangerousSpotActivity : AppCompatActivity() {
     }
 
     fun spotRegister(latitude: String, longitude: String) {
+        pBar.visibility = VISIBLE
         val comentario = comentario_lugar.text.toString()
         viewModel.spotRegister(latitude, longitude, null, comentario, null, 1) { result, id ->
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
+            pBar.visibility = GONE
             if (id == 1) {
                 finish()
             }

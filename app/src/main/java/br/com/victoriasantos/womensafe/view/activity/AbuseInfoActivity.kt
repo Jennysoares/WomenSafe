@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.se.omapi.Session
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
@@ -32,6 +34,7 @@ class AbuseInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_abuse_info)
 
+
         val human = ChatUser(1, "Você", BitmapFactory.decodeResource(resources, R.drawable.ic_account_circle))
 
         val agent = ChatUser(2, "WomenSafe's Bot", BitmapFactory.decodeResource(resources, R.drawable.bot_profile))
@@ -45,10 +48,12 @@ class AbuseInfoActivity : AppCompatActivity() {
         my_chat_view.setMessageMaxWidth(700)
 
         my_chat_view.setOnClickSendButtonListener(
-            View.OnClickListener { my_chat_view.send(Message.Builder().setUser(human).setText(my_chat_view.inputText).build())
+            View.OnClickListener {
+                my_chat_view.send(Message.Builder().setUser(human).setText(my_chat_view.inputText).build())
                 val text = my_chat_view.inputText
                 my_chat_view.inputText =""
                 my_chat_view.setInputTextHint("Mensagem")
+
                 viewModel.sendTextMessage(text, SessionId) { response ->
                     if(response.isNullOrEmpty()){
                         Toast.makeText(this, applicationContext.getString(R.string.error), Toast.LENGTH_LONG).show()

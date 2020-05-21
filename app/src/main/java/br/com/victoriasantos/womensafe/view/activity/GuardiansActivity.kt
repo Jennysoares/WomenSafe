@@ -7,6 +7,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,11 +28,13 @@ class GuardiansActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guardians)
+        pBar.visibility = GONE
 
         bt_CadastroGuardiao.setOnClickListener {
             startActivity(Intent(this, NewGuardianActivity::class.java))
         }
         configureRecyclerView()
+        pBar.visibility = VISIBLE
         showGuardians()
 
     }
@@ -47,13 +51,17 @@ class GuardiansActivity : AppCompatActivity() {
             recycleView_guardian.adapter = adapter
             if(guardians.isNullOrEmpty()){
                 Toast.makeText(this, "Você não possui guardiões!",Toast.LENGTH_LONG).show()
+                pBar.visibility = GONE
             }
+            pBar.visibility = GONE
         }
     }
 
     fun deleteGuardian(email : String?){
+        pBar.visibility = VISIBLE
         viewModel.deleteGuardian(email){result ->
             Toast.makeText(this,result, Toast.LENGTH_LONG).show()
+            pBar.visibility = GONE
             showGuardians()
         }
     }

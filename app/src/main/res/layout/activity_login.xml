@@ -8,6 +8,17 @@
     android:orientation="vertical"
     tools:context=".view.activity.LoginActivity">
 
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="153dp"
+        android:layout_height="121dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toTopOf="parent"></ProgressBar>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_esquerdo"
         android:layout_width="wrap_content"

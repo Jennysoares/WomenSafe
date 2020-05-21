@@ -2,6 +2,8 @@ package br.com.victoriasantos.womensafe.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
@@ -18,6 +20,7 @@ class NewGuardianActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_guardian)
+        pBar.visibility = GONE
 
         bt_confirmar.setOnClickListener {
             registerGuardian()
@@ -30,6 +33,7 @@ class NewGuardianActivity : AppCompatActivity() {
     }
 
     fun registerGuardian() {
+        pBar.visibility = VISIBLE
         val nome = nome_guardiao.text.toString()
         val telefone = telefone_guardiao.text.toString()
         val email = email_guardiao.text.toString()
@@ -37,8 +41,10 @@ class NewGuardianActivity : AppCompatActivity() {
         viewModel.registerGuardian(nome, telefone, email) { result ->
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
             if (result.equals(applicationContext.getString(R.string.guardian_registered))) {
+                pBar.visibility = GONE
                 finish()
             }
+            pBar.visibility = GONE
         }
     }
 }

@@ -8,6 +8,18 @@
     android:orientation="vertical"
     tools:context=".view.activity.RegisterActivity">
 
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="131dp"
+        android:layout_height="113dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_cadastro_direito"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/guideline_cadastro_esquerdo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.432"></ProgressBar>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_cadastro_esquerdo"
         android:layout_width="wrap_content"
@@ -58,18 +70,19 @@
         android:id="@+id/senhaet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints=""
         android:background="@drawable/campo_texto"
         android:drawableEnd="@drawable/cadeado_icon"
         android:hint="@string/senha"
         android:inputType="textPassword"
         android:padding="16dp"
-        android:textColorHint="@color/login_detalhes_formulario"
         android:textColor="@color/login_detalhes_formulario"
+        android:textColorHint="@color/login_detalhes_formulario"
         app:layout_constraintEnd_toStartOf="@id/guideline_cadastro_direito"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/guideline_cadastro_esquerdo"
-        app:layout_constraintTop_toBottomOf="@+id/emailet"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/emailet" />
 
     <Button
         android:id="@+id/cadastrobt"

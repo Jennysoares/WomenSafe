@@ -7,6 +7,27 @@
     tools:context=".view.activity.ContributionsActivity"
     android:background="@drawable/pagina_login">
 
+
+    <ProgressBar
+        android:id="@+id/pBar2"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/recycleview_lugares_perigosos"
+        app:layout_constraintEnd_toEndOf="@+id/recycleview_lugares_perigosos"
+        app:layout_constraintStart_toStartOf="@+id/recycleview_lugares_perigosos"
+        app:layout_constraintTop_toTopOf="@+id/recycleview_lugares_perigosos"></ProgressBar>
+
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/recycleview_placa"
+        app:layout_constraintEnd_toEndOf="@+id/recycleview_placa"
+        app:layout_constraintStart_toStartOf="@+id/recycleview_placa"
+        app:layout_constraintTop_toBottomOf="@+id/placa_texto"></ProgressBar>
+
     <Button
         android:id="@+id/placa_texto"
         android:layout_width="0dp"
@@ -72,24 +93,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toBottomOf="@id/separador2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lugares_perigosos"
-        app:layout_constraintVertical_bias="0.087" />
-
-    <View
-        android:id="@+id/separador2"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/login_detalhes_formulario"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lugares_perigosos" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

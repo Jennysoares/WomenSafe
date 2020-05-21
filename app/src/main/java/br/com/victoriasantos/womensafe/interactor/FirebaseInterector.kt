@@ -20,6 +20,10 @@ class FirebaseInterector(private val context: Context) {
             callback(context.getString(R.string.email_vazio))
             return
         }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            callback(context.getString(R.string.email_invalid))
+            return
+        }
         if (senha.isNullOrBlank()) {
             callback(context.getString(R.string.senha_vazia))
             return
@@ -159,17 +163,15 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun registerGuardian(
-        nome: String?,
-        telefone: String?,
-        email: String?,
-        callback: (result: String) -> Unit
-    ) {
+    fun registerGuardian(nome: String?, telefone: String?, email: String?, callback: (result: String) -> Unit) {
         if (email.isNullOrBlank()) {
             callback("EV")
         } else if (telefone.isNullOrBlank()) {
             callback("TF")
-        } else if (telefone.length < 15) {
+        } else  if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            callback(context.getString(R.string.email_invalid))
+        }
+          else if (telefone.length < 15) {
             callback("TI")
         } else if (nome.isNullOrBlank()) {
             callback("NV")

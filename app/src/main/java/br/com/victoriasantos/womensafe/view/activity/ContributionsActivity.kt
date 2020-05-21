@@ -6,6 +6,8 @@ import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +28,8 @@ class ContributionsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contributions)
+        pBar.visibility = GONE
+        pBar2.visibility = GONE
 
         configureRecyclerView()
         showPlatesAndSpotsContribution()
@@ -37,27 +41,34 @@ class ContributionsActivity : AppCompatActivity() {
     }
 
     fun showPlatesAndSpotsContribution(){
+        pBar.visibility = VISIBLE
         viewModel.showPlate(1, null){ plates ->
             val adapter = PlatesAdapter(this, plates,1)
             recycleview_placa.adapter = adapter
+            pBar.visibility = GONE
         }
-
+        pBar2.visibility = VISIBLE
         viewModel.showSpotEvaluation{ spots ->
             val adapter = SpotEvaluationAdapter(this, spots,1)
             recycleview_lugares_perigosos.adapter = adapter
+            pBar.visibility = GONE
         }
 
     }
 
     fun deletePlate(placa: String?, comentario: String? ){
+        pBar.visibility = VISIBLE
         viewModel.deletePlate(placa, comentario){ result ->
             Toast.makeText(this,result, Toast.LENGTH_LONG).show()
+            pBar.visibility = GONE
         }
     }
 
     fun deleteSpotEvaluation(latitude: Double?, longitude: Double?,evaluation: String? ){
+        pBar2.visibility = VISIBLE
         viewModel.deleteSpotEvaluation(latitude, longitude, evaluation){ result ->
             Toast.makeText(this,result, Toast.LENGTH_LONG).show()
+            pBar2.visibility = GONE
         }
     }
 

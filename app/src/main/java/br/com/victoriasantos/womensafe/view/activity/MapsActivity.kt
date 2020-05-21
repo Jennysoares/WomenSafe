@@ -1,9 +1,7 @@
 package br.com.victoriasantos.womensafe.view.activity
 
 import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.PendingIntent
+import android.app.*
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -12,7 +10,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -34,6 +32,7 @@ import kotlinx.android.synthetic.main.activity_maps.*
 import java.io.IOException
 
 
+
 class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private val viewModel: FirebaseViewModel by lazy {
@@ -49,10 +48,9 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     private var locationUpdateState = false
     private var showManual: String = "ShowManual"
     private lateinit var locationManager: LocationManager
+    lateinit var builder : Notification.Builder
     val REQUEST_CHECK_SETTINGS = 2
     val LOCATION_PERMISSION_REQUEST_CODE = 1
-    private val PROX_ALERT_INTENT = "WomenSafe"
-    var requestCode: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +59,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         manual()
-        locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager;
+        locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         geofencingClient = LocationServices.getGeofencingClient(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationCallback = object : LocationCallback() {
@@ -69,12 +67,13 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
                 placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+                dangerousSpotProximityCheck()
             }
         }
         createLocationRequest()
     }
 
-    fun manual(){
+    private fun manual(){
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
 
         if(sharedPref.getBoolean(showManual,true )){
@@ -167,14 +166,14 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     }
 
     private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
         GPSlocation()
     }
 
-    fun GPSlocation() {
+    private fun GPSlocation() {
         map.isMyLocationEnabled = true
         map.mapType = GoogleMap.MAP_TYPE_TERRAIN
 
@@ -186,6 +185,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 placeMarkerOnMap(currentLatLng)
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+                dangerousSpotProximityCheck()
             }
         }
     }
@@ -209,12 +209,13 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     }
 
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
 
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
+
     }
 
     private fun createLocationRequest() {
@@ -299,27 +300,59 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                 circle.fillColor(0x44ff0000)
                 circle.strokeWidth(8F)
                 map.addCircle(circle)
-                addProximityAlert(m.latitude, m.longitude)
+
             }
-            
         }
     }
 
-     fun addProximityAlert(latitude: Double, longitude: Double) {
-         val extras =  Bundle()
-         extras.putInt("id", requestCode)
-         val intent = Intent(PROX_ALERT_INTENT)
-         intent.putExtra(PROX_ALERT_INTENT, extras)
-         val proximityIntent = PendingIntent.getBroadcast(this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-             return
-         }
-         locationManager.addProximityAlert(latitude, longitude, 100F, -1, proximityIntent)
-         requestCode++
-        val filter = IntentFilter(PROX_ALERT_INTENT);
-        registerReceiver(ProximityIntentReceiver(), filter);
- }
+    private fun sendNotification() {
+
+        val intent = Intent(this, MapsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val notificationManager = this.getSystemService(NotificationManager::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val channelId = "${this.packageName}"
+            val channel = NotificationChannel(channelId, "WomenSafe", NotificationManager.IMPORTANCE_HIGH)
+            channel.description = "Local perigoso"
+            channel.setShowBadge(true)
+            channel.enableLights(true)
+            channel.lightColor = Color.RED
+            channel.enableVibration(false)
+            notificationManager.createNotificationChannel(channel)
+
+             builder = Notification.Builder(this,channelId)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("WomenSafe")
+                .setContentText("Próxima a um local marcado como perigoso.")
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+        }else{
+             builder = Notification.Builder(this)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("WomenSafe")
+                .setContentText("Próxima a um local marcado como perigoso.")
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+        }
+
+        notificationManager.notify(1234, builder.build())
+
+
+    }
+
+    private fun dangerousSpotProximityCheck(){
+        viewModel.getMarkers { markers ->
+            markers?.forEach { m ->
+                var distance = FloatArray(2)
+                Location.distanceBetween(lastLocation.latitude, lastLocation.longitude, m.latitude, m.longitude, distance)
+                if (distance[0] <= 100) {
+                    sendNotification()
+                }
+            }
+        }
+    }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         if(currentLocation?.position != p0?.position) {

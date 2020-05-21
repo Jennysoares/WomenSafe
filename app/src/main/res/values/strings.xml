@@ -43,7 +43,7 @@
     <string name="placas_avaliadas">Placas Avaliadas</string>
     <string name="avaliar_placa">Avaliar Placa</string>
     <string name="numero_placa">Número da placa (Ex: ABC-1234)</string>
-    <string name="comentario">Comentário</string>
+    <string name="comentario">Comentário. Lembre-se que devem ser registradas somente experiências em que o motorista cometeu qualquer tipo de assédio. Qualquer outro caso deve ser relatado no suporte do aplicativo em questão.</string>
     <string name="cadastro_placa_avaliacao">Cadastro placa avaliação</string>
     <string name="request_plate">Placa deve ser preenchida!</string>
     <string name="concluir_cadastro">Email autenticado, para concluir o cadastro preencha o perfil!</string>
@@ -103,5 +103,6 @@
     <string name="plate_updated_ok">Placa atualizada com sucesso!</string>
     <string name="spot_update_ok">Avaliação atualizada com sucesso!</string>
     <string name="search_empty_plates">Não há avaliações com esssa placa!</string>
+    <string name="email_invalid">Email inválido</string>
 
 </resources>

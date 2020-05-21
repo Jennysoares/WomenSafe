@@ -3,6 +3,8 @@ package br.com.victoriasantos.womensafe.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
@@ -19,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        pBar.visibility = GONE
         entrarbt.setOnClickListener { login() }
         cadastrarbt.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
         resetbt.setOnClickListener { startActivity(Intent(this, ResetPasswordActivity::class.java)) }
@@ -27,20 +29,22 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login() {
+        pBar.visibility = VISIBLE
         val email = emailet.text.toString()
         val senha = senhaet.text.toString()
-
-
 
         viewModel.login(email, senha) { result, id ->
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
             if(id == 1) {
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                pBar.visibility = GONE
                 finish()
             }
             else if(id == 2){
                 startActivity(Intent(this@LoginActivity, ProfileActivity::class.java))
+                pBar.visibility = GONE
                 finish()
+
             }
 
         }
