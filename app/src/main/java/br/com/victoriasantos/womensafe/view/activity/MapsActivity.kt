@@ -135,6 +135,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                     marker2.remove()
                 }
             })
+            marker2.remove()
         }
         builder.show()
     }
@@ -324,14 +325,14 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
 
              builder = Notification.Builder(this,channelId)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle("WomenSafe")
+                .setContentTitle("Local perigoso")
                 .setContentText("Próxima a um local marcado como perigoso.")
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
         }else{
              builder = Notification.Builder(this)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle("WomenSafe")
+                .setContentTitle("Local perigoso")
                 .setContentText("Próxima a um local marcado como perigoso.")
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
