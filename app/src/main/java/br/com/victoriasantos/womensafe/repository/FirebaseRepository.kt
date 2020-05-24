@@ -228,13 +228,7 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun registerPlate(
-        placa: String?,
-        placaUpdate: String?,
-        comentario: String?,
-        comentarioUpdate: String?,
-        child: Int,
-        callback: (result: String) -> Unit
+    fun registerPlate(placa: String?, placaUpdate: String?, comentario: String?, comentarioUpdate: String?, child: Int, callback: (result: String) -> Unit
     ) {
         val uid = mAuth.currentUser?.uid
 

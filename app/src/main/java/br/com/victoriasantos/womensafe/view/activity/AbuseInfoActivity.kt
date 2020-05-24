@@ -56,7 +56,7 @@ class AbuseInfoActivity : AppCompatActivity() {
 
                 viewModel.sendTextMessage(text, SessionId) { response ->
                     if(response.isNullOrEmpty()){
-                        Toast.makeText(this, applicationContext.getString(R.string.error), Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,getString(R.string.conection_error), Toast.LENGTH_LONG).show()
                     }
                     else {
                         my_chat_view.send(Message.Builder().setRight(true).setUser(agent).setText(response!!).build()

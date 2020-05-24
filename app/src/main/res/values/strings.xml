@@ -104,5 +104,8 @@
     <string name="spot_update_ok">Avaliação atualizada com sucesso!</string>
     <string name="search_empty_plates">Não há avaliações com esssa placa!</string>
     <string name="email_invalid">Email inválido</string>
+    <string name="conection_error">Ocorreu um erro. Verifique sua conexão com a internet.</string>
+    <string name="dangerous_spot">Local perigoso</string>
+    <string name="next_to_spot">Próxima a um local marcado como perigoso.</string>
 
 </resources>

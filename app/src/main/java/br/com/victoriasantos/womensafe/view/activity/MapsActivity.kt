@@ -135,7 +135,6 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                     marker2.remove()
                 }
             })
-            marker2.remove()
         }
         builder.show()
     }
@@ -223,6 +222,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         locationRequest = LocationRequest()
         locationRequest.interval = 10000
         locationRequest.fastestInterval = 5000
+        locationRequest.smallestDisplacement = 10.0F
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
@@ -316,7 +316,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
 
             val channelId = "${this.packageName}"
             val channel = NotificationChannel(channelId, "WomenSafe", NotificationManager.IMPORTANCE_HIGH)
-            channel.description = "Local perigoso"
+            channel.description = getString(R.string.dangerous_spot)
             channel.setShowBadge(true)
             channel.enableLights(true)
             channel.lightColor = Color.RED
@@ -325,15 +325,15 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
 
              builder = Notification.Builder(this,channelId)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle("Local perigoso")
-                .setContentText("Próxima a um local marcado como perigoso.")
+                .setContentTitle(getString(R.string.dangerous_spot))
+                .setContentText(getString(R.string.next_to_spot))
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
         }else{
              builder = Notification.Builder(this)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle("Local perigoso")
-                .setContentText("Próxima a um local marcado como perigoso.")
+                .setContentTitle(getString(R.string.dangerous_spot))
+                .setContentText(getString(R.string.next_to_spot))
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
         }
