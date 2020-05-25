@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="@id/recycleview_lugares_perigosos"
         app:layout_constraintEnd_toEndOf="@+id/recycleview_lugares_perigosos"
         app:layout_constraintStart_toStartOf="@+id/recycleview_lugares_perigosos"
-        app:layout_constraintTop_toTopOf="@+id/recycleview_lugares_perigosos"></ProgressBar>
+        app:layout_constraintTop_toTopOf="@+id/recycleview_lugares_perigosos"/>
 
     <ProgressBar
         android:id="@+id/pBar"
@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/recycleview_placa"
         app:layout_constraintEnd_toEndOf="@+id/recycleview_placa"
         app:layout_constraintStart_toStartOf="@+id/recycleview_placa"
-        app:layout_constraintTop_toBottomOf="@+id/placa_texto"></ProgressBar>
+        app:layout_constraintTop_toBottomOf="@+id/placa_texto"/>
 
     <Button
         android:id="@+id/placa_texto"

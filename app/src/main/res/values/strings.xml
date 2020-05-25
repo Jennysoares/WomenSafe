@@ -107,5 +107,7 @@
     <string name="conection_error">Ocorreu um erro. Verifique sua conexão com a internet.</string>
     <string name="dangerous_spot">Local perigoso</string>
     <string name="next_to_spot">Próxima a um local marcado como perigoso.</string>
+    <string name="you">Você</string>
+    <string name="chat_start">Digite \'Olá\' para iniciar conversa.</string>
 
 </resources>

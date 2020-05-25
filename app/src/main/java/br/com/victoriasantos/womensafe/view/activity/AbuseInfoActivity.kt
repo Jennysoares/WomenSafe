@@ -1,26 +1,20 @@
 package br.com.victoriasantos.womensafe.view.activity
 
-import android.content.Intent
+
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.net.Uri
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.se.omapi.Session
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.view.size
+
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
 import br.com.victoriasantos.womensafe.viewmodel.DialogFlowViewModel
 import com.github.bassaer.chatmessageview.model.ChatUser
 import com.github.bassaer.chatmessageview.model.Message
 import kotlinx.android.synthetic.main.activity_abuse_info.*
-import kotlinx.android.synthetic.main.item_guardians.*
-import kotlin.random.Random
 
 @Suppress("DEPRECATION")
 class AbuseInfoActivity : AppCompatActivity() {
@@ -35,11 +29,11 @@ class AbuseInfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_abuse_info)
 
 
-        val human = ChatUser(1, "Você", BitmapFactory.decodeResource(resources, R.drawable.ic_account_circle))
+        val human = ChatUser(1, getString(R.string.you), BitmapFactory.decodeResource(resources, R.drawable.ic_account_circle))
 
         val agent = ChatUser(2, "WomenSafe's Bot", BitmapFactory.decodeResource(resources, R.drawable.bot_profile))
 
-        my_chat_view.setInputTextHint("Digite 'Olá' para iniciar conversa.")
+        my_chat_view.setInputTextHint(getString(R.string.chat_start))
         my_chat_view.setRightBubbleColor(getColor(R.color.roxo))
         my_chat_view.setBackgroundDrawable(getDrawable(R.drawable.pagina_login))
         my_chat_view.setUsernameTextColor(Color.WHITE);
