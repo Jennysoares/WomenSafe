@@ -11,14 +11,13 @@
     <ProgressBar
         android:id="@+id/pBar"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="131dp"
-        android:layout_height="113dp"
+        android:layout_width="125dp"
+        android:layout_height="135dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_cadastro_direito"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/guideline_cadastro_esquerdo"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.432"/>
+        app:layout_constraintVertical_bias="0.469" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_cadastro_esquerdo"
@@ -84,19 +83,38 @@
         app:layout_constraintStart_toStartOf="@id/guideline_cadastro_esquerdo"
         app:layout_constraintTop_toBottomOf="@+id/emailet" />
 
+    <EditText
+        android:id="@+id/senhaet2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:autofillHints=""
+        android:background="@drawable/campo_texto"
+        android:drawableEnd="@drawable/cadeado_icon"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textColorHint="@color/login_detalhes_formulario"
+        app:layout_constraintEnd_toStartOf="@id/guideline_cadastro_direito"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_cadastro_esquerdo"
+        app:layout_constraintTop_toBottomOf="@id/senhaet" />
+
     <Button
         android:id="@+id/cadastrobt"
         android:layout_width="367dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/design_botao"
         android:text="@string/cadastrar"
         android:textAllCaps="false"
         android:textColor="@color/login_detalhes_formulario_medio"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@id/guideline_cadastro_direito"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/guideline_cadastro_esquerdo"
-        app:layout_constraintTop_toBottomOf="@id/senhaet" />
+        app:layout_constraintTop_toBottomOf="@+id/senhaet2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

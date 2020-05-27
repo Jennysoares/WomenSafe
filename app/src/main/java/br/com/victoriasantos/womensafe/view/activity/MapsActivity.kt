@@ -151,7 +151,8 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
             BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources, R.mipmap.ic_user_location)))
 
         val titleStr = getAddress(location).toString()
-        markerOptions.title(titleStr)
+        markerOptions.title(getString(R.string.youarehere))
+        markerOptions.snippet(titleStr)
         currentLocation = map.addMarker(markerOptions)
 
         btn_SendLocation.setOnClickListener {

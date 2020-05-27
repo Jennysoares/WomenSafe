@@ -109,5 +109,8 @@
     <string name="next_to_spot">Próxima a um local marcado como perigoso.</string>
     <string name="you">Você</string>
     <string name="chat_start">Digite \'Olá\' para iniciar conversa.</string>
+    <string name="youarehere">Você está aqui!</string>
+    <string name="confirm_password">Confirme sua senha</string>
+    <string name="diferent_passwords">Senhas diferentes</string>
 
 </resources>

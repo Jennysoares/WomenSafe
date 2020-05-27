@@ -29,8 +29,9 @@ class RegisterActivity : AppCompatActivity() {
         pBar.visibility = VISIBLE
         val email = emailet.text.toString()
         val senha = senhaet.text.toString()
+        val confirmacao = senhaet2.text.toString()
 
-        viewModel.cadastro(email, senha) { result, id ->
+        viewModel.cadastro(email, senha, confirmacao) { result, id ->
 
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show()
                 if(id == 1) {
