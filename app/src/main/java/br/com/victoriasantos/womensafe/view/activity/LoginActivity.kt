@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
                 finish()
 
             }
-
+            pBar.visibility = GONE
         }
     }
 }
