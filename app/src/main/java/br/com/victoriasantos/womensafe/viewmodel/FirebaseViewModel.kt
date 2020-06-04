@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.callbackFlow
 class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     private val interactor = FirebaseInterector(app.applicationContext)
 
-    fun cadastro(email: String, senha: String, callback: (result: String, id: Int) -> Unit) {
-        interactor.cadastro(email, senha) { result ->
+    fun cadastro(email: String, senha: String, confimacao: String, callback: (result: String, id: Int) -> Unit) {
+        interactor.cadastro(email, senha, confimacao) { result ->
 
             if (result == "EV") {
                 callback(app.applicationContext.getString(R.string.email_required), 0)
@@ -25,7 +25,10 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
                 callback(app.applicationContext.getString(R.string.short_password), 0)
             } else if (result == "S") {
                 callback(app.applicationContext.getString(R.string.auth_email), 1)
-            } else {
+            } else if (result == "SD"){
+                callback(app.applicationContext.getString(R.string.diferent_passwords), 0)
+            }
+            else {
                 callback(result, 0)
             }
         }

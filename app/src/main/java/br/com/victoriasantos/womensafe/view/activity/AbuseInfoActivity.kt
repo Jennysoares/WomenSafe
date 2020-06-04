@@ -29,9 +29,9 @@ class AbuseInfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_abuse_info)
 
 
-        val human = ChatUser(1, getString(R.string.you), BitmapFactory.decodeResource(resources, R.drawable.ic_account_circle))
+        val human = ChatUser(2, getString(R.string.you), BitmapFactory.decodeResource(resources, R.drawable.ic_account_circle))
 
-        val agent = ChatUser(2, "WomenSafe's Bot", BitmapFactory.decodeResource(resources, R.drawable.bot_profile))
+        val agent = ChatUser(1, "WomenSafe's Bot", BitmapFactory.decodeResource(resources, R.drawable.bot_profile))
 
         my_chat_view.setInputTextHint(getString(R.string.chat_start))
         my_chat_view.setRightBubbleColor(getColor(R.color.roxo))

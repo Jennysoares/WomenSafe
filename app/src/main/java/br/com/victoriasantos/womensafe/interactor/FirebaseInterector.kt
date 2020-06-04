@@ -14,7 +14,7 @@ class FirebaseInterector(private val context: Context) {
     private val repository = FirebaseRepository(context)
     private var profile: Profile? = null
 
-    fun cadastro(email: String, senha: String, callback: (result: String) -> Unit) {
+    fun cadastro(email: String, senha: String, confirmacao: String, callback: (result: String) -> Unit) {
 
         if (email.isNullOrBlank()) {
             callback(context.getString(R.string.email_vazio))
@@ -30,6 +30,12 @@ class FirebaseInterector(private val context: Context) {
         } else {
             if (senha.length < 6) {
                 callback(context.getString(R.string.senha_tamanho_invalido))
+                return
+            }
+            else{
+                if (senha != confirmacao){
+                    callback("SD")
+                }
                 return
             }
         }
@@ -105,13 +111,7 @@ class FirebaseInterector(private val context: Context) {
         }
     }
 
-    fun saveData(
-        emailCampo: String,
-        nomecompleto: String,
-        telefone: String,
-        username: String,
-        callback: (result: String) -> Unit
-    ) {
+    fun saveData(emailCampo: String, nomecompleto: String, telefone: String, username: String, callback: (result: String) -> Unit) {
         // POSSO ALTERAR PRA EMAIL VAZIO -> CONCERTAR
         repository.getEmail { emailFinal ->
             if (!emailFinal.equals(emailCampo)) { // Pergunta se o email do usuario antigo(emailFinal) é diferente(por ter uma ! no início) ao email que está no campo da página(emailCampo)

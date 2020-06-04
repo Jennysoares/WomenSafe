@@ -109,5 +109,14 @@
     <string name="next_to_spot">Próxima a um local marcado como perigoso.</string>
     <string name="you">Você</string>
     <string name="chat_start">Digite \'Olá\' para iniciar conversa.</string>
+    <string name="youarehere">Você está aqui!</string>
+    <string name="confirm_password">Confirme sua senha</string>
+    <string name="diferent_passwords">Senhas diferentes</string>
+    <string name="share_loc">Compartilhar localização</string>
+    <string name="alert_shareloc">Você deseja confirmar o compartilhamento da sua localização com o guardião selecionado? Protifique-se de verificar se o número do guardião está correto e se o mesmo possui WhatsApp!</string>
+    <string name="yes">SIM</string>
+    <string name="no">NÃO</string>
+    <string name="loc_sent">Localização enviada</string>
+    <string name="wpp_notinsta">WhatsApp not Installed</string>
 
 </resources>

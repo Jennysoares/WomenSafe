@@ -25,14 +25,7 @@ class LoginActivity : AppCompatActivity() {
         verifyLogin()
         entrarbt.setOnClickListener { login() }
         cadastrarbt.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
-        resetbt.setOnClickListener {
-            startActivity(
-                Intent(
-                    this,
-                    ResetPasswordActivity::class.java
-                )
-            )
-        }
+        resetbt.setOnClickListener { startActivity(Intent(this, ResetPasswordActivity::class.java)) }
     }
 
     fun verifyLogin() {
@@ -45,24 +38,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login() {
-
         pBar.visibility = VISIBLE
         val email = emailet.text.toString()
         val senha = senhaet.text.toString()
 
         viewModel.login(email, senha) { result, id ->
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
-            if (id == 1) {
+            if(id == 1) {
                 pBar.visibility = GONE
                 finish()
-            } else if (id == 2) {
+            } else if(id == 2){
                 startActivity(Intent(this@LoginActivity, ProfileActivity::class.java))
                 pBar.visibility = GONE
                 finish()
-
             }
         }
-
     }
-
 }

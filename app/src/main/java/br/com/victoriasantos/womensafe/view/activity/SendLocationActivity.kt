@@ -1,5 +1,7 @@
 package br.com.victoriasantos.womensafe.view.activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -55,20 +57,46 @@ class SendLocationActivity : AppCompatActivity() {
     }
 
     fun sendLocation(latitude: Double, longitude: Double, guardian: Guardian) {
-        viewModel.getGuardianNumber(guardian) { smsNumber ->
-            try {
-                val latitude = latitude.toString()
-                val longitude = longitude.toString()
-                val waIntent = Intent(Intent.ACTION_VIEW)
-                val whatsAppMessage = "https://maps.google.com/?q=$latitude,$longitude"
-                waIntent.data =
-                    Uri.parse("http://api.whatsapp.com/send?phone=$smsNumber&text=Minha localização: $whatsAppMessage")
-                startActivity(waIntent)
-                Toast.makeText(this, "Localização enviada", Toast.LENGTH_LONG).show()
-            } catch (e: PackageManager.NameNotFoundException) {
-                Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT).show()
-            }
-        }
 
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.share_loc))
+        builder.setMessage(getString(R.string.alert_shareloc))
+
+        builder.apply {
+            setPositiveButton(getString(R.string.yes), object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    viewModel.getGuardianNumber(guardian) { smsNumber ->
+                        try {
+                            val latitude = latitude.toString()
+                            val longitude = longitude.toString()
+                            val waIntent = Intent(Intent.ACTION_VIEW)
+                            val whatsAppMessage = "https://maps.google.com/?q=$latitude,$longitude"
+                            waIntent.data =
+                                Uri.parse("http://api.whatsapp.com/send?phone=$smsNumber&text=Minha localização: $whatsAppMessage")
+                            startActivity(waIntent)
+                            sendToast1()
+                        } catch (e: PackageManager.NameNotFoundException) {
+                            sendToast2()
+                        }
+                    }
+
+                }
+            })
+            setNegativeButton(getString(R.string.no), object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+
+                }
+            })
+        }
+        builder.show()
+
+    }
+
+    fun sendToast1(){
+        Toast.makeText(this, getString(R.string.loc_sent), Toast.LENGTH_LONG).show()
+    }
+
+    fun sendToast2(){
+        Toast.makeText(this, getString(R.string.wpp_notinsta), Toast.LENGTH_SHORT).show()
     }
 }

@@ -55,7 +55,6 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         manual()
@@ -151,7 +150,8 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
             BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources, R.mipmap.ic_user_location)))
 
         val titleStr = getAddress(location).toString()
-        markerOptions.title(titleStr)
+        markerOptions.title(getString(R.string.youarehere))
+        markerOptions.snippet(titleStr)
         currentLocation = map.addMarker(markerOptions)
 
         btn_SendLocation.setOnClickListener {
@@ -194,7 +194,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
 
         val geocoder = Geocoder(this)
         var addresses: List<Address>? = null
-        var Address1: String? = null
+        var address1: String? = null
 
         try {
             addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
@@ -202,10 +202,10 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
             Log.e("MapsActivity", e.localizedMessage)
         }
         if (addresses != null) {
-            Address1 = addresses[0].getAddressLine(0)
+            address1 = addresses[0].getAddressLine(0)
         }
 
-        return Address1
+        return address1
     }
 
     private fun startLocationUpdates() {
@@ -276,7 +276,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                 e.printStackTrace()
             }
             if (!addressList.isNullOrEmpty()) {
-                val address = addressList!![0]
+                val address = addressList[0]
                 val latLng = LatLng(address.latitude, address.longitude)
                 map.addMarker(MarkerOptions().position(latLng).title(location))
                 map.animateCamera(CameraUpdateFactory.newLatLng(latLng))
@@ -314,7 +314,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         val notificationManager = this.getSystemService(NotificationManager::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            val channelId = "${this.packageName}"
+            val channelId = this.packageName
             val channel = NotificationChannel(channelId, "WomenSafe", NotificationManager.IMPORTANCE_HIGH)
             channel.description = getString(R.string.dangerous_spot)
             channel.setShowBadge(true)
@@ -346,7 +346,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     private fun dangerousSpotProximityCheck(){
         viewModel.getMarkers { markers ->
             markers?.forEach { m ->
-                var distance = FloatArray(2)
+                val distance = FloatArray(2)
                 Location.distanceBetween(lastLocation.latitude, lastLocation.longitude, m.latitude, m.longitude, distance)
                 if (distance[0] <= 100) {
                     sendNotification()
@@ -357,11 +357,11 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         if(currentLocation?.position != p0?.position) {
-            val aux = LatLng(p0!!.position.latitude, p0!!.position.longitude)
+            val aux = LatLng(p0!!.position.latitude, p0.position.longitude)
             val address = getAddress(aux)
             val intent = Intent(this, EvaluationsActivity::class.java)
-            intent.putExtra("latitude", p0?.position?.latitude)
-            intent.putExtra("longitude", p0?.position?.longitude)
+            intent.putExtra("latitude", p0.position?.latitude)
+            intent.putExtra("longitude", p0.position?.longitude)
             intent.putExtra("endereço", address)
             startActivity(intent)
             return true
