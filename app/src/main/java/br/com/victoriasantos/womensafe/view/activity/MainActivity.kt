@@ -8,9 +8,13 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
+import br.com.victoriasantos.womensafe.viewmodel.FirebaseViewModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.jar.Manifest
 
@@ -19,6 +23,10 @@ import java.util.jar.Manifest
 class MainActivity : AppCompatActivity() {
 
     val REQUEST_PHONE_CALL = 1
+
+    private val viewModel: FirebaseViewModel by lazy {
+        ViewModelProvider(this). get(FirebaseViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +66,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        logout.setOnClickListener {
+            logout()
+        }
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -77,6 +89,26 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(Intent.ACTION_CALL)
                     intent.data = Uri.parse("tel:190")
                     startActivity(intent)
+                }
+            })
+            setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                }
+            })
+        }
+        builder.show()
+    }
+
+    fun logout(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Deseja realmente sair?")
+        builder.apply {
+            setPositiveButton("SIM", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    viewModel.logout{
+                        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                        finish()
+                    }
                 }
             })
             setNegativeButton("NÃO", object : DialogInterface.OnClickListener {

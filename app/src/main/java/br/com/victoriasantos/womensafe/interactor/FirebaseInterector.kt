@@ -36,6 +36,14 @@ class FirebaseInterector(private val context: Context) {
         repository.cadastro(email, senha, callback)
     }
 
+    fun logout(callback: (result: String) -> Unit){
+        repository.logout(callback)
+    }
+
+    fun verifyLogin(callback: (result: String) -> Unit){
+        repository.verifyLogin(callback)
+    }
+
     fun login(email: String, senha: String, callback: (result: String) -> Unit) {
 
         if (email.isNullOrBlank()) {
@@ -242,7 +250,7 @@ class FirebaseInterector(private val context: Context) {
                     plates.add(plate!!)
                 }
 
-                var ordered: List<Plate> = if(plates.size>=1000){
+                val ordered: List<Plate> = if(plates.size>=1000){
                     MergeSort(context).mergeSort(plates)
                 }else {
                     QuickSort(context).quicksort(plates)
@@ -337,9 +345,9 @@ class FirebaseInterector(private val context: Context) {
                 callback(null)
             }
             val evaluations = mutableListOf<LocationData>()
-            locations?.forEach { c ->
+            locations.forEach { c ->
                 if (c.latitude == latitude && c.longitude == longitude) {
-                    evaluations.add(c!!)
+                    evaluations.add(c)
                 }
             }
 

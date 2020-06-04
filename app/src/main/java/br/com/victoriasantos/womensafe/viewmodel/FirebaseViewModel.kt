@@ -9,6 +9,7 @@ import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import br.com.victoriasantos.womensafe.interactor.FirebaseInterector
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.flow.callbackFlow
 
 class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
     private val interactor = FirebaseInterector(app.applicationContext)
@@ -52,6 +53,14 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
                 callback(result, 0)
             }
         }
+    }
+
+    fun logout(callback: (result: String) -> Unit){
+        interactor.logout(callback)
+    }
+
+    fun verifyLogin(callback: (result: String) -> Unit){
+        interactor.verifyLogin(callback)
     }
 
     fun getEmail(callback: (email: String) -> Unit) {
@@ -258,5 +267,4 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         smsNumber = smsNumber.replace("-", "")
         callback(smsNumber)
     }
-
 }

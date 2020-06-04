@@ -63,6 +63,22 @@ class FirebaseRepository(context: Context) {
         }
     }
 
+    fun logout(callback: (result: String) -> Unit){
+        mAuth.signOut()
+        callback("S")
+    }
+
+    fun verifyLogin(callback: (result: String) -> Unit){
+        mAuth.addAuthStateListener { user ->
+            if(user.currentUser == null){
+                callback("NoUser")
+            }
+            else{
+                callback("SUCCESS")
+            }
+        }
+    }
+
     fun getEmail(callback: (email: String?) -> Unit) {
         val emailFinal = mAuth.currentUser?.email
         callback(emailFinal)
