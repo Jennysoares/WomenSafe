@@ -62,7 +62,7 @@ class FirebaseViewModel(val app: Application) : AndroidViewModel(app) {
         interactor.logout(callback)
     }
 
-    fun verifyLogin(callback: (result: String) -> Unit){
+    fun verifyLogin(callback: (result: String?) -> Unit){
         interactor.verifyLogin(callback)
     }
 

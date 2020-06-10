@@ -70,6 +70,14 @@ class MainActivity : AppCompatActivity() {
             logout()
         }
 
+        getUsername()
+
+    }
+
+    private fun getUsername(){
+        viewModel.consulta { perfil ->
+            username.text = perfil?.username
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

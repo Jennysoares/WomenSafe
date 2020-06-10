@@ -9,7 +9,6 @@ import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -47,7 +46,6 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
     private var showManual: String = "ShowManual"
-    private lateinit var locationManager: LocationManager
     lateinit var builder : Notification.Builder
     val REQUEST_CHECK_SETTINGS = 2
     val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -58,7 +56,6 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         manual()
-        locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         geofencingClient = LocationServices.getGeofencingClient(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationCallback = object : LocationCallback() {

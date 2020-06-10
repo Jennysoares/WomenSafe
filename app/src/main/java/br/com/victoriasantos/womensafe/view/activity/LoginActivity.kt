@@ -29,8 +29,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun verifyLogin() {
-        viewModel.verifyLogin { result ->
-            if (result.equals("SUCCESS")) {
+        viewModel.verifyLogin {result ->
+            if(result != null) {
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 finish()
             }

@@ -46,8 +46,15 @@ class FirebaseInterector(private val context: Context) {
         repository.logout(callback)
     }
 
-    fun verifyLogin(callback: (result: String) -> Unit){
-        repository.verifyLogin(callback)
+    fun verifyLogin(callback: (result: String?) -> Unit){
+        repository.verifyLogin{result ->
+            if(result == null){
+                callback(null)
+            }
+            else{
+                callback("SUCCESS")
+            }
+        }
     }
 
     fun login(email: String, senha: String, callback: (result: String) -> Unit) {

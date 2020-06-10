@@ -1,7 +1,5 @@
 package br.com.victoriasantos.womensafe.domain
 
-import java.util.*
-
 data class Plate (
     var placa: String? = null,
     var comentario: String? = null,

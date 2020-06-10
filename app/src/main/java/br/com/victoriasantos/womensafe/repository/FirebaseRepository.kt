@@ -9,6 +9,7 @@ import br.com.victoriasantos.womensafe.domain.LocationData
 import br.com.victoriasantos.womensafe.domain.Plate
 import br.com.victoriasantos.womensafe.domain.Profile
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -68,14 +69,9 @@ class FirebaseRepository(context: Context) {
         callback("S")
     }
 
-    fun verifyLogin(callback: (result: String) -> Unit){
+    fun verifyLogin(callback: (result: FirebaseUser?) -> Unit){
         mAuth.addAuthStateListener { user ->
-            if(user.currentUser == null){
-                callback("NoUser")
-            }
-            else{
-                callback("SUCCESS")
-            }
+           callback(user.currentUser)
         }
     }
 
