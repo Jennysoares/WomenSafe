@@ -101,6 +101,6 @@ Google Firebase
 
 ### Autores
 
-* **Victória Marques dos Santos** - (botar o user do git de cada um)
+* **Victória Marques dos Santos** - vmarquess(https://github.com/vmarquess)
 * **Jennifer Jerônimo** - 
-* **Fernando Alvares de Sousa** - sousaf (https://github.com/sousaf)
+* **Fernando Alvares de Sousa** - sousaf(https://github.com/sousaf)
