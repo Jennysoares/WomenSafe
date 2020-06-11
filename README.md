@@ -95,10 +95,6 @@ Google Firebase
     implementation 'androidx.cardview:cardview:1.0.0'
 
 
-
-
-### Refências da API
-
 ### Autores
 
 * **Victória Marques dos Santos** - vmarquess(https://github.com/vmarquess)
