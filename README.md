@@ -26,7 +26,7 @@ Google Firebase
 
 ### Exemplo do código
 
-#### Building Gradle
+#### Build Gradle (App)
     defaultConfig {
         applicationId "br.com.victoriasantos.womensafe"
         minSdkVersion 23
