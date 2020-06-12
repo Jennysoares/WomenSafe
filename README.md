@@ -17,9 +17,9 @@ O aplicativo ainda  possibilita que o usuário cadastre placas de carros de apli
 
 ### Frameworks
 
-Padrão MVVMi
-AndroidStudio
-Google Firebase
+* Padrão MVVMi
+* AndroidStudio
+* Google Firebase
 * Firebase Authentification
 * Firebase Realtime Database
 * DialogFlow
