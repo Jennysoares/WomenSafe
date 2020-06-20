@@ -32,7 +32,6 @@ class RegisterActivity : AppCompatActivity() {
         val confirmacao = senhaet2.text.toString()
 
         viewModel.cadastro(email, senha, confirmacao) { result, id ->
-
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show()
                 if(id == 1) {
                     startActivity(Intent(this@RegisterActivity, ProfileActivity::class.java))
