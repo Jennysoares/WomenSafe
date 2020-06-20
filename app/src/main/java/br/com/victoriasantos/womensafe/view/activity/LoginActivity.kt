@@ -53,5 +53,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
+        pBar.visibility = GONE
     }
 }
