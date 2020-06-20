@@ -44,14 +44,14 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.login(email, senha) { result, id ->
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
+            pBar.visibility = GONE
             if(id == 1) {
-                pBar.visibility = GONE
                 finish()
             } else if(id == 2){
                 startActivity(Intent(this@LoginActivity, ProfileActivity::class.java))
-                pBar.visibility = GONE
                 finish()
             }
+
         }
     }
 }
