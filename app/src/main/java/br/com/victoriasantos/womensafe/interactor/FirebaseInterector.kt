@@ -48,7 +48,14 @@ class FirebaseInterector(private val context: Context) {
                 callback(null)
             }
             else{
-                callback("SUCCESS")
+                repository.consulta(result.email) { snapshot ->
+                    if(snapshot != null && snapshot.hasChildren() == true){
+                        callback("SUCCESS")
+                    }
+                    else{
+                        callback(null)
+                    }
+                }
             }
         }
     }
@@ -70,7 +77,7 @@ class FirebaseInterector(private val context: Context) {
         }
         repository.login(email, senha) { result ->
             if (result == "S") {
-                repository.consulta { snapshot ->
+                repository.consulta(null) { snapshot ->
                     if (snapshot != null && snapshot.hasChildren() == true) {// Verifica se possui dados{
                         profile = snapshot.children.first().getValue(Profile::class.java)
                         if (profile?.nomecompleto.toString()
@@ -100,7 +107,7 @@ class FirebaseInterector(private val context: Context) {
     }
 
     fun consulta(callback: (perfil: Profile?) -> Unit) {
-        repository.consulta { snapshot ->
+        repository.consulta(null) { snapshot ->
             if (snapshot != null && snapshot.hasChildren() == true) {
                 profile = snapshot.children.first().getValue(Profile::class.java)
                 if (profile != null) {

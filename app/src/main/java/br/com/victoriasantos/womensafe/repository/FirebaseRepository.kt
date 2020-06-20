@@ -36,10 +36,15 @@ class FirebaseRepository(context: Context) {
         }
     }
 
-    fun consulta(callback: (snapshot: DataSnapshot?) -> Unit) {
-        val email = mAuth.currentUser?.email
+    fun consulta(email: String?, callback: (snapshot: DataSnapshot?) -> Unit) {
+        var emailusuario : String?
+        if(email == null){
+            emailusuario = mAuth.currentUser?.email
+         } else{
+            emailusuario = email
+        }
         val profiles = database.getReference("Users")
-        val query = profiles.orderByChild("email").equalTo(email)
+        val query = profiles.orderByChild("email").equalTo(emailusuario)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 callback(null)
