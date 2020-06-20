@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.DangerousSpotActivity"
+    android:background="@drawable/pagina_login">
+
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="93dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.448"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_esquerdo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_direito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <TextView
+        android:id="@+id/titulo_lugar"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/viga"
+        android:gravity="center"
+        android:text="@string/cadastro_lugar_perigoso"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/endereco_lugar"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/viga"
+        android:gravity="center"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@id/titulo_lugar" />
+
+    <EditText
+        android:id="@+id/comentario_lugar"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="15dp"
+        android:autofillHints="@string/comentario"
+        android:background="@drawable/campo_texto"
+        android:ems="10"
+        android:gravity="start"
+        android:hint="@string/avaliacao_criterios"
+        android:inputType="textMultiLine"
+        android:padding="16dp"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textColorHint="@color/cinza"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/endereco_lugar" />
+
+    <Button
+        android:id="@+id/bt_confirmar"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/design_botao"
+        android:text="@string/confirmar"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/comentario_lugar" />
+
+    <Button
+        android:id="@+id/bt_cancelar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/design_botao"
+        android:text="@string/cancelar"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/bt_confirmar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

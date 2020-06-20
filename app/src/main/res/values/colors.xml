@@ -5,6 +5,9 @@
     <color name="colorAccent">#9d5db9</color>
     <color name="azul_escuro">#3023AE</color>
     <color name="roxo">#c86dd7</color>
+    <color name="cinza">#C0C0C0</color>
+
+
 
     <color name="login_detalhes_formulario">#ccffffff</color>
     <color name="login_detalhes_formulario_claro">#1AFFFFFF</color>

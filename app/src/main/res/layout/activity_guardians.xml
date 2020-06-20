@@ -4,6 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.GuardiansActivity">
+    android:background="@drawable/pagina_login"
+    android:orientation="vertical"
+    tools:context=".view.activity.ProfileActivity">
+
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="103dp"
+        android:layout_height="88dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintStart_toStartOf="@+id/recycleView_guardian"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.437"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_esquerdo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_direito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.94160587" />
+
+
+    <TextView
+        android:id="@+id/guardian_texto"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="90dp"
+        android:fontFamily="@font/viga"
+        android:gravity="start"
+        android:text="@string/seus_guardioes"
+        android:textColor="@color/login_detalhes_formulario"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bt_CadastroGuardiao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/design_botao"
+        android:text="@string/cadastrar_guardioes"
+        android:textColor="@color/login_detalhes_formulario_medio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/guideline_esquerdo" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleView_guardian"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/bt_CadastroGuardiao"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toBottomOf="@+id/guardian_texto" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,37 +6,88 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="5"
-    android:background="@drawable/fundo_metade_menu"
-    tools:context=".view.activity.MainActivity">
+    tools:context=".view.activity.MainActivity"
+    android:background="@drawable/teste">
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_weight="1.5"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        app:cardCornerRadius="5dp">
 
-        <TextView
-            android:layout_width="385dp"
-            android:layout_height="53dp"
-            android:layout_marginStart="15dp"
-            android:text="Em caso de emergência, clique no botão abaixo! "
-            android:textColor="#ffffff"
-            android:textSize="15sp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/fundo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/pagina_login"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_botao"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/text_botao"
+                android:layout_width="328dp"
+                android:layout_height="33dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/SOS_message"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/botao_panico"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/botao_panico"
                 android:layout_width="129dp"
                 android:layout_height="93dp"
                 android:layout_gravity="center"
-                android:src="@drawable/botao" />
+                android:src="@drawable/botao"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/logout"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="80dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/logout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.645"
+                app:layout_constraintStart_toEndOf="@id/botao_panico"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.863" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/viga"
+                android:textColor="@color/login_detalhes_formulario"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.961"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </LinearLayout>
-    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
     <GridLayout
         android:layout_width="match_parent"
@@ -60,6 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="@drawable/teste"
                 android:weightSum="3">
 
                 <ImageView
@@ -83,7 +135,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgLocais"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Locais Perigosos"
+                    android:text="@string/locais_perigosos"
                     android:textSize="21sp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -104,7 +156,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:weightSum="3">
+            android:background="@drawable/teste"
+            android:weightSum="3">
 
                 <ImageView
                     android:id="@+id/imgCorridas"
@@ -127,7 +180,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgCorridas"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Corridas Confiáveis"
+                    android:text="@string/corridas_confiaveis"
                     android:textSize="19sp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -147,6 +200,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/teste"
                 android:orientation="vertical"
                 android:weightSum="3">
 
@@ -171,7 +225,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgGuardioes"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Guardiões"
+                    android:text="@string/guardioes"
                     android:textSize="22sp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -192,6 +246,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="@drawable/teste"
                 android:weightSum="3">
 
                 <ImageView
@@ -215,7 +270,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgContribuicoes"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Minhas Contribuições"
+                    android:text="@string/minhas_contribuicoes"
                     android:gravity="center"
                     android:textSize="21sp" />
 
@@ -237,6 +292,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="@drawable/teste"
                 android:weightSum="3">
 
                 <ImageView
@@ -260,7 +316,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgPerfil"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Perfil"
+                    android:text="@string/perfil"
                     android:textSize="22sp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -281,6 +337,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="@drawable/teste"
                 android:weightSum="3">
 
                 <ImageView
@@ -303,7 +360,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imgInfo"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Informações"
+                    android:text="@string/informacoes"
                     android:textSize="22sp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

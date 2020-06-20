@@ -8,6 +8,17 @@
     android:orientation="vertical"
     tools:context=".view.activity.LoginActivity">
 
+    <ProgressBar
+        android:id="@+id/pBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="153dp"
+        android:layout_height="121dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_direito"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/guideline_esquerdo"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_esquerdo"
         android:layout_width="wrap_content"
@@ -42,7 +53,7 @@
         android:autofillHints=""
         android:background="@drawable/campo_texto"
         android:drawableEnd="@drawable/user_icon"
-        android:hint="@string/email"
+        android:hint="@string/e_mail"
         android:inputType="textEmailAddress"
         android:padding="16dp"
         android:textColor="@color/login_detalhes_formulario"

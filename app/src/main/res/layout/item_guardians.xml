@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="190dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="15dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/fundo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/background"/>
+
+            <TextView
+                android:id="@+id/nome_guardiao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:fontFamily="@font/viga"
+                android:textStyle="italic"
+                android:textColor="@color/login_detalhes_formulario"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/guideline_esquerdo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/numero_guardiao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/login_detalhes_formulario"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/viga"
+                android:textSize="20sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+                app:layout_constraintTop_toBottomOf="@id/nome_guardiao"
+                app:layout_constraintStart_toEndOf="@id/guideline_esquerdo"
+                tools:layout_editor_absoluteY="80dp" />
+
+            <TextView
+                android:id="@+id/email_guardiao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/login_detalhes_formulario"
+                android:textSize="20sp"
+                android:fontFamily="@font/viga"
+                android:textStyle="italic"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                app:layout_constraintEnd_toStartOf="@id/guideline_direito"
+                app:layout_constraintTop_toBottomOf="@id/numero_guardiao"
+                app:layout_constraintStart_toEndOf="@id/guideline_esquerdo"
+                tools:layout_editor_absoluteY="80dp" />
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="23dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/trash_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/call"
+                android:layout_width="23dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/phone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_esquerdo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="24dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_direito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="24dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

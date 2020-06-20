@@ -3,6 +3,8 @@ package br.com.victoriasantos.womensafe.view.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import br.com.victoriasantos.womensafe.R
@@ -26,6 +28,7 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        pBar.visibility = GONE
 
         bt_cancelar.setOnClickListener{finish()}
         bt_excluirConta.setOnClickListener{excluirConta()}
@@ -34,7 +37,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun consulta() {
-
+        pBar.visibility = VISIBLE
         viewModel.getEmail { email ->
             email_usuario.setText(email)
         }
@@ -45,12 +48,14 @@ class ProfileActivity : AppCompatActivity() {
                 nomeCompleto_usuario.setText(perfil?.nomecompleto)
                 telefone_usuario.setText(perfil?.telefone)
         }
+        pBar.visibility = GONE
 
         bt_confirmar.setOnClickListener { save() }
 
     }
 
     private fun save() {
+        pBar.visibility = VISIBLE
         val emailCampo = email_usuario.text.toString()
         val nomecompleto = nomeCompleto_usuario.text.toString()
         val telefone = telefone_usuario.text.toString()
@@ -60,8 +65,10 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
             if(id == 1){
                 startActivity(Intent(this, MainActivity::class.java))
+                pBar.visibility = GONE
                 finish()
             }
+            pBar.visibility = GONE
         }
 
     }
