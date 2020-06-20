@@ -39,6 +39,6 @@ class RegisterActivity : AppCompatActivity() {
                     finish()
                 }
         }
-
+        pBar.visibility = GONE
     }
 }
