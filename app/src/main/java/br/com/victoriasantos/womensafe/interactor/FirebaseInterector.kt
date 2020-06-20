@@ -20,24 +20,20 @@ class FirebaseInterector(private val context: Context) {
             callback(context.getString(R.string.email_vazio))
             return
         }
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             callback(context.getString(R.string.email_invalid))
             return
         }
-        if (senha.isNullOrBlank()) {
+        else if (senha.isNullOrBlank()) {
             callback(context.getString(R.string.senha_vazia))
             return
-        } else {
-            if (senha.length < 6) {
+        } else if (senha.length < 6) {
                 callback(context.getString(R.string.senha_tamanho_invalido))
-                return
-            }
-            else{
-                if (senha != confirmacao){
-                    callback("SD")
-                }
-                return
-            }
+            return
+        }
+        else if (senha != confirmacao){
+            callback("SD")
+            return
         }
         repository.cadastro(email, senha, callback)
     }
