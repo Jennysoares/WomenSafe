@@ -16,7 +16,7 @@ class FirebaseInterector(private val context: Context) {
 
     fun cadastro(email: String, senha: String, confirmacao: String, callback: (result: String) -> Unit) {
 
-        if (email.isNullOrBlank()) {
+        if (email.isBlank()) {
             callback(context.getString(R.string.email_vazio))
             return
         }
@@ -24,7 +24,7 @@ class FirebaseInterector(private val context: Context) {
             callback(context.getString(R.string.email_invalid))
             return
         }
-        else if (senha.isNullOrBlank()) {
+        else if (senha.isBlank()) {
             callback(context.getString(R.string.senha_vazia))
             return
         } else if (senha.length < 6) {

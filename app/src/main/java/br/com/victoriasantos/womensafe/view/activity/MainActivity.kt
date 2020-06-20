@@ -71,6 +71,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume(){
+        super.onResume()
+        getUsername()
+    }
+
     private fun getUsername(){
         viewModel.consulta { perfil ->
             username.text = perfil?.username
