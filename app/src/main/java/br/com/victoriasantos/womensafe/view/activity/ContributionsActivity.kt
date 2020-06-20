@@ -51,7 +51,7 @@ class ContributionsActivity : AppCompatActivity() {
         viewModel.showSpotEvaluation{ spots ->
             val adapter = SpotEvaluationAdapter(this, spots,1)
             recycleview_lugares_perigosos.adapter = adapter
-            pBar.visibility = GONE
+            pBar2.visibility = GONE
         }
 
     }
