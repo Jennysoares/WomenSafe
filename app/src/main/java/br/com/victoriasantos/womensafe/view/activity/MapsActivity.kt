@@ -253,6 +253,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CHECK_SETTINGS) {
             if (resultCode == Activity.RESULT_OK) {
+                map.isMyLocationEnabled = true
                 locationUpdateState = true
                 startLocationUpdates()
             }

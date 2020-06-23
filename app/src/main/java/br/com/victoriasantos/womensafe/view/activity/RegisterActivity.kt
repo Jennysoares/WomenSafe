@@ -33,9 +33,9 @@ class RegisterActivity : AppCompatActivity() {
 
         viewModel.cadastro(email, senha, confirmacao) { result, id ->
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show()
-                pBar.visibility = GONE
                 if(id == 1) {
                     startActivity(Intent(this@RegisterActivity, ProfileActivity::class.java))
+                    pBar.visibility = GONE
                     finish()
                 }
         }
