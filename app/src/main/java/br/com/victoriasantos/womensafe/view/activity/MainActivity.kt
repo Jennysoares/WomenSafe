@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if(requestCode == REQUEST_PHONE_CALL){
+        if(requestCode == REQUEST_PHONE_CALL && grantResults.isEmpty() || grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             callPolice()
         }
     }
