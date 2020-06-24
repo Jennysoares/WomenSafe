@@ -12,7 +12,6 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -47,8 +46,8 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     private var locationUpdateState = false
     private var showManual: String = "ShowManual"
     lateinit var builder : Notification.Builder
-    val REQUEST_CHECK_SETTINGS = 2
-    val LOCATION_PERMISSION_REQUEST_CODE = 1
+    private val REQUEST_CHECK_SETTINGS = 2
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -210,7 +209,6 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
-
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
 
     }
@@ -249,11 +247,23 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                }
+                else{
+                    GPSlocation()
+                }
+            }
+        }
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CHECK_SETTINGS) {
             if (resultCode == Activity.RESULT_OK) {
-                map.isMyLocationEnabled = true
                 locationUpdateState = true
                 startLocationUpdates()
             }
@@ -262,7 +272,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     }
 
 
-    fun searchLocation(view: View?) {
+    fun searchLocation() {
         val locationSearch = findViewById(R.id.editText) as EditText
         val location = locationSearch.text.toString()
         var addressList: List<Address>? = null

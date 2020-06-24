@@ -43,17 +43,15 @@ class LoginActivity : AppCompatActivity() {
         val senha = senhaet.text.toString()
 
         viewModel.login(email, senha) { result, id ->
+            pBar.visibility = GONE
             Toast.makeText(this, result, Toast.LENGTH_LONG).show()
             if(id == 1) {
-                pBar.visibility = GONE
                 finish()
             } else if(id == 2){
-                pBar.visibility = GONE
                 startActivity(Intent(this@LoginActivity, ProfileActivity::class.java))
                 finish()
             }
 
         }
-        pBar.visibility = GONE
     }
 }
