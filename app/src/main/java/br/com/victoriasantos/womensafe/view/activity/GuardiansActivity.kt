@@ -50,7 +50,7 @@ class GuardiansActivity : AppCompatActivity() {
             val adapter = GuardianAdapter(this,this, guardians)
             recycleView_guardian.adapter = adapter
             if(guardians.isNullOrEmpty()){
-                Toast.makeText(this, "Você não possui guardiões!",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.nao_possui_guardioes),Toast.LENGTH_LONG).show()
                 pBar.visibility = GONE
             }
             pBar.visibility = GONE
@@ -69,8 +69,8 @@ class GuardiansActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     fun callGuardian(numero : String?){
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Confirmar ligação")
-        builder.setMessage("Você está prestes a ligar para seu guardião. Deseja continuar?")
+        builder.setTitle(getString(R.string.confirmar_ligacao))
+        builder.setMessage(getString(R.string.guardiao_continuar))
         builder.apply {
             setPositiveButton("SIM", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, which: Int) {

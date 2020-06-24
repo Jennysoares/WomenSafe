@@ -52,7 +52,7 @@ class EvaluationsActivity : AppCompatActivity() {
         viewModel.showEvaluations(latitude, longitude) { result ->
             if (result.isNullOrEmpty()) {
                 pBar.visibility = GONE
-                Toast.makeText(this, "Não foi possível recuperar as avaliações", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.avaliacao_impossivel), Toast.LENGTH_LONG).show()
             } else {
                 pBar.visibility = GONE
                 val adapter = SpotEvaluationAdapter(ContributionsActivity(), result, 0)

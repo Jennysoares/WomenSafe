@@ -118,5 +118,12 @@
     <string name="wpp_notinsta">WhatsApp not Installed</string>
     <string name="yes">SIM</string>
     <string name="no">NÃO</string>
+    <string name="confirmar_ligacao">Confirmar ligação</string>
+    <string name="ligacao_continuar">Você está prestes a ligar para polícia militar. Deseja continuar?</string>
+    <string name="realmente_sair">Deseja realmente sair?</string>
+    <string name="guardiao_continuar">Você está prestes a ligar para seu guardião. Deseja continuar?</string>
+    <string name="nao_possui_guardioes">Você não possui guardiões!</string>
+    <string name="mensagem">Mensagem</string>
+    <string name="avaliacao_impossivel">Não foi possível recuperar as avaliações</string>
 
 </resources>

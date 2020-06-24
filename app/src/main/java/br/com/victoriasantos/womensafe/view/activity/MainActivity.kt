@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if(requestCode == REQUEST_PHONE_CALL && grantResults.isEmpty() || grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if( requestCode == REQUEST_PHONE_CALL && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             callPolice()
         }
     }
@@ -91,8 +91,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     fun callPolice(){
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Confirmar ligação")
-        builder.setMessage("Você está prestes a ligar para polícia militar. Deseja continuar?")
+        builder.setTitle(getString(R.string.confirmar_ligacao))
+        builder.setMessage(getString(R.string.ligacao_continuar))
         builder.apply {
             setPositiveButton("SIM", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, which: Int) {
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
     fun logout(){
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Deseja realmente sair?")
+        builder.setTitle(getString(R.string.realmente_sair))
         builder.apply {
             setPositiveButton("SIM", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, which: Int) {
