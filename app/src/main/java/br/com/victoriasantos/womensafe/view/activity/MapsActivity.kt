@@ -12,6 +12,7 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -114,7 +115,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
         val marker2 = map.addMarker(marker);
 
         builder.apply {
-            setPositiveButton("SIM", object : DialogInterface.OnClickListener {
+            setPositiveButton(getString(R.string.yes), object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, which: Int) {
                     val intent = Intent(this@MapsActivity, DangerousSpotActivity::class.java)
                     val endereco = getAddress(latLng)
@@ -125,7 +126,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
                     startActivity(intent)
                 }
             })
-            setNegativeButton("NÃO", object : DialogInterface.OnClickListener {
+            setNegativeButton(getString(R.string.no), object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, which: Int) {
                     marker2.remove()
                 }
@@ -272,7 +273,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMark
     }
 
 
-    fun searchLocation() {
+    fun searchLocation(view: View?) {
         val locationSearch = findViewById(R.id.editText) as EditText
         val location = locationSearch.text.toString()
         var addressList: List<Address>? = null

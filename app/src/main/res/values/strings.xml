@@ -118,5 +118,7 @@
     <string name="no">NÃO</string>
     <string name="loc_sent">Localização enviada</string>
     <string name="wpp_notinsta">WhatsApp not Installed</string>
+    <string name="yes">SIM</string>
+    <string name="no">NÃO</string>
 
 </resources>
