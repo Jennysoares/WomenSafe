@@ -1,6 +1,6 @@
 # WomenSafe
 
-Aplicativo mobile que permite o mapeamento de locais perigosos que propiciam e favorecem a ação de agressores e criminosos, além do compartilhamento de informações referentes a abusos sofridos por mulheres em tais pontos, fim de evitar possíveis riscos em um determinado local.
+Aplicativo mobile que permite o mapeamento de locais perigosos que propiciam e favorecem a ação de agressores e criminosos, além do compartilhamento de informações referentes a abusos sofridos por mulheres em tais pontos, com o propósito de evitar possíveis riscos em um determinado local.
 
 ## Motivação
 
