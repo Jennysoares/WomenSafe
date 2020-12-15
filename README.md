@@ -7,7 +7,7 @@ Aplicativo mobile que permite o mapeamento de locais perigosos que propiciam e f
 Atividade da matéria Projeto Integrador II, conduzida pelo Professor Kenniston Bonfim e realizada por 
 alunos do 5º Semestre do curso de Ciências da Computação do Centro Universitário IESB. 
 O aplicativo permite que usuários demarquem zonas consideradas perigosas, para que sejam evitadas e para que as outros usuários saibam a localidade de pontos específicos relacionados a agressões, assaltos e assédios além de auxiliar uma vítima de qualquer abuso, informando as ações legais que podem ser tomadas.
-O aplicativo ainda  possibilita que o usuário cadastre placas de carros de aplicativos nos quais o usuário tenha sofrido algum tipo de assédio por parte do motorist e através desse cadastro, proporciona outros usuários a realizar uma busca pela placa de carros de aplicativo para que, antes de aceitar uma corrida, o usuário obtenha informações a respeito de algum abuso ocorrido anteriormente nesse mesmo veículo.
+O aplicativo ainda  possibilita que o usuário cadastre placas de carros de aplicativos nos quais o usuário tenha sofrido algum tipo de assédio por parte do motorista e através desse cadastro, proporciona outros usuários a realizar uma busca pela placa de carros de aplicativo para que, antes de aceitar uma corrida, o usuário obtenha informações a respeito de algum abuso ocorrido anteriormente nesse mesmo veículo.
 
 ### Capturas de Tela 
 
