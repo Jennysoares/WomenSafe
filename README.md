@@ -27,6 +27,6 @@ O aplicativo ainda  possibilita que o usuário cadastre placas de carros de apli
 
 ### Autores
 
-* **Victória Marques dos Santos** - vmarquess(https://github.com/vmarquess)
+* **Victória Marques Santos** - vmarquess(https://github.com/vmarquess)
 * **Jennifer Jerônimo** - Jennysoares(https://github.com/Jennysoares)
 * **Fernando Alvares de Sousa** - sousaf(https://github.com/sousaf)
